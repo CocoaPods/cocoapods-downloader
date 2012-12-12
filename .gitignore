@@ -1,0 +1,5 @@
+.*.sw?
+.rbenv-version
+.yardoc
+doc/
+tmp/

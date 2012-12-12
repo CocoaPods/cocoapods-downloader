@@ -1,0 +1,22 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    bacon (1.1.0)
+    metaclass (0.0.1)
+    mocha (0.12.7)
+      metaclass (~> 0.0.1)
+    mocha-on-bacon (0.2.1)
+      mocha (>= 0.9.8)
+    rake (10.0.2)
+    vcr (2.3.0)
+    yard (0.8.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bacon
+  mocha-on-bacon
+  rake
+  vcr
+  yard
