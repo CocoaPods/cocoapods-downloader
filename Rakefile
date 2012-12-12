@@ -29,6 +29,10 @@ task :clean_vcr do
   sh "rm -f spec/fixtures/vcr/tarballs.yml"
 end
 
+def rvm_ruby_dir
+  @rvm_ruby_dir ||= File.expand_path('../..', `which ruby`.strip)
+end
+
 namespace :travis do
   task :setup do
     sh "sudo apt-get install subversion"
