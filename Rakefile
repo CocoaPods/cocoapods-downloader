@@ -1,9 +1,3 @@
-desc 'Generate yardoc'
-task :doc do
-  sh "rm -rf yardoc"
-  sh "yardoc"
-end
-
 desc 'Run specs'
 task :spec => :unpack_fixture_tarballs do
   files = FileList["spec/**/*_spec.rb"].shuffle.join(' ')
@@ -33,6 +27,19 @@ end
 desc "Removes the stored VCR fixture"
 task :clean_vcr do
   sh "rm -f spec/fixtures/vcr/tarballs.yml"
+end
+
+namespace :travis do
+  task :setup do
+    sh "sudo apt-get install subversion"
+    sh "env CFLAGS='-I#{rvm_ruby_dir}/include' bundle install --without debugging documentation"
+  end
+end
+
+desc 'Generate yardoc'
+task :doc do
+  sh "rm -rf yardoc"
+  sh "yardoc"
 end
 
 task :default => :spec
