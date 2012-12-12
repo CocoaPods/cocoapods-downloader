@@ -2,8 +2,7 @@
 
 A small library for downloading files from remotes in a folder.
 
-[![Build Status][travis-status]][travis]
-
+[![Build Status](https://travis-ci.org/CocoaPods/cocoapods-downloader.png?branch=master)](https://travis-ci.org/CocoaPods/cocoapods-downloader)
 
 ## Install
 
