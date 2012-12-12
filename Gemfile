@@ -1,11 +1,11 @@
 source :rubygems
 
-group :development do
-  gem 'rake'
+group :docs do
   gem 'yard'
 end
 
-group :spec do
+group :development do
+  gem 'rake'
   gem 'bacon'
   gem 'mocha-on-bacon'
   gem "vcr"
