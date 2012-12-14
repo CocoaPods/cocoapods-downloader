@@ -144,7 +144,7 @@ module Pod
       def cache_path
         require 'digest/sha1'
         if cache_root
-          @cache_path ||= class_cache_dir + name + "#{Digest::SHA1.hexdigest(url.to_s)}"
+          @cache_path ||= class_cache_dir + "#{Digest::SHA1.hexdigest(url.to_s)}"
         end
       end
 
