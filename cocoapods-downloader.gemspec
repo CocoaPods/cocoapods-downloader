@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
 
   s.summary  = "A small library for downloading files from remotes in a folder."
 
-  s.files = %w{ lib/**/*.rb README.markdown LICENSE }
+  s.files = Dir["lib/**/*.rb"] + %w{ README.markdown LICENSE }
   s.require_paths = %w{ lib }
 
   ## Make sure you can build the gem on older versions of RubyGems too:
