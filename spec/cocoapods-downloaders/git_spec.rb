@@ -48,6 +48,8 @@ module Pod
         FileUtils.rm_rf('/tmp/git-submodule-repo')
       end
 
+      #--------------------------------------#
+
       it "prepares the cache if it does not exist" do
         options = { :git => fixture('git-repo'), :commit => '7ad3a6c' }
         downloader = Downloader.for_target(tmp_folder('checkout'), options)
@@ -89,6 +91,8 @@ module Pod
         }
       end
 
+      #--------------------------------------#
+
       it "raises if it can't find the url" do
         options = { :git => 'missing-repo' }
         downloader = Downloader.for_target(tmp_folder, options)
@@ -112,6 +116,8 @@ module Pod
         downloader = Downloader.for_target(tmp_folder, options)
         lambda { downloader.download }.should.raise DownloaderError
       end
+
+      #--------------------------------------#
 
       it "returns the cache directory as the clone url" do
         options = { :git => fixture('git-repo'), :commit => '7ad3a6c' }
@@ -162,38 +168,37 @@ module Pod
         downloader.download
       end
 
-      it "updates the cache if the branch is not available" do
-        # create the origin repo and the cache
-        tmp_repo_path = tmp_folder + 'git-repo-source'
-        `git clone #{fixture('git-repo')} #{tmp_repo_path}`
-        options = { :git => tmp_repo_path, :branch => 'master' }
+      it "update the cache if the tag is available by default" do
+        options = { :git => fixture('git-repo'), :tag => 'v1.0' }
         downloader = Downloader.for_target(tmp_folder('checkout'), options)
+        downloader.cache_root = tmp_folder('cache')
         downloader.download
-
-        # make a new branch in the origin
-        branch = 'test'
-        Dir.chdir(tmp_repo_path) do
-          `touch test.txt`
-          `git checkout -b #{branch} >/dev/null 2>&1`
-          `git add test.txt`
-          `git commit -m 'test'`
-        end
-
-        # require the new branch
-        options = { :git => tmp_repo_path, :branch => branch }
-        downloader = Downloader.for_target(tmp_folder('checkout-1'), options)
+        tmp_folder('checkout').rmtree
+        downloader.expects(:update_cache).once
         downloader.download
-        tmp_folder('checkout-1/test.txt').should.exist?
       end
 
-      it "doesn't update the cache if the branch is available" do
-        options = { :git => fixture('git-repo'), :branch => 'master' }
-        downloader = Downloader.for_target(tmp_folder(), options)
+      it "doesn't update the cache if the tag is available and the aggressive cache option is specified" do
+        options = { :git => fixture('git-repo'), :tag => 'v1.0' }
+        downloader = Downloader.for_target(tmp_folder('checkout'), options)
+        downloader.cache_root = tmp_folder('cache')
+        downloader.agressive_cache = true
         downloader.download
-        tmp_folder.rmtree
+        tmp_folder('checkout').rmtree
         downloader.expects(:update_cache).never
         downloader.download
       end
+
+      it "always updates the cache if a branch requested" do
+        options = { :git => fixture('git-repo'), :branch => 'master' }
+        downloader = Downloader.for_target(tmp_folder('checkout'), options)
+        downloader.cache_root = tmp_folder('cache')
+        downloader.download
+        tmp_folder.rmtree
+        downloader.expects(:update_cache).once
+        downloader.download
+      end
+
     end
 
     #---------------------------------------------------------------------------#
@@ -231,6 +236,8 @@ module Pod
         VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
         tmp_folder('README.md').readlines[0].should =~ /PusherTouch/
       end
+
+      #--------------------------------------@
 
       it 'can convert public HTTP repository URLs to the tarball URL' do
         options = { :git => "https://github.com/CocoaPods/CocoaPods.git" }

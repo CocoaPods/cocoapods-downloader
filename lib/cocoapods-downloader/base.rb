@@ -32,7 +32,6 @@ module Pod
       def initialize(target_path, url, options)
         require 'pathname'
         @target_path, @url, @options = Pathname.new(target_path), url, options
-        @target_path.mkpath
         @max_cache_size = DEFAULT_MAX_CACHE_SIZE
       end
 
@@ -46,21 +45,28 @@ module Pod
         self.class.name.split('::').last
       end
 
-      #-------------------------------------------------------------------------#
+      #-----------------------------------------------------------------------#
 
       # @!group Configuration
 
-      # @return [Fixnum] The maximum allowed size for the cache expressed in Mb. Defaults to
-      #         500Mb.
+      # @return [Fixnum] The maximum allowed size for the cache expressed in
+      #         Mb. Defaults to `500` Mb.
       #
       # @note   This is specific per downloader class.
       #
       attr_accessor :max_cache_size
 
       # @return [String] The directory to use as root of the cache. If no
-      #         specified the caching will not be used.
+      #         specified the caching will not be used. Defaults to `nil`.
       #
       attr_accessor :cache_root
+
+      # @return [Bool] Wether the downloader should use a more aggressive
+      #         caching or ensure that the cache always return the value of the
+      #         remote. Defaults to `false`.
+      #
+      attr_accessor :agressive_cache
+      alias_method  :agressive_cache?, :agressive_cache
 
       #-----------------------------------------------------------------------#
 
@@ -73,6 +79,7 @@ module Pod
       #
       def download
         download_action("#{name} download") do
+          target_path.mkpath
           download!
           prune_cache
         end
@@ -102,7 +109,7 @@ module Pod
         raise "Abstract method"
       end
 
-      #-------------------------------------------------------------------------#
+      #-----------------------------------------------------------------------#
 
       # @!group Cache
 

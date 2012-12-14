@@ -69,8 +69,18 @@ module Pod
       # @return [void] Checkouts a specific tag of the git source in the
       #         destination path.
       #
+      # @note   Tags trigger a cache update unless aggressive cache is
+      #         specified.
+      #
       def download_tag
-        ensure_ref_exists(options[:tag]) if use_cache?
+        if use_cache?
+          if agressive_cache?
+            ensure_ref_exists(options[:tag])
+          else
+            update_cache
+          end
+        end
+
         Dir.chdir(target_path) do
           git! "init"
           git! "remote add origin '#{clone_url}'"
@@ -95,7 +105,7 @@ module Pod
       #         source in the destination path.
       #
       def download_branch
-        ensure_remote_branch_exists(options[:branch]) if use_cache?
+        update_cache if use_cache?
         clone(clone_url, target_path)
         Dir.chdir(target_path) do
           git! "remote add upstream '#{@url}'" # we need to add the original url, not the cache url
@@ -137,7 +147,7 @@ module Pod
       # @return [void] Checks if a branch exists in the cache and updates
       #         only if necessary.
       #
-      # @raise If after the update the branch can't be found.
+      # @raise  If after the update the branch can't be found.
       #
       def ensure_remote_branch_exists(branch)
         return if branch_exists?(branch)
