@@ -65,7 +65,7 @@ module Pod
       #
       # @retur [void]
       #
-      def ui_message(ui_message)
+      def ui_message(message)
         puts message
       end
     end

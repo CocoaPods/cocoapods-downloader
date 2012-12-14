@@ -33,9 +33,13 @@ module Pod
       #
       attr_reader :options
 
-      # @param [String, Pathname] target_path @see target_path
-      # @param [String] url @see url
-      # @param [Hash={Symbol=>String}] options @see options
+      # @param  [String, Pathname] target_path @see target_path
+      # @param  [String] url @see url
+      # @param  [Hash={Symbol=>String}] options @see options
+      #
+      # @todo   There is no need of the download only option, it should be
+      #         deprecated and the GitHub downloader should be initialized by
+      #         other means.
       #
       def initialize(target_path, url, options)
         require 'pathname'
@@ -175,15 +179,13 @@ module Pod
       # @return [void] Deletes the oldest caches until they the global size is
       #         below the maximum allowed.
       #
-      # @todo   Use a hook for the output?
-      #
       def prune_cache
         return unless cache_root && class_cache_dir.exist?
         Dir.chdir(class_cache_dir) do
           repos = Pathname.new(class_cache_dir).children.select { |c| c.directory? }.sort_by(&:ctime)
           while caches_size >= max_cache_size && !repos.empty?
             dir = repos.shift
-            # UI.message "#{'->'.yellow} Removing #{name} cache for `#{cache_origin_url(dir)}'"
+            ui_message "Removing #{name} cache for `#{cache_origin_url(dir)}'"
             dir.rmtree
           end
         end

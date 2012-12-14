@@ -69,9 +69,9 @@ module Pod
       # @return [void] Convenience method to perform clones operations.
       #
       def clone(from, to)
-        # UI.section(" > Cloning to Pods folder",'',1) do
-        git! %Q|clone "#{from}" "#{to}"|
-        # end
+        ui_sub_action("Cloning to Pods folder") do
+          git! %Q|clone "#{from}" "#{to}"|
+        end
       end
 
       # @return [void] Checkouts a specific tag of the git source in the
@@ -119,7 +119,7 @@ module Pod
           git! "remote add upstream '#{@url}'" # we need to add the original url, not the cache url
           git! "fetch -q upstream" # refresh the branches
           git! "checkout --track -b activated-pod-commit upstream/#{options[:branch]}" # create a new tracking branch
-          # UI.message("Just downloaded and checked out branch: #{options[:branch]} from upstream #{clone_url}")
+          ui_message("Just downloaded and checked out branch: #{options[:branch]} from upstream #{clone_url}")
         end
       end
 
@@ -194,11 +194,11 @@ module Pod
       # @todo   Use a hook for the output?
       #
       def create_cache
-        # UI.section(" > Creating cache git repo (#{cache_path})",'',1) do
-        cache_path.rmtree if cache_path.exist?
-        cache_path.mkpath
-        git! %Q|clone  --mirror "#{url}" "#{cache_path}"|
-        # end
+        ui_sub_action("Creating cache git repo (#{cache_path})") do
+          cache_path.rmtree if cache_path.exist?
+          cache_path.mkpath
+          git! %Q|clone  --mirror "#{url}" "#{cache_path}"|
+        end
       end
 
       # @return [void] Updates the barebone repo used as a cache against its
@@ -207,9 +207,9 @@ module Pod
       # @todo   Use a hook for the output?
       #
       def update_cache
-        # UI.section(" > Updating cache git repo (#{cache_path})",'',1) do
-        Dir.chdir(cache_path) { git! "remote update" }
-        # end
+        ui_sub_action("Updating cache git repo (#{cache_path})") do
+          Dir.chdir(cache_path) { git! "remote update" }
+        end
       end
     end
 
