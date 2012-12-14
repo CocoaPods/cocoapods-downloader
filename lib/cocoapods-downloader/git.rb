@@ -191,8 +191,6 @@ module Pod
       # @return [void] Creates the barebone repo that will serve as the cache
       #         for the current repo.
       #
-      # @todo   Use a hook for the output?
-      #
       def create_cache
         ui_sub_action("Creating cache git repo (#{cache_path})") do
           cache_path.rmtree if cache_path.exist?
@@ -202,13 +200,15 @@ module Pod
       end
 
       # @return [void] Updates the barebone repo used as a cache against its
-      #         remote.
-      #
-      # @todo   Use a hook for the output?
+      #         remote creating it if needed.
       #
       def update_cache
-        ui_sub_action("Updating cache git repo (#{cache_path})") do
-          Dir.chdir(cache_path) { git! "remote update" }
+        if cache_exist?
+          ui_sub_action("Updating cache git repo (#{cache_path})") do
+            Dir.chdir(cache_path) { git! "remote update" }
+          end
+        else
+          create_cache
         end
       end
     end
