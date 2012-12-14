@@ -12,6 +12,14 @@ module Pod
       extend APIExposable
       expose_api API
 
+      # @abstract Override in subclasses.
+      #
+      # @return [Array<Symbol>] the options accepted by the concrete class.
+      #
+      def self.options
+        []
+      end
+
       # @return [Pathname] the destination folder for the download.
       #
       attr_reader :target_path
@@ -33,6 +41,12 @@ module Pod
         require 'pathname'
         @target_path, @url, @options = Pathname.new(target_path), url, options
         @max_cache_size = DEFAULT_MAX_CACHE_SIZE
+
+        accepted_options = self.class.options + [:download_only]
+        unrecognized_options = options.keys - accepted_options
+        unless unrecognized_options.empty?
+          raise DownloaderError, "Unrecognized options `#{unrecognized_options}`"
+        end
       end
 
       # @return [String] the name of the downloader.

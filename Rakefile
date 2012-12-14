@@ -46,5 +46,18 @@ task :doc do
   sh "yardoc"
 end
 
+desc 'Print the options of the various downloaders'
+task :print_options do
+  $:.unshift File.expand_path('../lib', __FILE__)
+  require 'cocoapods-downloader'
+  include Pod::Downloader
+
+  result = {}
+  Pod::Downloader.downloader_class_by_key.each do |key, klass|
+    puts "#{key}: #{klass.options * ', '}"
+  end
+
+end
+
 task :default => :spec
 

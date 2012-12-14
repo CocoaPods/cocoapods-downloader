@@ -2,6 +2,10 @@ module Pod
   module Downloader
     class Mercurial < Base
 
+      def self.options
+        [:revision]
+      end
+
       def checkout_options
         Dir.chdir(target_path) do
           options = {}

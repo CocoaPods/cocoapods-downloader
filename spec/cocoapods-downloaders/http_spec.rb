@@ -16,17 +16,8 @@ module Pod
         tmp_folder('GoogleAdMobSearchAdsSDK/GADSearchRequest.h').read.strip.should =~ /Google Search Ads iOS SDK/
       end
 
-      it "returns the checked out revision" do
-        options = { :http => 'http://dl.google.com/googleadmobadssdk/googleadmobsearchadssdkios.zip' }
-        downloader = Downloader.for_target(tmp_folder, options)
-        VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
-        downloader.checkout_options.should == {
-          :http=>"http://dl.google.com/googleadmobadssdk/googleadmobsearchadssdkios.zip"
-        }
-      end
-
       it "raises if it fails to download" do
-        options = { :http => 'broken-link.zip', :revision => '1' }
+        options = { :http => 'broken-link.zip'  }
         downloader = Downloader.for_target(tmp_folder, options)
         lambda { downloader.download }.should.raise DownloaderError
       end

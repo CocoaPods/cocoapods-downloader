@@ -3,15 +3,12 @@ require 'zlib'
 module Pod
   module Downloader
     class Http < Base
-      class UnsupportedFileTypeError < StandardError; end
 
-      def checkout_options
-        Dir.chdir(target_path) do
-          options = {}
-          options[:http] = url
-          options
-        end
+      def self.options
+        [:type]
       end
+
+      class UnsupportedFileTypeError < StandardError; end
 
       private
 

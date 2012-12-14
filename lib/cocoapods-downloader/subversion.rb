@@ -2,6 +2,10 @@ module Pod
   module Downloader
     class Subversion < Base
 
+      def self.options
+        [:revision, :tag, :folder]
+      end
+
       def checkout_options
         Dir.chdir(target_path) do
           options = {}

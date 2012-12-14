@@ -6,6 +6,10 @@ module Pod
     #
     class Git < Base
 
+      def self.options
+        [:commit, :tag, :branch, :submodules]
+      end
+
       def checkout_options
         Dir.chdir(target_path) do
           options = {}

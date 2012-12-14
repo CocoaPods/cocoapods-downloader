@@ -11,20 +11,33 @@ module Pod
     #
     VERSION = '0.1.0'
 
+
+    # @return [Hash{Symbol=>Class}] The symbol of the options array associated
+    #         with each class.
+    #
+    def self.downloader_class_by_key
+      require 'cocoapods-downloader/git'
+      require 'cocoapods-downloader/mercurial'
+      require 'cocoapods-downloader/subversion'
+      require 'cocoapods-downloader/http'
+
+      {
+        :git  => Git,
+        :hg   => Mercurial,
+        :svn  => Subversion,
+        :http => Http,
+      }
+    end
+
     # @return [Downloader::Base] A concrete downloader according to the
     #         options.
     #
-    # @todo   Each downloaders class should report the accepted options.
     # @todo   Improve the common support for the cache in Base and add specs.
     # @todo   Find a way to switch to GitHub tarballs if no cache is used. Have
     #         global options for the Downloader cache?
     # @todo   Find a better name for this method.
     #
     def self.for_target(target_path, options)
-      require 'cocoapods-downloader/git'
-      require 'cocoapods-downloader/mercurial'
-      require 'cocoapods-downloader/subversion'
-      require 'cocoapods-downloader/http'
 
       if target_path.nil?
         raise DownloaderError, "No target path provided."
@@ -35,10 +48,14 @@ module Pod
       end
 
       options = options.dup
-      if url = options.delete(:git)     then klass = Git
-      elsif url = options.delete(:hg)   then klass = Mercurial
-      elsif url = options.delete(:svn)  then klass = Subversion
-      elsif url = options.delete(:http) then klass = Http
+      klass = nil
+      url = nil
+      downloader_class_by_key.each do |key, key_klass|
+        url = options.delete(key)
+        if url
+          klass = key_klass
+          break
+        end
       end
 
       unless klass
