@@ -45,13 +45,7 @@ module Pod
       #         path.
       #
       def download_head!
-        if use_cache?
-          if cache_exist?
-            update_cache
-          else
-            create_cache
-          end
-        end
+        update_cache if use_cache?
         clone(clone_url, target_path)
         Dir.chdir(target_path) { git! "submodule update --init"  } if options[:submodules]
       end
