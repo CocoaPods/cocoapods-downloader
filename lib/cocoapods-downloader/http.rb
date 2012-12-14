@@ -29,7 +29,6 @@ module Pod
         download!
       end
 
-
       def type
         options[:type] || type_with_url(url)
       end

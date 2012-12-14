@@ -10,6 +10,10 @@ module Pod
         [:commit, :tag, :branch, :submodules]
       end
 
+      def specific_options?
+        !options[:commit].nil? || !options[:tag].nil?
+      end
+
       def checkout_options
         Dir.chdir(target_path) do
           options = {}

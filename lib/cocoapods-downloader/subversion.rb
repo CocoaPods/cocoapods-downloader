@@ -6,6 +6,10 @@ module Pod
         [:revision, :tag, :folder]
       end
 
+      def specific_options?
+        !options[:revision].nil? || !options[:tag].nil?
+      end
+
       def checkout_options
         Dir.chdir(target_path) do
           options = {}
@@ -14,7 +18,6 @@ module Pod
           options
         end
       end
-
       private
 
       executable :svn

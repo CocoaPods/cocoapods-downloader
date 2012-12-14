@@ -81,6 +81,15 @@ module Pod
         downloader.cache_path.should.not.exist?
       end
 
+      it "returns whether the provided options are specific" do
+        Downloader.for_target('path', :git => 'url').specific_options?.should.be.false
+        Downloader.for_target('path', :git => 'url', :branch => '').specific_options?.should.be.false
+        Downloader.for_target('path', :git => 'url', :submodules => '').specific_options?.should.be.false
+
+        Downloader.for_target('path', :git => 'url', :commit => '').specific_options?.should.be.true
+        Downloader.for_target('path', :git => 'url', :tag => '').specific_options?.should.be.true
+      end
+
       it "returns the checked out revision" do
         options = { :git => fixture('git-repo') }
         downloader = Downloader.for_target(tmp_folder, options)

@@ -32,6 +32,11 @@ module Pod
         }
       end
 
+      it "returns whether the provided options are specific" do
+        Downloader.for_target('path', :hg => 'url').specific_options?.should.be.false
+        Downloader.for_target('path', :hg => 'url', :revision => '').specific_options?.should.be.true
+      end
+
       it "raises if it fails to download" do
         options = { :hg => 'missing-repo', :revision => '46198bb3af96' }
         downloader = Downloader.for_target(tmp_folder, options)

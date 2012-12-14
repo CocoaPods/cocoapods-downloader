@@ -116,8 +116,15 @@ module Pod
         end
       end
 
-      # @return [Hash{Symbol=>String}] the options that would allow to
-      #         re-download the checked out revision.
+      # @return [Bool] Whether the options provided completely identify a source
+      #         or could lead to the download of different files in future.
+      #
+      def specific_options?
+        true
+      end
+
+      # @return [Hash{Symbol=>String}] The options that would allow to
+      #         re-download the exact files.
       #
       def checkout_options
         raise "Abstract method"

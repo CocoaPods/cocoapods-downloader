@@ -35,7 +35,6 @@ module Pod
     # @todo   Improve the common support for the cache in Base and add specs.
     # @todo   Find a way to switch to GitHub tarballs if no cache is used. Have
     #         global options for the Downloader cache?
-    # @todo   Find a better name for this method.
     #
     def self.for_target(target_path, options)
 

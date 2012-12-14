@@ -6,6 +6,10 @@ module Pod
         [:revision]
       end
 
+      def specific_options?
+        !options[:revision].nil?
+      end
+
       def checkout_options
         Dir.chdir(target_path) do
           options = {}
