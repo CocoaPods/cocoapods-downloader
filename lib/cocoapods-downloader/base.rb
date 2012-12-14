@@ -96,7 +96,7 @@ module Pod
       # @return [void]
       #
       def download
-        download_action("#{name} download") do
+        ui_action("#{name} download") do
           target_path.mkpath
           download!
           prune_cache
@@ -110,7 +110,7 @@ module Pod
       # @return [void]
       #
       def download_head
-        download_action("#{name} HEAD download") do
+        ui_action("#{name} HEAD download") do
           if self.respond_to?(:download_head!, true)
             download_head!
           else

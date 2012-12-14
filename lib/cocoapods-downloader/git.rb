@@ -215,7 +215,7 @@ module Pod
 
       require 'open-uri'
 
-      def download_head
+      def download_head!
         download_only? ? download_and_extract_tarball('master') : super
       end
 

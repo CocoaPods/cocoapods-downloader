@@ -46,8 +46,8 @@ module Pod
           super
         end
 
-        def self.download_action(ui_message)
-          puts "\n#{ui_message}".red
+        def self.ui_action(ui_message)
+          puts ui_message.green
           yield
         end
       end

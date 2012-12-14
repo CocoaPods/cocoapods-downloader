@@ -1,7 +1,9 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    addressable (2.3.2)
     bacon (1.1.0)
+    crack (0.3.1)
     metaclass (0.0.1)
     mocha (0.12.7)
       metaclass (~> 0.0.1)
@@ -9,6 +11,9 @@ GEM
       mocha (>= 0.9.8)
     rake (10.0.2)
     vcr (2.3.0)
+    webmock (1.9.0)
+      addressable (>= 2.2.7)
+      crack (>= 0.1.7)
     yard (0.8.3)
 
 PLATFORMS
@@ -19,4 +24,5 @@ DEPENDENCIES
   mocha-on-bacon
   rake
   vcr
+  webmock
   yard
