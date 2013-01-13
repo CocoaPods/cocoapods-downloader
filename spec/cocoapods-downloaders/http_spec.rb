@@ -12,8 +12,27 @@ module Pod
         options = { :http => 'http://dl.google.com/googleadmobadssdk/googleadmobsearchadssdkios.zip' }
         downloader = Downloader.for_target(tmp_folder, options)
         VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
-        tmp_folder('GoogleAdMobSearchAdsSDK/GADSearchRequest.h').should.exist
-        tmp_folder('GoogleAdMobSearchAdsSDK/GADSearchRequest.h').read.strip.should =~ /Google Search Ads iOS SDK/
+        tmp_folder('GADSearchRequest.h').should.exist
+        tmp_folder('GADSearchRequest.h').read.strip.should =~ /Google Search Ads iOS SDK/
+      end
+
+      it 'moves unpacked contents to parent dir when archive contains only a folder (#727)' do
+        downloader = Downloader.for_target(tmp_folder,
+          :http => 'http://www.openssl.org/source/openssl-1.0.0a.tar.gz'
+        )
+        downloader.download
+        # Archive contains one folder, which contains 49 items. The archive is 1, and the
+        # parent folder that we moved stuff out of is 1.
+        Dir.glob(downloader.target_path + '*').count.should == 49 + 1 + 1
+      end
+
+      it "does not move unpacked contents to parent dir when archive contains multiple children" do
+        downloader = Downloader.for_target(tmp_folder,
+          :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip'
+        )
+        downloader.download
+        # Archive contains 4 files, and the archive is 1
+        Dir.glob(downloader.target_path + '*').count.should == 4 + 1
       end
 
       it "raises if it fails to download" do
