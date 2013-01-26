@@ -124,8 +124,12 @@ module Pod
       # @return [Bool] Wether a reference (commit SHA or tag)
       #
       def ref_exists?(ref)
-        Dir.chdir(cache_path) { git "rev-list --max-count=1 #{ref}" }
-        $? == 0
+        if cache_exist?
+          Dir.chdir(cache_path) { git "rev-list --max-count=1 #{ref}" }
+          result = $? == 0
+        else
+          false
+        end
       end
 
       # @return [void] Checks if a reference exists in the cache and updates
