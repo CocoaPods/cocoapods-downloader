@@ -6,7 +6,7 @@ module Pod
         [:revision]
       end
 
-      def specific_options?
+      def options_specific?
         !options[:revision].nil?
       end
 

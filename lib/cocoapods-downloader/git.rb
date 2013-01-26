@@ -10,7 +10,7 @@ module Pod
         [:commit, :tag, :branch, :submodules]
       end
 
-      def specific_options?
+      def options_specific?
         !options[:commit].nil? || !options[:tag].nil?
       end
 

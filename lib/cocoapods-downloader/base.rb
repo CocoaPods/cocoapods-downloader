@@ -123,7 +123,7 @@ module Pod
       # @return [Bool] Whether the options provided completely identify a source
       #         or could lead to the download of different files in future.
       #
-      def specific_options?
+      def options_specific?
         true
       end
 
