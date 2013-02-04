@@ -76,7 +76,7 @@ module Pod
       #
       def download_tag
         if use_cache?
-          if agressive_cache?
+          if aggressive_cache?
             ensure_ref_exists(options[:tag])
           else
             update_cache

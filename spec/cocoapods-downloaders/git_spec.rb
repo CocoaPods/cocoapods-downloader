@@ -191,7 +191,7 @@ module Pod
         options = { :git => fixture('git-repo'), :tag => 'v1.0' }
         downloader = Downloader.for_target(tmp_folder('checkout'), options)
         downloader.cache_root = tmp_folder('cache')
-        downloader.agressive_cache = true
+        downloader.aggressive_cache = true
         downloader.download
         tmp_folder('checkout').rmtree
         downloader.expects(:update_cache).never

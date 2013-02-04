@@ -83,8 +83,8 @@ module Pod
       #         caching or ensure that the cache always return the value of the
       #         remote. Defaults to `false`.
       #
-      attr_accessor :agressive_cache
-      alias_method  :agressive_cache?, :agressive_cache
+      attr_accessor :aggressive_cache
+      alias_method  :aggressive_cache?, :aggressive_cache
 
       #-----------------------------------------------------------------------#
 
