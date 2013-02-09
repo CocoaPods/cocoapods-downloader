@@ -74,6 +74,9 @@ module Pod
       # @note   Tags trigger a cache update unless aggressive cache is
       #         specified.
       #
+      # @note   Git fetch and checkout output to standard error and thus they
+      #         are redirected to stdout.
+      #
       def download_tag
         if use_cache?
           if aggressive_cache?
@@ -86,25 +89,31 @@ module Pod
         Dir.chdir(target_path) do
           git! "init"
           git! "remote add origin '#{clone_url}'"
-          git! "fetch origin tags/#{options[:tag]}"
+          git! "fetch origin tags/#{options[:tag]} 2>&1"
           git! "reset --hard FETCH_HEAD"
-          git! "checkout -b activated-pod-commit"
+          git! "checkout -b activated-pod-commit 2>&1"
         end
       end
 
       # @return [void] Checkouts a specific commit of the git source in the
       #         destination path.
       #
+      # @note   Git checkouts output to standard error and thus it is
+      #         redirected to stdout.
+      #
       def download_commit
         ensure_ref_exists(options[:commit]) if use_cache?
         clone(clone_url, target_path)
         Dir.chdir(target_path) do
-          git! "checkout -b activated-pod-commit #{options[:commit]}"
+          git! "checkout -b activated-pod-commit #{options[:commit]} 2>&1"
         end
       end
 
       # @return [void] Checkouts the HEAD of a specific branch of the git
       #         source in the destination path.
+      #
+      # @note   Git checkouts output to standard error and thus it is
+      #         redirected to stdout.
       #
       def download_branch
         update_cache if use_cache?
@@ -112,7 +121,7 @@ module Pod
         Dir.chdir(target_path) do
           git! "remote add upstream '#{@url}'" # we need to add the original url, not the cache url
           git! "fetch -q upstream" # refresh the branches
-          git! "checkout --track -b activated-pod-commit upstream/#{options[:branch]}" # create a new tracking branch
+          git! "checkout --track -b activated-pod-commit upstream/#{options[:branch]} 2>&1" # create a new tracking branch
           ui_message("Just downloaded and checked out branch: #{options[:branch]} from upstream #{clone_url}")
         end
       end
@@ -126,7 +135,7 @@ module Pod
       def ref_exists?(ref)
         if cache_exist?
           Dir.chdir(cache_path) { git "rev-list --max-count=1 #{ref}" }
-          result = $? == 0
+          $? == 0
         else
           false
         end
