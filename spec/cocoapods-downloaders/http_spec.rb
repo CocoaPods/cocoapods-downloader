@@ -12,8 +12,8 @@ module Pod
         options = { :http => 'http://dl.google.com/googleadmobadssdk/googleadmobsearchadssdkios.zip' }
         downloader = Downloader.for_target(tmp_folder, options)
         VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
-        tmp_folder('GADSearchRequest.h').should.exist
-        tmp_folder('GADSearchRequest.h').read.strip.should =~ /Google Search Ads iOS SDK/
+        tmp_folder('GoogleAdMobSearchAdsSDK/GADSearchRequest.h').should.exist
+        tmp_folder('GoogleAdMobSearchAdsSDK/GADSearchRequest.h').read.strip.should =~ /Google Search Ads iOS SDK/
       end
 
       it 'moves unpacked contents to parent dir when archive contains only a folder (#727)' do
