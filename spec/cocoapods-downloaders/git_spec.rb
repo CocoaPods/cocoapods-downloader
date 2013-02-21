@@ -8,21 +8,21 @@ module Pod
         tmp_folder.rmtree if tmp_folder.exist?
       end
 
-      it "check's out a specific commit" do
+      it "checks out a specific commit" do
         options = { :git => fixture('git-repo'), :commit => '7ad3a6c' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
         tmp_folder('README').read.strip.should == 'first commit'
       end
 
-      it "check's out a specific branch" do
+      it "checks out a specific branch" do
         options = { :git => fixture('git-repo'), :branch => 'topic_branch' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
         tmp_folder('README').read.strip.should == 'topic_branch'
       end
 
-      it "check's out a specific tag" do
+      it "checks out a specific tag" do
         options = { :git => fixture('git-repo'), :tag => 'v1.0' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download

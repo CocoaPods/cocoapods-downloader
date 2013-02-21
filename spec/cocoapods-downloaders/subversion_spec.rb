@@ -8,25 +8,25 @@ module Pod
         tmp_folder.rmtree if tmp_folder.exist?
       end
 
-      it "check's out a specific revision" do
+      it "checks out a specific revision" do
         options = { :svn => "file://#{fixture('subversion-repo')}", :revision => '1' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
         tmp_folder('README').read.strip.should == 'first commit'
       end
 
-      it "check's out a specific tag" do
+      it "checks out a specific tag" do
         options = { :svn => "file://#{fixture('subversion-repo')}", :tag => 'tag-1' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
         tmp_folder('README').read.strip.should == 'tag 1'
       end
 
-      it "check's out the head version" do
+      it "checks out the head version" do
         options = { :svn => "file://#{fixture('subversion-repo')}", :tag => 'tag-1' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download_head
-        tmp_folder('README').read.strip.should == 'unintersting'
+        tmp_folder('README').read.strip.should == 'uninteresting'
       end
 
       it "returns the checked out revision" do

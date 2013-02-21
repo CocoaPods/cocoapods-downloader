@@ -79,7 +79,7 @@ module Pod
       #
       attr_accessor :cache_root
 
-      # @return [Bool] Wether the downloader should use a more aggressive
+      # @return [Bool] Whether the downloader should use a more aggressive
       #         caching or ensure that the cache always return the value of the
       #         remote. Defaults to `false`.
       #

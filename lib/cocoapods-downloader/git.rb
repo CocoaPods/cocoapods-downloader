@@ -130,7 +130,7 @@ module Pod
 
       # @!group Checking references
 
-      # @return [Bool] Wether a reference (commit SHA or tag)
+      # @return [Bool] Whether a reference (commit SHA or tag)
       #
       def ref_exists?(ref)
         if cache_exist?
@@ -152,7 +152,7 @@ module Pod
         raise DownloaderError, "Cache unable to find git reference `#{ref}' for `#{url}'." unless ref_exists?(ref)
       end
 
-      # @return [Bool] Wether a branch exists in the cache.
+      # @return [Bool] Whether a branch exists in the cache.
       #
       def branch_exists?(branch)
         Dir.chdir(cache_path) { git "branch --all | grep #{branch}$" } # check for remote branch and do suffix matching ($ anchor)
@@ -174,7 +174,7 @@ module Pod
 
       # @!group Cache
 
-      # @return [Bool] Wether the cache exits.
+      # @return [Bool] Whether the cache exits.
       #
       # @note   The previous implementation of the cache didn't use a barebone
       #         git repo. This method takes into account this fact and checks
