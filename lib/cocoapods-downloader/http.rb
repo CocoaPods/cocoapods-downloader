@@ -5,7 +5,7 @@ module Pod
     class Http < Base
 
       def self.options
-        [:type]
+        [:type, :flatten]
       end
 
       class UnsupportedFileTypeError < StandardError; end
@@ -31,6 +31,23 @@ module Pod
 
       def type
         options[:type] || type_with_url(url)
+      end
+
+      # @note   The archive is flattened if it contains only one folder and its
+      #         extension is either `tgz`, `tar`, `tbz` or the options specify
+      #         it.
+      #
+      # @return [Bool] Whether the archive should be flattened if it contains
+      #         only one folder.
+      #
+      def should_flatten?
+        if options.has_key?(:flatten)
+          true
+        elsif [:tgz, :tar, :tbz].include?(type)
+          true # those archives flatten by default
+        else
+          false # all others (actually only .zip) default not to flatten
+        end
       end
 
       def type_with_url(url)
@@ -81,7 +98,7 @@ module Pod
         end
 
         # If the archive is a tarball and it only contained a folder, move its contents to the target (#727)
-        if [:tgz, :tar, :tbz].include? type
+        if should_flatten?
           contents = target_path.children
           contents.delete(full_filename)
           entry = contents.first

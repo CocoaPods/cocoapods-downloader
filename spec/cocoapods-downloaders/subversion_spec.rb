@@ -26,7 +26,7 @@ module Pod
         options = { :svn => "file://#{fixture('subversion-repo')}", :tag => 'tag-1' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download_head
-        tmp_folder('README').read.strip.should == 'uninteresting'
+        tmp_folder('README').read.strip.should == 'unintersting'
       end
 
       it "returns the checked out revision" do

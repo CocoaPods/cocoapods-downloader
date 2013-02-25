@@ -9,5 +9,5 @@ group :development do
   gem 'bacon'
   gem 'mocha-on-bacon'
   gem "vcr"
-  gem "webmock"
+  gem "webmock", '< 1.9'
 end
