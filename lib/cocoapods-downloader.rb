@@ -1,15 +1,11 @@
 
 module Pod
   module Downloader
+    require 'cocoapods-downloader/gem_version'
 
     require 'cocoapods-downloader/api'
     require 'cocoapods-downloader/api_exposable'
     require 'cocoapods-downloader/base'
-
-    # @return [String] Downloader’s version, following
-    #         [semver](http://semver.org).
-    #
-    VERSION = '0.1.0'
 
 
     # @return [Hash{Symbol=>Class}] The symbol of the options array associated
