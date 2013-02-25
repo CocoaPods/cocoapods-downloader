@@ -68,12 +68,12 @@ namespace :gem do
   end
 
   def gem_filename
-    "cocoapods-core-#{gem_version}.gem"
+    "cocoapods-downloader-#{gem_version}.gem"
   end
 
   desc "Build a gem for the current version"
   task :build do
-    sh "gem build cocoapods-core.gemspec"
+    sh "gem build cocoapods-downloader.gemspec"
   end
 
   desc "Install a gem version of the current code"
@@ -117,7 +117,7 @@ namespace :gem do
       diff_lines.delete('Gemfile.lock')
       if diff_lines != ['lib/cocoapods-downloader/gem_version.rb']
         $stderr.puts "[!] Only change the version number in a release commit!"
-        $stderr.puts diff_lines
+        $stderr.puts "- " + diff_lines * "\n -"
         exit 1
       end
     end
@@ -128,7 +128,7 @@ namespace :gem do
     sh "git pull"
 
     puts "* Running specs"
-    silent_sh('rake spec:all')
+    silent_sh('rake spec')
 
     # puts "* Checking compatibility with the master repo"
     # silent_sh('rake spec:repo')
