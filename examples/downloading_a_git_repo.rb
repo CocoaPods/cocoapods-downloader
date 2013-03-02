@@ -5,6 +5,6 @@ require 'cocoapods-downloader'
 path = ''
 options = {}
 downloader = Pod::Downloader.for_target(path, options)
-downloader.caches_root = ''
+downloader.cache_root = ''
 downloader.max_cache_size = 500
 downloader.download
