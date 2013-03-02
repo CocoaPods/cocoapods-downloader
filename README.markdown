@@ -7,7 +7,7 @@ A small library for downloading files from remotes in a folder.
 ## Install
 
 ```
-$ [sudo] gem install claide
+$ [sudo] gem install cocoapods-downloader
 ```
 
 ## Usage
