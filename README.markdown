@@ -13,7 +13,7 @@ $ [sudo] gem install cocoapods-downloader
 ## Usage
 
 ```ruby
-require 'cocoapods-downloaders'
+require 'cocoapods-downloader'
 
 target_path = './Downloads/MyDownload'
 options = { :git => 'example.com' }
