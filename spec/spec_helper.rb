@@ -15,6 +15,14 @@ if ENV['CI'] || ENV['GENERATE_COVERAGE']
   end
 end
 
+# Set up git info
+#-----------------------------------------------------------------------------#
+
+if ENV['CI']
+  `git config user.name  "CI"`
+  `git config user.email "CI@example.com"`
+end
+
 # Set up
 #-----------------------------------------------------------------------------#
 
