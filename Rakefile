@@ -38,6 +38,8 @@ namespace :travis do
   task :setup do
     sh "sudo apt-get install subversion"
     sh "env CFLAGS='-I#{rvm_ruby_dir}/include' bundle install --without debugging documentation"
+    sh "git config user.name  'CI'"
+    sh "git config user.email 'CI@example.com'"
   end
 end
 
