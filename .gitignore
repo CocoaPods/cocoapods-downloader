@@ -4,3 +4,4 @@
 doc/
 tmp/
 *.gem
+coverage/

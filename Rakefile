@@ -1,6 +1,7 @@
 desc 'Run specs'
 task :spec => :unpack_fixture_tarballs do
   files = FileList["spec/**/*_spec.rb"].shuffle.join(' ')
+  ENV['GENERATE_COVERAGE'] = 'true'
   sh "bacon #{files}"
 end
 
@@ -52,11 +53,9 @@ task :print_options do
   require 'cocoapods-downloader'
   include Pod::Downloader
 
-  result = {}
   Pod::Downloader.downloader_class_by_key.each do |key, klass|
     puts "#{key}: #{klass.options * ', '}"
   end
-
 end
 
 #-----------------------------------------------------------------------------#
