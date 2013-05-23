@@ -193,8 +193,8 @@ module Pod
 
       private
 
-      # Defines two methods for an executable, based on its name. The bag version
-      # raises if the executable terminates with a non-zero exit code.
+      # Defines two methods for an executable, based on its name. The bag
+      # version raises if the executable terminates with a non-zero exit code.
       #
       # For example
       #

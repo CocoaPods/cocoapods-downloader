@@ -7,7 +7,7 @@ module Pod
     module API
 
       # Executes
-      # @return [String] the ouptu of the command.
+      # @return [String] the output of the command.
       #
       def execute_command(executable, command, raise_on_failure = false)
         output = `\n#{executable} #{command} 2>&1`
@@ -16,7 +16,7 @@ module Pod
         output
       end
 
-      # Cheks if the just executed command completed sucessfully.
+      # Checks if the just executed command completed successfully.
       #
       # @raise  If the command failed.
       #
@@ -28,30 +28,30 @@ module Pod
         end
       end
 
-      # Indicates that an action will be perfomed. The action is passed as a
+      # Indicates that an action will be performed. The action is passed as a
       # block.
       #
       # @param  [String] message
       #         The message associated with the action.
       #
-      # @yield  The action, this block is always exectued.
+      # @yield  The action, this block is always executed.
       #
-      # @retur [void]
+      # @return [void]
       #
       def ui_action(message)
         puts message
         yield
       end
 
-      # Indicates that a minor action will be perfomed. The action is passed as
+      # Indicates that a minor action will be performed. The action is passed as
       # a block.
       #
       # @param  [String] message
       #         The message associated with the action.
       #
-      # @yield  The action, this block is always exectued.
+      # @yield  The action, this block is always executed.
       #
-      # @retur [void]
+      # @return [void]
       #
       def ui_sub_action(message)
         puts message
@@ -63,7 +63,7 @@ module Pod
       # @param  [String] message
       #         The message associated with the action.
       #
-      # @retur [void]
+      # @return [void]
       #
       def ui_message(message)
         puts message
