@@ -37,6 +37,7 @@ end
 namespace :travis do
   task :setup do
     sh "sudo apt-get install subversion"
+    sh "env CFLAGS='-I#{rvm_ruby_dir}/include' bundle install --without debugging documentation"
   end
 end
 
