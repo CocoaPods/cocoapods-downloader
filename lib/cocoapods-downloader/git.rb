@@ -86,9 +86,8 @@ module Pod
           end
         end
 
+        git! "clone '#{clone_url}' '#{target_path}'"
         Dir.chdir(target_path) do
-          git! "init"
-          git! "remote add origin '#{clone_url}'"
           git! "fetch origin tags/#{options[:tag]} 2>&1"
           git! "reset --hard FETCH_HEAD"
           git! "checkout -b activated-pod-commit 2>&1"
