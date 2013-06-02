@@ -89,7 +89,7 @@ module Pod
         end
 
         Dir.chdir(target_path) do
-          if not use_cache? do
+          if !use_cache?
             git! "init"
             git! "remote add origin '#{clone_url}'"
           end
