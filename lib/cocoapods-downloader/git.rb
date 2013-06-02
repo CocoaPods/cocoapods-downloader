@@ -84,10 +84,15 @@ module Pod
           else
             update_cache
           end
+
+          git! "clone '#{clone_url}' '#{target_path}'"
         end
 
-        git! "clone '#{clone_url}' '#{target_path}'"
         Dir.chdir(target_path) do
+          if not use_cache? do
+            git! "init"
+            git! "remote add origin '#{clone_url}'"
+          end
           git! "fetch origin tags/#{options[:tag]} 2>&1"
           git! "reset --hard FETCH_HEAD"
           git! "checkout -b activated-pod-commit 2>&1"
