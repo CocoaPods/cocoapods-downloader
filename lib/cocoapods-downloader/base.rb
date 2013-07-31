@@ -157,7 +157,7 @@ module Pod
       # @return [Pathname] The directory where the caches are stored.
       #
       def class_cache_dir
-        Pathname.new(File.expand_path(cache_root)) + name
+        Pathname.new(File.expand_path(Pathname.pwd + cache_root)) + name
       end
 
       # @return [Bool] Whether the downloader should use the cache.
