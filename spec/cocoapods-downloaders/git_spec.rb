@@ -29,6 +29,19 @@ module Pod
         tmp_folder('README').read.strip.should == 'v1.0'
       end
 
+      it "checks out a specific tag using git clone when a cache is available for performance" do
+        options = { :git => fixture('git-repo'), :tag => 'v1.0' }
+        downloader = Downloader.for_target(tmp_folder('destination'), options)
+        downloader.cache_root = tmp_folder('cache')
+        def downloader.execute_command(executable, command, raise_on_failure = false)
+          @spec_commands_log ||= []
+          @spec_commands_log << command
+        end
+        downloader.download
+        commands = downloader.instance_variable_get("@spec_commands_log").join("\n")
+        commands.should.not.include("init")
+      end
+
       it "doesn't updates submodules by default" do
         options = { :git => fixture('git-repo'), :commit => 'd7f4104' }
         downloader = Downloader.for_target(tmp_folder, options)

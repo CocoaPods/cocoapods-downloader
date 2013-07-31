@@ -77,6 +77,9 @@ module Pod
       # @note   Git fetch and checkout output to standard error and thus they
       #         are redirected to stdout.
       #
+      # @note   For performance if the cache is used the repo is inialized with
+      #         git clone (see CocoaPods/CocoaPods#1077).
+      #
       def download_tag
         if use_cache?
           if aggressive_cache?
@@ -84,15 +87,16 @@ module Pod
           else
             update_cache
           end
-
-          git! "clone '#{clone_url}' '#{target_path}'"
         end
 
         Dir.chdir(target_path) do
-          if !use_cache?
+          if use_cache?
+            git! "clone '#{clone_url}' '#{target_path}'"
+          else
             git! "init"
             git! "remote add origin '#{clone_url}'"
           end
+
           git! "fetch origin tags/#{options[:tag]} 2>&1"
           git! "reset --hard FETCH_HEAD"
           git! "checkout -b activated-pod-commit 2>&1"
