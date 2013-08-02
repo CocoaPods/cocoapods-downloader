@@ -2,6 +2,8 @@
 
 ## Master
 
+## 0.1.2
+
 ###### Enhancements
 
 * Improved performance of sources which specify a tag.
