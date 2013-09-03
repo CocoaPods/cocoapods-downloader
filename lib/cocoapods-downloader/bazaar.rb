@@ -38,7 +38,7 @@ module Pod
       end
 
       def download_revision!(rev)
-        bzr! %|branch "#{url}" #{dir_opts} -r #{rev} "#{target_path}"|
+        bzr! %|branch "#{url}" #{dir_opts} -r '#{rev}' "#{target_path}"|
       end
 
       def dir_opts
