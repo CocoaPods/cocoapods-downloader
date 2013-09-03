@@ -15,6 +15,13 @@ module Pod
         tmp_folder('README').read.strip.should == 'First Commit'
       end
 
+      it 'checks out a specific tag' do
+        options = { :bzr => fixture('bazaar-repo'), :revision => 'my_tag' }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.download
+        tmp_folder('README').read.strip.should == 'Second Commit'
+      end
+
       it 'checks out the head revision' do
         options = { :bzr => fixture('bazaar-repo') }
         downloader = Downloader.for_target(tmp_folder, options)
