@@ -15,18 +15,25 @@ module Pod
         tmp_folder('README').read.strip.should == 'First Commit'
       end
 
-      it 'checks out a specific tag' do
+      it 'checks out a specific tag as a revision' do
         options = { :bzr => fixture('bazaar-repo'), :revision => 'my_tag' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
         tmp_folder('README').read.strip.should == 'Second Commit'
       end
 
+      it 'checks out a specific tag as a tag' do
+        options = { :bzr => fixture('bazaar-repo'), :tag => 'my_other_tag' }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.download
+        tmp_folder('README').read.strip.should == 'Third Commit'
+      end
+
       it 'checks out the head revision' do
         options = { :bzr => fixture('bazaar-repo') }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
-        tmp_folder('README').read.strip.should == 'Second Commit'
+        tmp_folder('README').read.strip.should == 'Fourth Commit'
       end
 
       it 'returns the checked out revision' do
@@ -35,7 +42,7 @@ module Pod
         downloader.download
         downloader.checkout_options.should == {
           :bzr => fixture('bazaar-repo'),
-          :revision => '2'
+          :revision => '4'
         }
       end
 

@@ -3,7 +3,7 @@ module Pod
     class Bazaar < Base
 
       def self.options
-        [:revision]
+        [:revision, :tag]
       end
 
       def options_specific?
@@ -24,8 +24,10 @@ module Pod
       executable :bzr
 
       def download!
-        if options[:revision]
-          download_revision!
+        if options[:tag]
+          download_revision!(options[:tag])
+        elsif options[:revision]
+          download_revision!(options[:revision])
         else
           download_head!
         end
@@ -35,8 +37,8 @@ module Pod
         bzr! %|branch "#{url}" #{dir_opts} "#{target_path}"|
       end
 
-      def download_revision!
-        bzr! %|branch "#{url}" #{dir_opts} -r '#{options[:revision]}' "#{target_path}"|
+      def download_revision!(rev)
+        bzr! %|branch "#{url}" #{dir_opts} -r #{rev} "#{target_path}"|
       end
 
       def dir_opts
