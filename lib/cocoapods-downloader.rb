@@ -16,12 +16,14 @@ module Pod
       require 'cocoapods-downloader/mercurial'
       require 'cocoapods-downloader/subversion'
       require 'cocoapods-downloader/http'
+      require 'cocoapods-downloader/bazaar'
 
       {
         :git  => Git,
         :hg   => Mercurial,
         :svn  => Subversion,
         :http => Http,
+        :bzr  => Bazaar,
       }
     end
 
