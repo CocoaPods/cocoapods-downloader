@@ -29,6 +29,7 @@ The downloader class supports the following option keys:
 
 - git: commit, tag, branch, submodules
 - hg: revision
+- bzr: revision
 - svn: revision, tag, folder
 - http: type
 
