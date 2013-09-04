@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 $:.unshift File.expand_path('../lib', __FILE__)
-require 'cocoapods-downloader'
+require 'cocoapods-downloader/gem_version'
 
 Gem::Specification.new do |s|
   s.name     = "cocoapods-downloader"
