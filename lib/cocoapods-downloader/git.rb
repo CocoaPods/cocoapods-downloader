@@ -62,9 +62,11 @@ module Pod
 
       # @return [void] Convenience method to perform clones operations.
       #
-      def clone(from, to)
+      def clone(from, to, flags = '')
         ui_sub_action("Cloning to Pods folder") do
-          git! %Q|clone "#{from}" "#{to}"|
+          command = %Q|clone "#{from}" "#{to}"|
+          command << ' ' + flags if flags
+          git!(command)
         end
       end
 
@@ -91,7 +93,7 @@ module Pod
 
         Dir.chdir(target_path) do
           if use_cache?
-            git! "clone '#{clone_url}' '#{target_path}'"
+            clone(clone_url, target_path)
           else
             git! "init"
             git! "remote add origin '#{clone_url}'"
@@ -210,7 +212,7 @@ module Pod
         ui_sub_action("Creating cache git repo (#{cache_path})") do
           cache_path.rmtree if cache_path.exist?
           cache_path.mkpath
-          git! %Q|clone  --mirror "#{url}" "#{cache_path}"|
+          clone(url, cache_path, '--mirror')
         end
       end
 
