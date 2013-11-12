@@ -2,6 +2,12 @@
 
 ## Master
 
+###### Enhancements
+
+* Support LZMA2 compressed tarballs in the  
+  [Kyle Fuller](https://github.com/kylef)
+  [#5](https://github.com/CocoaPods/cocoapods-downloader/pull/5)
+
 ## 0.2.0
 
 ###### Enhancements

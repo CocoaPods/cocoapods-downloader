@@ -79,6 +79,12 @@ module Pod
         downloader.send(:type).should == :tbz
       end
 
+      it 'detects txz files' do
+        options = { :http => 'https://file.txz' }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.send(:type).should == :txz
+      end
+
       it 'allows to specify the file type in the sources' do
         options = { :http => 'https://file', :type => :zip }
         downloader = Downloader.for_target(tmp_folder, options)

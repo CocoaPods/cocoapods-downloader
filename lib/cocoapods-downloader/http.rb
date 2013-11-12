@@ -43,7 +43,7 @@ module Pod
       def should_flatten?
         if options.has_key?(:flatten)
           true
-        elsif [:tgz, :tar, :tbz].include?(type)
+        elsif [:tgz, :tar, :tbz, :txz].include?(type)
           true # those archives flatten by default
         else
           false # all others (actually only .zip) default not to flatten
@@ -59,6 +59,8 @@ module Pod
           :tar
         elsif url =~ /.(tbz|tar\.bz2)$/
           :tbz
+        elsif url =~ /.(txz|tar\.xz)$/
+          :txz
         else
           nil
         end
@@ -74,6 +76,8 @@ module Pod
           "file.tar"
         when :tbz
           "file.tbz"
+        when :txz
+          "file.txz"
         else
           raise UnsupportedFileTypeError.new "Unsupported file type: #{type}"
         end
@@ -93,6 +97,8 @@ module Pod
           tar! "xf '#{full_filename}' -C '#{target_path}'"
         when :tbz
           tar! "xfj '#{full_filename}' -C '#{target_path}'"
+        when :txz
+          tar! "xf '#{full_filename}' -C '#{target_path}'"
         else
           raise UnsupportedFileTypeError.new "Unsupported file type: #{type}"
         end
