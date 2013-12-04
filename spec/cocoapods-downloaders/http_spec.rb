@@ -16,6 +16,14 @@ module Pod
         tmp_folder('GoogleAdMobSearchAdsSDK/GADSearchRequest.h').read.strip.should =~ /Google Search Ads iOS SDK/
       end
 
+      it 'should download file and unzip it when the target folder name contains quotes' do
+        options = { :http => 'http://dl.google.com/googleadmobadssdk/googleadmobsearchadssdkios.zip' }
+        downloader = Downloader.for_target(tmp_folder_with_quotes, options)
+        VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
+        tmp_folder_with_quotes("GoogleAdMobSearchAdsSDK/GADSearchRequest.h").should.exist
+        tmp_folder_with_quotes("GoogleAdMobSearchAdsSDK/GADSearchRequest.h").read.strip.should =~ /Google Search Ads iOS SDK/
+      end
+
       it 'should flatten zip archives, when the spec explicitly demands it' do
         options = {
           :http => 'https://github.com/kevinoneill/Useful-Bits/archive/1.0.zip',

@@ -20,7 +20,7 @@ module Pod
 
       def download!
         @filename = filename_with_type(type)
-        @download_path = target_path + @filename
+        @download_path = escape_pathname(target_path + @filename)
         download_file(@download_path)
         extract_with_type(@download_path, type)
       end
@@ -84,21 +84,21 @@ module Pod
       end
 
       def download_file(full_filename)
-        curl! "-L -o '#{full_filename}' '#{url}'"
+        curl! %|-L -o "#{full_filename}" "#{url}" --create-dirs|
       end
 
       def extract_with_type(full_filename, type=:zip)
         case type
         when :zip
-          unzip! "'#{full_filename}' -d '#{target_path}'"
+          unzip! %|"#{full_filename}" -d "#{escaped_target_path}"|
         when :tgz
-          tar! "xfz '#{full_filename}' -C '#{target_path}'"
+          tar! %|xfz "#{full_filename}" -C "#{escaped_target_path}"|
         when :tar
-          tar! "xf '#{full_filename}' -C '#{target_path}'"
+          tar! %|xf "#{full_filename}" -C "#{escaped_target_path}"|
         when :tbz
-          tar! "xfj '#{full_filename}' -C '#{target_path}'"
+          tar! %|xfj "#{full_filename}" -C "#{escaped_target_path}"|
         when :txz
-          tar! "xf '#{full_filename}' -C '#{target_path}'"
+          tar! %|xf "#{full_filename}" -C "#{escaped_target_path}"|
         else
           raise UnsupportedFileTypeError.new "Unsupported file type: #{type}"
         end
