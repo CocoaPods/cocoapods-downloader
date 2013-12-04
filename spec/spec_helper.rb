@@ -49,6 +49,10 @@ def tmp_folder(path = '')
   return Pathname.pwd + 'tmp' + path
 end
 
+def tmp_folder_with_quotes(path = '')
+  return tmp_folder File.join("a'\"b", path)
+end
+
 def fixture(path)
   return Pathname.pwd + 'spec/fixtures/' + path
 end
