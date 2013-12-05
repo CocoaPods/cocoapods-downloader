@@ -230,8 +230,8 @@ module Pod
       end
 
       def escape_pathname(pathname=target_path)
-        escaped_string = pathname.to_s.gsub "\"", "\\\""
-        Pathname.new(escaped_string)
+        require "shellwords"
+        pathname.to_s.shellescape
       end
     end
   end
