@@ -22,7 +22,7 @@ module Pod
         tmp_folder('README').read.strip.should == 'second commit'
       end
 
-      describe "when the directory name has quotes" do
+      describe "when the directory name has quotes or spaces" do
         it "checks out a specific revision" do
           options = { :hg => fixture('mercurial-repo'), :revision => '46198bb3af96' }
           downloader = Downloader.for_target(tmp_folder_with_quotes, options)
