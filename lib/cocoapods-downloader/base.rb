@@ -63,6 +63,10 @@ module Pod
         self.class.name.split('::').last
       end
 
+      def escaped_target_path
+        escape_pathname(target_path)
+      end
+
       #-----------------------------------------------------------------------#
 
       # @!group Configuration
@@ -223,6 +227,11 @@ module Pod
         define_method(name.to_s + "!") do |command|
           execute_command(name.to_s, command, true)
         end
+      end
+
+      def escape_pathname(pathname=target_path)
+        require "shellwords"
+        pathname.to_s.shellescape
       end
     end
   end

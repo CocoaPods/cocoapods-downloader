@@ -64,7 +64,7 @@ module Pod
       #
       def clone(from, to, flags = '')
         ui_sub_action("Cloning to Pods folder") do
-          command = %Q|clone "#{from}" "#{to}"|
+          command = %Q|clone #{from} #{escape_pathname(to)}|
           command << ' ' + flags if flags
           git!(command)
         end

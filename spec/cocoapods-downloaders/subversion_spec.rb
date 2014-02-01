@@ -29,6 +29,22 @@ module Pod
         tmp_folder('README').read.strip.should == 'unintersting'
       end
 
+      describe "when the directory name has quotes or spaces" do
+        it "checks out a specific revision" do
+          options = { :svn => "file://#{fixture('subversion-repo')}", :revision => '1' }
+          downloader = Downloader.for_target(tmp_folder_with_quotes, options)
+          downloader.download
+          tmp_folder_with_quotes('README').read.strip.should == 'first commit'
+        end
+
+        it "checks out the head version" do
+          options = { :svn => "file://#{fixture('subversion-repo')}", :tag => 'tag-1' }
+          downloader = Downloader.for_target(tmp_folder_with_quotes, options)
+          downloader.download_head
+          tmp_folder_with_quotes('README').read.strip.should == 'unintersting'
+        end
+      end
+
       it "returns the checked out revision" do
         options = { :svn => "file://#{fixture('subversion-repo')}" }
         downloader = Downloader.for_target(tmp_folder, options)

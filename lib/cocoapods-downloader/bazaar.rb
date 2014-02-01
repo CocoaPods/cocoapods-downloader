@@ -34,11 +34,11 @@ module Pod
       end
 
       def download_head!
-        bzr! %|branch "#{url}" #{dir_opts} "#{target_path}"|
+        bzr! %|branch "#{url}" #{dir_opts} #{escaped_target_path}|
       end
 
       def download_revision!(rev)
-        bzr! %|branch "#{url}" #{dir_opts} -r '#{rev}' "#{target_path}"|
+        bzr! %|branch "#{url}" #{dir_opts} -r '#{rev}' #{escaped_target_path}|
       end
 
       def dir_opts

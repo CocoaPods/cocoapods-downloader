@@ -15,6 +15,14 @@ module Pod
         tmp_folder('README').read.strip.should == 'first commit'
       end
 
+
+      it "checks out when the path contains quotes or spaces" do
+        options = { :git => fixture('git-repo'), :commit => '7ad3a6c' }
+        downloader = Downloader.for_target(tmp_folder_with_quotes, options)
+        downloader.download
+        tmp_folder_with_quotes("README").read.strip.should == 'first commit'
+      end
+
       it "checks out a specific branch" do
         options = { :git => fixture('git-repo'), :branch => 'topic_branch' }
         downloader = Downloader.for_target(tmp_folder, options)
