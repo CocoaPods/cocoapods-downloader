@@ -1,4 +1,3 @@
-
 module Pod
   module Downloader
     require 'cocoapods-downloader/gem_version'

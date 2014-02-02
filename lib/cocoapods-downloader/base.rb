@@ -1,3 +1,13 @@
+require "shellwords"
+
+class Pathname
+  # @return [String] a version of the path that is escaped to be safe to use in
+  #         a shell.
+  def shellescape
+    to_s.shellescape
+  end
+end
+
 module Pod
   module Downloader
 
@@ -61,10 +71,6 @@ module Pod
       #
       def name
         self.class.name.split('::').last
-      end
-
-      def escaped_target_path
-        escape_pathname(target_path)
       end
 
       #-----------------------------------------------------------------------#
@@ -227,11 +233,6 @@ module Pod
         define_method(name.to_s + "!") do |command|
           execute_command(name.to_s, command, true)
         end
-      end
-
-      def escape_pathname(pathname=target_path)
-        require "shellwords"
-        pathname.to_s.shellescape
       end
     end
   end

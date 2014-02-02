@@ -32,11 +32,11 @@ module Pod
       end
 
       def download_head!
-        hg! %|clone #{url} #{escaped_target_path}|
+        hg! %|clone #{url} #{@target_path.shellescape}|
       end
 
       def download_revision!
-        hg! %|clone "#{url}" --rev '#{options[:revision]}' #{escaped_target_path}|
+        hg! %|clone "#{url}" --rev '#{options[:revision]}' #{@target_path.shellescape}|
       end
 
     end
