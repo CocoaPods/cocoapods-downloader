@@ -1,5 +1,13 @@
 # Changelog
 
+## Master
+
+###### Enhancements
+
+* Shell-escape all paths to be more robust against spaces/quotes in paths.
+  [Mike Walker](https://github.com/lazerwalker)
+  [#6](https://github.com/CocoaPods/cocoapods-downloader/pull/6)
+
 ## 0.3.0
 
 ###### Enhancements
