@@ -84,29 +84,30 @@ module Pod
       end
 
       def download_file(full_filename)
-        curl! %|-L -o #{full_filename} #{url} --create-dirs|
+        curl! %|-L -o #{full_filename.shellescape} #{url} --create-dirs|
       end
 
       def extract_with_type(full_filename, type=:zip)
-        target_path = @target_path.shellescape
+        unpack_from = full_filename.shellescape
+        unpack_to = @target_path.shellescape
         case type
         when :zip
-          unzip! %|#{full_filename} -d #{target_path}|
+          unzip! %|#{unpack_from} -d #{unpack_to}|
         when :tgz
-          tar! %|xfz #{full_filename} -C #{target_path}|
+          tar! %|xfz #{unpack_from} -C #{unpack_to}|
         when :tar
-          tar! %|xf #{full_filename} -C #{target_path}|
+          tar! %|xf #{unpack_from} -C #{unpack_to}|
         when :tbz
-          tar! %|xfj #{full_filename} -C #{target_path}|
+          tar! %|xfj #{unpack_from} -C #{unpack_to}|
         when :txz
-          tar! %|xf #{full_filename} -C #{target_path}|
+          tar! %|xf #{unpack_from} -C #{unpack_to}|
         else
           raise UnsupportedFileTypeError.new "Unsupported file type: #{type}"
         end
 
         # If the archive is a tarball and it only contained a folder, move its contents to the target (#727)
         if should_flatten?
-          contents = target_path.children
+          contents = @target_path.children
           contents.delete(target_path + @filename)
           entry = contents.first
           if contents.count == 1 && entry.directory?
