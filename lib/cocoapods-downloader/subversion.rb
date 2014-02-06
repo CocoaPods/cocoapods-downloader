@@ -3,7 +3,7 @@ module Pod
     class Subversion < Base
 
       def self.options
-        [:revision, :tag, :folder]
+        [:revision, :tag, :folder, :externals]
       end
 
       def options_specific?
@@ -39,6 +39,8 @@ module Pod
 
       def export_subcommand
         result = 'export --non-interactive --trust-server-cert --force'
+        result << ' --ignore-externals' if options[:externals] == false
+        result
       end
 
       def reference_url
