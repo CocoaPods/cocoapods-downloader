@@ -1,0 +1,13 @@
+K 10
+svn:author
+V 3
+jun
+K 8
+svn:date
+V 27
+2014-02-06T11:42:46.896505Z
+K 7
+svn:log
+V 61
+set an external to file:///tmp/subversion-external-repo/trunk
+END

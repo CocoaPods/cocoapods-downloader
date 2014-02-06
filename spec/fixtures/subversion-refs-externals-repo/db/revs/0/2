@@ -1,0 +1,21 @@
+PLAIN
+K 13
+svn:externals
+V 52
+external file:///tmp/subversion-external-repo/trunk
+
+END
+ENDREP
+id: 0.0.r2/94
+type: dir
+pred: 0.0.r1/550
+count: 2
+text: 1 471 66 66 57944627420d7917f6637d07e57d63c3
+props: 2 0 81 0 8fb38c3087c6220f44d8973e0f17fd4d
+cpath: /
+copyroot: 0 /
+
+0.0.t1-1 modify-dir false true /
+
+
+94 268
