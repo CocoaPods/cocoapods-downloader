@@ -4,6 +4,10 @@
 
 ###### Enhancements
 
+* svn export use --ignore-externals option if specified :externals => false
+  [banjun](https://github.com/banjun)
+  [#8](https://github.com/CocoaPods/cocoapods-downloader/pull/8)
+
 * Shell-escape all paths to be more robust against spaces/quotes in paths.
   [Mike Walker](https://github.com/lazerwalker)
   [#6](https://github.com/CocoaPods/cocoapods-downloader/pull/6)
