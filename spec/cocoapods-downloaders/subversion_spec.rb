@@ -67,6 +67,25 @@ module Pod
         downloader = Downloader.for_target(tmp_folder, options)
         lambda { downloader.download }.should.raise DownloaderError
       end
+
+      it "updates externals by default" do
+        FileUtils.rm_rf('/tmp/subversion-external-repo')
+        FileUtils.cp_r(fixture('subversion-repo'), '/tmp/subversion-external-repo')
+        options = { :svn => "file://#{fixture('subversion-refs-externals-repo')}", :revision => 'r3' }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.download
+        tmp_folder('trunk/README.txt').should.exist?
+        tmp_folder('external/README').should.exist?
+        FileUtils.rm_rf('/tmp/subversion-external-repo')
+      end
+
+      it "doesn't update externals when requested" do
+        options = { :svn => "file://#{fixture('subversion-refs-externals-repo')}", :revision => 'r3', :externals => false }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.download
+        tmp_folder('trunk/README.txt').should.exist?
+        tmp_folder('external/README').should.not.exist?
+      end
     end
   end
 end
