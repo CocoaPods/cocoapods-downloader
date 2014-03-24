@@ -7,6 +7,7 @@ group :development do
   gem 'mocha-on-bacon'
   gem "vcr"
   gem "webmock", '< 1.9'
+  gem 'kicker'
 end
 
 group :docs do
