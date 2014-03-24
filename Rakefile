@@ -1,3 +1,14 @@
+# Bootstrap
+#-----------------------------------------------------------------------------#
+
+desc "Initializes your working copy to run the specs"
+task :bootstrap do
+  puts "Installing gems"
+  `bundle install`
+end
+
+#-----------------------------------------------------------------------------#
+
 desc 'Run specs'
 task :spec => :unpack_fixture_tarballs do
   files = FileList["spec/**/*_spec.rb"].shuffle.join(' ')
