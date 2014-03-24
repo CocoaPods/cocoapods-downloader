@@ -28,6 +28,8 @@ GEM
       mocha (>= 0.13.0)
     multi_json (1.9.2)
     notify (0.5.2)
+    prettybacon (0.0.1)
+      bacon (~> 1.2)
     rake (10.2.0)
     rb-fsevent (0.9.4)
     rb-inotify (0.9.3)
@@ -60,6 +62,7 @@ DEPENDENCIES
   coveralls
   kicker
   mocha-on-bacon
+  prettybacon
   rake
   vcr
   webmock (< 1.9)

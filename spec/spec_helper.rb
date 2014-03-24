@@ -20,11 +20,11 @@ end
 
 require 'bacon'
 require 'mocha-on-bacon'
+require 'pretty_bacon'
 require 'pathname'
 
 $:.unshift File.expand_path('../../lib', __FILE__)
 require 'cocoapods-downloader'
-require File.expand_path('../spec_helper/bacon', __FILE__)
 
 module Pod
   module Downloader

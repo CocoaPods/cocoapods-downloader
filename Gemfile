@@ -8,6 +8,7 @@ group :development do
   gem 'vcr'
   gem 'webmock', '< 1.9'
   gem 'kicker'
+  gem 'prettybacon'
 end
 
 group :docs do
