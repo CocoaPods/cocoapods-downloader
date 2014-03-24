@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem "mime-types", "< 2.0" # Ruby 1.8.7
+
 group :development do
   gem 'coveralls', :require => false
   gem 'rake', '~> 10.1.1' # Ruby 1.8.7
