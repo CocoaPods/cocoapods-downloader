@@ -4,11 +4,11 @@
 
 ###### Enhancements
 
-* svn export use --ignore-externals option if specified :externals => false
+* Added support to ignore externals (--ignore-externals command line flag) for SVN sources. To ignore the externals it is necessary to specify the `:externals => false` option.  
   [banjun](https://github.com/banjun)
   [#8](https://github.com/CocoaPods/cocoapods-downloader/pull/8)
 
-* Shell-escape all paths to be more robust against spaces/quotes in paths.
+* Shell-escape all paths to be more robust against spaces/quotes in paths.  
   [Mike Walker](https://github.com/lazerwalker)
   [#6](https://github.com/CocoaPods/cocoapods-downloader/pull/6)
 
@@ -26,7 +26,7 @@
 ###### Enhancements
 
 * Added support for Bazaar repositories.  
-  [@fmccann](https://github.com/fmccann)
+  [Fred McCann](https://github.com/fmccann)
   [#4](https://github.com/CocoaPods/cocoapods-downloader/pull/4)
 
 
