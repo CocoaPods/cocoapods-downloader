@@ -129,6 +129,7 @@ namespace :gem do
       end
 
       diff_lines.delete('Gemfile.lock')
+      diff_lines.delete('CHANGELOG.md')
       if diff_lines != ['lib/cocoapods-downloader/gem_version.rb']
         $stderr.puts "[!] Only change the version number in a release commit!"
         $stderr.puts "- " + diff_lines * "\n -"
@@ -157,7 +158,7 @@ namespace :gem do
     silent_sh "gem install --install-dir='#{tmp_gems}' #{gem_filename}"
 
     # Then release
-    sh "git commit lib/cocoapods-downloader/gem_version.rb -m 'Release #{gem_version}'"
+    sh "git commit lib/cocoapods-downloader/gem_version.rb CHANGELOG.md Gemfile.lock -m 'Release #{gem_version}'"
     sh "git tag -a #{gem_version} -m 'Release #{gem_version}'"
     sh "git push origin master"
     sh "git push origin --tags"
