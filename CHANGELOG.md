@@ -1,10 +1,12 @@
 # Changelog
 
-## Master
+## 0.4.0
 
 ###### Enhancements
 
-* Added support to ignore externals (--ignore-externals command line flag) for SVN sources. To ignore the externals it is necessary to specify the `:externals => false` option.  
+* Added support to ignore externals (--ignore-externals command line flag) for
+  SVN sources. To ignore the externals it is necessary to specify the
+  `:externals => false` option.  
   [banjun](https://github.com/banjun)
   [#8](https://github.com/CocoaPods/cocoapods-downloader/pull/8)
 
