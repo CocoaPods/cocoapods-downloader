@@ -21,6 +21,9 @@ module Pod
 
       private
 
+      # @group Private Helpers
+      #-----------------------------------------------------------------------#
+
       executable :bzr
 
       def download!
@@ -41,10 +44,18 @@ module Pod
         bzr! %|branch "#{url}" #{dir_opts} -r '#{rev}' #{@target_path.shellescape}|
       end
 
+      # @return [String] The command line flags to use according to whether the
+      #         target path exits.
+      #
       def dir_opts
-        return '--use-existing-dir' if @target_path.exist?
-        ''
+        if @target_path.exist?
+          '--use-existing-dir'
+        else
+          ''
+        end
       end
+
+      #-----------------------------------------------------------------------#
 
     end
   end
