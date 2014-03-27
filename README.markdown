@@ -3,8 +3,8 @@
 A small library for downloading files from remotes in a folder.
 
 [![Build Status](https://travis-ci.org/CocoaPods/cocoapods-downloader.svg?branch=master)](https://travis-ci.org/CocoaPods/cocoapods-downloader)
-[![Coverage Status](http://img.shields.io/coveralls/CocoaPods/cocoapods-downloader.svg)](https://coveralls.io/r/CocoaPods/cocoapods-downloader)
-[![Code Climate](http://img.shields.io/codeclimate/github/CocoaPods/cocoapods-downloader.svg)](https://codeclimate.com/github/CocoaPods/cocoapods-downloader)
+[![Coverage Status](https://img.shields.io/coveralls/CocoaPods/cocoapods-downloader.svg)](https://coveralls.io/r/CocoaPods/cocoapods-downloader)
+[![Code Climate](https://img.shields.io/codeclimate/github/CocoaPods/cocoapods-downloader.svg)](https://codeclimate.com/github/CocoaPods/cocoapods-downloader)
 
 ## Install
 
