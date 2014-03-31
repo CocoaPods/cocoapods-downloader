@@ -29,10 +29,10 @@ downloader.checkout_options #=> { :git => 'example.com', :commit => 'd7f410490da
 The downloader class supports the following option keys:
 
 - git: commit, tag, branch, submodules
-- hg: revision
-- bzr: revision, tag
 - svn: revision, tag, folder, externals
-- http: type
+- hg: revision
+- http: type, flatten
+- bzr: revision, tag
 
 The downloader also provides hooks which allow to customize its output or the way in which the commands are executed
 
