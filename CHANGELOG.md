@@ -2,7 +2,7 @@
 
 ## Master
 
-###### Enhancements
+## 0.4.1
 
 * add shellescape for some path arguments in git.rb
   [Vladimir Burdukov](https://github.com/chipp)
