@@ -64,7 +64,7 @@ module Pod
       #
       def clone(from, to, flags = '')
         ui_sub_action("Cloning to Pods folder") do
-          command = %Q|clone #{from} #{to.shellescape}|
+          command = %Q|clone #{from.shellescape} #{to.shellescape}|
           command << ' ' + flags if flags
           git!(command)
         end
@@ -275,7 +275,7 @@ module Pod
             tmpfile.write Zlib::GzipReader.new(archive).read
           end
 
-          system "tar xf #{tmpfile.path} -C #{target_path} --strip-components 1"
+          system "tar xf #{tmpfile.path.shellescape} -C #{target_path.shellescape} --strip-components 1"
         end
       end
     end

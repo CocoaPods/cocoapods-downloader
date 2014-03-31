@@ -167,7 +167,7 @@ module Pod
       it "updates the cache if the ref is not available" do
         # create the origin repo and the cache
         tmp_repo_path = tmp_folder + 'git-repo-source'
-        `git clone #{fixture('git-repo')} #{tmp_repo_path}`
+        `git clone #{fixture('git-repo').shellescape} #{tmp_repo_path.shellescape}`
         options = { :git => tmp_repo_path, :commit => '7ad3a6c' }
         downloader = Downloader.for_target(tmp_folder('checkout'), options)
         downloader.download

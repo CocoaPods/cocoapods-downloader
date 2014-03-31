@@ -1,5 +1,13 @@
 # Changelog
 
+## Master
+
+###### Enhancements
+
+* add shellescape for some path arguments in git.rb
+  [Vladimir Burdukov](https://github.com/chipp)
+  [#14](https://github.com/CocoaPods/cocoapods-downloader/pull/14)
+
 ## 0.4.0
 
 ###### Enhancements
