@@ -2,6 +2,9 @@
 
 ## Master
 
+* Added support for `:tag` option in mercurial sources. [Esteban Bouza](https://github.com/estebanbouza) [#16](https://github.com/CocoaPods/cocoapods-downloader/issues/16)
+* Added support for `:branch` option in mercurial sources. [Esteban Bouza](https://github.com/estebanbouza) [#17](https://github.com/CocoaPods/cocoapods-downloader/issues/17)
+
 ## 0.4.1
 
 * add shellescape for some path arguments in git.rb
