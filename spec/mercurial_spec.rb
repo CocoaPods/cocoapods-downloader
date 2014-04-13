@@ -51,6 +51,8 @@ module Pod
       it "returns whether the provided options are specific" do
         Downloader.for_target('path', :hg => 'url').options_specific?.should.be.false
         Downloader.for_target('path', :hg => 'url', :revision => '').options_specific?.should.be.true
+        Downloader.for_target('path', :hg => 'url', :tag => '').options_specific?.should.be.true
+        Downloader.for_target('path', :hg => 'url', :branch => '').options_specific?.should.be.false
       end
 
       it "raises if it fails to download" do
