@@ -3,7 +3,7 @@ module Pod
     class Mercurial < Base
 
       def self.options
-        [:revision, :tag]
+        [:revision, :tag, :branch]
       end
 
       def options_specific?
@@ -28,6 +28,8 @@ module Pod
           download_revision!
         elsif options[:tag]
           download_tag!
+        elsif options[:branch]
+          download_branch!
         else
           download_head!
         end
@@ -45,6 +47,9 @@ module Pod
         hg! %|clone "#{url}" --updaterev '#{options[:tag]}' #{@target_path.shellescape}|
       end
 
+      def download_branch!
+          hg! %|clone "#{url}" --updaterev '#{options[:branch]}' #{@target_path.shellescape}|
+      end
     end
   end
 end
