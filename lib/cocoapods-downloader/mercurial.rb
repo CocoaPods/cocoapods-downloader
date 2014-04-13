@@ -7,7 +7,7 @@ module Pod
       end
 
       def options_specific?
-        !options[:revision].nil?
+        !options[:revision].nil? || !options[:tag].nil?
       end
 
       def checkout_options
