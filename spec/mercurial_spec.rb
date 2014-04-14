@@ -36,6 +36,21 @@ module Pod
           downloader.download
           tmp_folder_with_quotes('README').read.strip.should == 'second commit'
         end
+
+        it "checks out a specific tag" do
+          options = { :hg => fixture('mercurial-repo'), :tag => '1.0.0' }
+          downloader = Downloader.for_target(tmp_folder_with_quotes, options)
+          downloader.download
+          tmp_folder_with_quotes('README').read.strip.should == 'third commit'
+        end
+
+        it "checks out the branch head revision" do
+          options = { :hg => fixture('mercurial-repo'), :branch => 'feature/feature-branch' }
+          downloader = Downloader.for_target(tmp_folder_with_quotes, options)
+          downloader.download
+          tmp_folder_with_quotes('README').read.strip.should == 'fourth commit'
+        end
+
       end
 
       it "returns the checked out revision" do
@@ -51,6 +66,8 @@ module Pod
       it "returns whether the provided options are specific" do
         Downloader.for_target('path', :hg => 'url').options_specific?.should.be.false
         Downloader.for_target('path', :hg => 'url', :revision => '').options_specific?.should.be.true
+        Downloader.for_target('path', :hg => 'url', :tag => '').options_specific?.should.be.true
+        Downloader.for_target('path', :hg => 'url', :branch => '').options_specific?.should.be.false
       end
 
       it "raises if it fails to download" do
@@ -58,6 +75,27 @@ module Pod
         downloader = Downloader.for_target(tmp_folder, options)
         lambda { downloader.download }.should.raise DownloaderError
       end
+
+      it "checks out a specific tag" do
+          options = { :hg => fixture('mercurial-repo'), :tag => '1.0.0'}
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.download
+          downloader.checkout_options.should == {
+            :hg => fixture('mercurial-repo'),
+            :revision => '3c8b8d211b03c7e686049a8558e4c297104291eb'
+          }
+      end
+
+      it "checks out a specific branch head" do
+        options = { :hg => fixture('mercurial-repo'), :branch => 'feature/feature-branch'}
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.download
+          downloader.checkout_options.should == {
+            :hg => fixture('mercurial-repo'),
+            :revision => '61118fa8988c2b2eae826f48abd1e3340dae0c6b'
+          }
+      end
+
     end
   end
 end

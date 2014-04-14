@@ -3,11 +3,11 @@ module Pod
     class Mercurial < Base
 
       def self.options
-        [:revision]
+        [:revision, :tag, :branch]
       end
 
       def options_specific?
-        !options[:revision].nil?
+        !options[:revision].nil? || !options[:tag].nil?
       end
 
       def checkout_options
@@ -26,6 +26,10 @@ module Pod
       def download!
         if options[:revision]
           download_revision!
+        elsif options[:tag]
+          download_tag!
+        elsif options[:branch]
+          download_branch!
         else
           download_head!
         end
@@ -38,7 +42,14 @@ module Pod
       def download_revision!
         hg! %|clone "#{url}" --rev '#{options[:revision]}' #{@target_path.shellescape}|
       end
+      
+      def download_tag!
+        hg! %|clone "#{url}" --updaterev '#{options[:tag]}' #{@target_path.shellescape}|
+      end
 
+      def download_branch!
+          hg! %|clone "#{url}" --updaterev '#{options[:branch]}' #{@target_path.shellescape}|
+      end
     end
   end
 end
