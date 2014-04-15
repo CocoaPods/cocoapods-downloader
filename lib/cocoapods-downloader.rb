@@ -28,6 +28,21 @@ module Pod
       }
     end
 
+    # Identifies the concrete strategy for the given options.
+    #
+    # @param  [Hash{Symbol}] options
+    #         The options for which a strategy is needed.
+    #
+    # @return [Symbol] The symbol associated with a concrete strategy.
+    # @return [Nil] If no suitable concrete strategy could be selected.
+    #
+    def self.strategy_from_options(options)
+      common = downloader_class_by_key.keys & options.keys
+      if common.count == 1
+        common.first
+      end
+    end
+
     # @return [Downloader::Base] A concrete downloader according to the
     #         options.
     #
@@ -41,30 +56,25 @@ module Pod
       end
 
       if options.nil? || options.empty?
-        raise DownloaderError, "No source url provided."
+        raise DownloaderError, "No source URL provided."
       end
 
-      options = options.dup
-      klass = nil
-      url = nil
-      downloader_class_by_key.each do |key, key_klass|
-        url = options.delete(key)
-        if url
-          klass = key_klass
-          break
-        end
-      end
-
-      unless klass
+      strategy = strategy_from_options(options)
+      unless strategy
         raise DownloaderError, "Unsupported download strategy " \
           "`#{options.inspect}`."
       end
+
+      url = options[strategy]
+      sub_options = options.dup
+      sub_options.delete(strategy)
+      klass = downloader_class_by_key[strategy]
 
       if klass == Git && url.to_s =~ /github.com/
         klass = GitHub
       end
 
-      klass.new(target_path, url, options)
+      klass.new(target_path, url, sub_options)
     end
   end
 end

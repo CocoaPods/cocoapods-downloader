@@ -15,6 +15,30 @@ module Pod
         end
       end
 
+      describe '::strategy_from_options' do
+        it 'returns the strategy' do
+          options = {
+            :git => ''
+          }
+          @subject.strategy_from_options(options).should == :git
+        end
+
+        it 'returns nil if no strategy could be identified' do
+          options = {
+            :scm_from_future => ''
+          }
+          @subject.strategy_from_options(options).should.be.nil
+        end
+
+        it 'returns nil if no single strategy could be identified' do
+          options = {
+            :git => '',
+            :svn => '',
+          }
+          @subject.strategy_from_options(options).should.be.nil
+        end
+      end
+
       describe '::for_target' do
         it "returns the Git downloader" do
           concrete = @subject.for_target(tmp_folder, :git => 'url')
