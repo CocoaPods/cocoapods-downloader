@@ -1,7 +1,6 @@
 module Pod
   module Downloader
     require 'cocoapods-downloader/gem_version'
-
     require 'cocoapods-downloader/api'
     require 'cocoapods-downloader/api_exposable'
     require 'cocoapods-downloader/base'

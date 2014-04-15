@@ -5,39 +5,47 @@ module Pod
     describe Downloader do
 
       before do
-        tmp_folder.rmtree if tmp_folder.exist?
+        @subject = Downloader
       end
 
-      it "returns the Git downloader" do
-        concrete = Downloader.for_target(tmp_folder, :git => 'url')
-        concrete.class.should == Downloader::Git
+      describe '::downloader_class_by_key' do
+        it 'returns the concrete classes by key' do
+          result = @subject.downloader_class_by_key
+          result[:git].should == @subject::Git
+        end
       end
 
-      it "returns the Mercurial downloader" do
-        concrete = Downloader.for_target(tmp_folder, :hg => 'Mercurial')
-        concrete.class.should == Downloader::Mercurial
-      end
+      describe '::for_target' do
+        it "returns the Git downloader" do
+          concrete = @subject.for_target(tmp_folder, :git => 'url')
+          concrete.class.should == @subject::Git
+        end
 
-      it "returns the Subversion downloader" do
-        concrete = Downloader.for_target(tmp_folder, :svn => 'Subversion')
-        concrete.class.should == Downloader::Subversion
-      end
+        it "returns the Mercurial downloader" do
+          concrete = @subject.for_target(tmp_folder, :hg => 'Mercurial')
+          concrete.class.should == @subject::Mercurial
+        end
 
-      it "returns the Http downloader" do
-        concrete = Downloader.for_target(tmp_folder, :http => 'Http')
-        concrete.class.should == Downloader::Http
-      end
+        it "returns the Subversion downloader" do
+          concrete = @subject.for_target(tmp_folder, :svn => 'Subversion')
+          concrete.class.should == @subject::Subversion
+        end
 
-      it "returns the GitHub downloader" do
-        concrete = Downloader.for_target(tmp_folder, :git => 'www.github.com/path')
-        concrete.class.should == Downloader::GitHub
-      end
+        it "returns the Http downloader" do
+          concrete = @subject.for_target(tmp_folder, :http => 'Http')
+          concrete.class.should == @subject::Http
+        end
 
-      it "returns passes the url to the concrete instance" do
-        concrete = Downloader.for_target(tmp_folder, :git => 'url')
-        concrete.url.should == 'url'
-      end
+        it "returns the GitHub downloader" do
+          concrete = @subject.for_target(tmp_folder, :git => 'www.github.com/path')
+          concrete.class.should == @subject::GitHub
+        end
 
+        it "returns passes the url to the concrete instance" do
+          concrete = @subject.for_target(tmp_folder, :git => 'url')
+          concrete.url.should == 'url'
+        end
+      end
     end
   end
 end
