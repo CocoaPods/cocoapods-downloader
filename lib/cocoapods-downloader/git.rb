@@ -132,7 +132,7 @@ module Pod
           git! "remote add upstream '#{@url}'" # we need to add the original url, not the cache url
           git! "fetch -q upstream" # refresh the branches
           git! "checkout --track -b activated-pod-commit upstream/#{options[:branch]} 2>&1" # create a new tracking branch
-          ui_message("Just downloaded and checked out branch: #{options[:branch]} from upstream #{clone_url}")
+          ui_message("Downloaded and checked out branch: #{options[:branch]} from upstream #{clone_url}")
         end
       end
 
