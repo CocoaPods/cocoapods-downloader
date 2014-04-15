@@ -2,8 +2,23 @@
 
 ## Master
 
-* Added support for `:tag` option in mercurial sources. [Esteban Bouza](https://github.com/estebanbouza) [#16](https://github.com/CocoaPods/cocoapods-downloader/issues/16)
-* Added support for `:branch` option in mercurial sources. [Esteban Bouza](https://github.com/estebanbouza) [#17](https://github.com/CocoaPods/cocoapods-downloader/issues/17)
+## 0.5.0
+
+###### Enhancements
+
+* Added support for `:tag` option in mercurial sources.  
+  [Esteban Bouza](https://github.com/estebanbouza)
+  [#16](https://github.com/CocoaPods/cocoapods-downloader/issues/16)
+
+* Added support for `:branch` option in mercurial sources.  
+  [Esteban Bouza](https://github.com/estebanbouza)
+  [#17](https://github.com/CocoaPods/cocoapods-downloader/issues/17)
+
+###### Bug Fixes
+
+* Support `:http` downloads with `get` parameters.  
+  [Fabio Pelosin](https://github.com/irrationalfab)
+  [#15](https://github.com/CocoaPods/cocoapods-downloader/issues/15)
 
 ## 0.4.1
 
