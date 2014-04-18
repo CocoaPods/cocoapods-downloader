@@ -2,6 +2,10 @@
 
 ## Master
 
+* Force SSLv3 for curl downloads
+  [Jon Shier](https://github.com/jshier)
+  [#19](https://github.com/CocoaPods/cocoapods-downloader/issues/19)
+  
 ## 0.5.0
 
 ###### Enhancements
