@@ -61,6 +61,30 @@ module Pod
         lambda { downloader.download }.should.raise DownloaderError
       end
 
+      it "should verify that the downloaded file matches a sha1 hash" do
+        options = { :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip', :sha1 => 'fb62ffebfaa5b722fc50f09458aacf617a5b0177' }
+        downloader = Downloader.for_target(tmp_folder, options)
+        lambda { downloader.download }.should.not.raise DownloaderError
+      end
+
+      it "should fail if the sha1 hash does not match" do
+        options = { :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip', :sha1 => 'invalid_sha1_hash' }
+        downloader = Downloader.for_target(tmp_folder, options)
+        lambda { downloader.download }.should.raise DownloaderError
+      end
+
+      it "should verify that the downloaded file matches a sha256 hash" do
+        options = { :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip', :sha256 => '400f46f915438a55166f3cea86a81c3bac33e6d76d3bfc403891434bb5518bcc' }
+        downloader = Downloader.for_target(tmp_folder, options)
+        lambda { downloader.download }.should.not.raise DownloaderError
+      end
+
+      it "should fail if the sha256 hash does not match" do
+        options = { :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip', :sha256 => 'invalid_sha256_hash' }
+        downloader = Downloader.for_target(tmp_folder, options)
+        lambda { downloader.download }.should.raise DownloaderError
+      end
+
       #-------------------------------------------------------------------------#
 
       it 'detects zip files' do

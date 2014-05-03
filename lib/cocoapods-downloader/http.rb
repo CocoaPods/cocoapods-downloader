@@ -5,7 +5,7 @@ module Pod
     class Http < Base
 
       def self.options
-        [:type, :flatten]
+        [:type, :flatten, :sha1, :sha256]
       end
 
       class UnsupportedFileTypeError < StandardError; end
@@ -22,6 +22,7 @@ module Pod
         @filename = filename_with_type(type)
         @download_path = (target_path + @filename)
         download_file(@download_path)
+        verify_checksum(@download_path)
         extract_with_type(@download_path, type)
       end
 
@@ -116,6 +117,41 @@ module Pod
         end
       end
 
+      def compare_hash(filename, hasher, hash)
+        incremental_hash = hasher.new
+
+        File.open(filename, 'rb') do |file|
+          buf = ""
+          incremental_hash << buf while file.read(1024, buf)
+        end
+
+        computed_hash = incremental_hash.hexdigest
+
+        if computed_hash != hash
+          raise DownloaderError.new "Verification checksum was incorrect, expected #{hash}, got #{computed_hash}"
+        end
+      end
+
+      # Verify that the downloaded file matches a sha1 hash
+      def verify_sha1_hash(filename, hash)
+        require 'digest/sha1'
+        compare_hash(filename, Digest::SHA1, hash)
+      end
+
+      # Verify that the downloaded file matches a sha256 hash
+      def verify_sha256_hash(filename, hash)
+        require 'digest/sha2'
+        compare_hash(filename, Digest::SHA2, hash)
+      end
+
+      # Verify that the downloaded file matches the a hash if set
+      def verify_checksum(filename)
+        if options[:sha256]
+          verify_sha256_hash(filename, options[:sha256])
+        elsif options[:sha1]
+          verify_sha1_hash(filename, options[:sha1])
+        end
+      end
     end
   end
 end
