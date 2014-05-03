@@ -2,6 +2,13 @@
 
 ## Master
 
+###### Enhancements
+
+* Added support for `:sha1` and `:sha256` options in HTTP sources to verify a
+  files checksum.  
+  [Kyle Fuller](kylef)
+  [CocoaPods#2105](https://github.com/CocoaPods/CocoaPods/issues/2105)
+
 ## 0.5.0
 
 ###### Enhancements
