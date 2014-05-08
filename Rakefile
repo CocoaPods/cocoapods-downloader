@@ -82,4 +82,3 @@ task :print_options do
     puts "#{key}: #{klass.options * ', '}"
   end
 end
-
