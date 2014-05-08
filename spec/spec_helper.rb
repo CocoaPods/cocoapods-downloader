@@ -1,21 +1,24 @@
-# Set up coverage analysis
-#-----------------------------------------------------------------------------#
+
+#-- Set up coverage analysis -------------------------------------------------#
 
 if RUBY_VERSION >= '1.9.3'
   require "codeclimate-test-reporter"
   CodeClimate::TestReporter.start
 end
 
-# Set up
-#-----------------------------------------------------------------------------#
+#-- Requirements -------------------------------------------------------------#
 
 require 'bacon'
 require 'mocha-on-bacon'
-require 'pretty_bacon'
 require 'pathname'
+require 'pretty_bacon'
+require 'vcr'
+require 'webmock'
 
 $:.unshift File.expand_path('../../lib', __FILE__)
 require 'cocoapods-downloader'
+
+#-- Output suppression -------------------------------------------------------#
 
 module Pod
   module Downloader
@@ -36,6 +39,8 @@ module Pod
   end
 end
 
+#-- Helpers ------------------------------------------------------------------#
+
 def tmp_folder(path = '')
   return Pathname.pwd + 'tmp' + path
 end
@@ -48,17 +53,10 @@ def fixture(path)
   return Pathname.pwd + 'spec/fixtures/' + path
 end
 
-
-require 'vcr'
-require 'webmock'
+#-- VCR configuration --------------------------------------------------------#
 
 VCR.configure do |c|
-  # Namespace the fixture by the Ruby version, because different Ruby versions
-  # can lead to different ways the data is interpreted.
-  # TODO is this still needed?
-  # c.cassette_library_dir = (ROOT + "spec/fixtures/vcr/#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}").to_s
-
   c.cassette_library_dir = (Pathname.pwd + "spec/fixtures/vcr").to_s
   c.hook_into :webmock
-  # c.allow_http_connections_when_no_cassette = true
+  config.ignore_hosts 'codeclimate.com'
 end
