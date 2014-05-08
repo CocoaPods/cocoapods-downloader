@@ -21,8 +21,6 @@ PerlBackrefs:
   Enabled: false
 RaiseArgs:
   Enabled: false
-RedundantReturn:
-  Enabled: false
 RegexpLiteral:
   Enabled: false
 SingleLineMethods:
