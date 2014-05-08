@@ -7,8 +7,6 @@ CyclomaticComplexity:
   Max: 9
 Documentation:
   Enabled: false
-EmptyLineBetweenDefs:
-  Enabled: false
 EmptyLines:
   Enabled: false
 EmptyLinesAroundAccessModifier:
