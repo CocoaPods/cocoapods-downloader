@@ -9,7 +9,7 @@ module Pod
             mod = Module.new(&block)
           end
         elsif mod && block
-          raise "Only a module *or* is required, not both."
+          raise 'Only a module *or* is required, not both.'
         end
         include mod
       end

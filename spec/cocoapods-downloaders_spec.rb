@@ -40,32 +40,32 @@ module Pod
       end
 
       describe '::for_target' do
-        it "returns the Git downloader" do
+        it 'returns the Git downloader' do
           concrete = @subject.for_target(tmp_folder, :git => 'url')
           concrete.class.should == @subject::Git
         end
 
-        it "returns the Mercurial downloader" do
+        it 'returns the Mercurial downloader' do
           concrete = @subject.for_target(tmp_folder, :hg => 'Mercurial')
           concrete.class.should == @subject::Mercurial
         end
 
-        it "returns the Subversion downloader" do
+        it 'returns the Subversion downloader' do
           concrete = @subject.for_target(tmp_folder, :svn => 'Subversion')
           concrete.class.should == @subject::Subversion
         end
 
-        it "returns the Http downloader" do
+        it 'returns the Http downloader' do
           concrete = @subject.for_target(tmp_folder, :http => 'Http')
           concrete.class.should == @subject::Http
         end
 
-        it "returns the GitHub downloader" do
+        it 'returns the GitHub downloader' do
           concrete = @subject.for_target(tmp_folder, :git => 'www.github.com/path')
           concrete.class.should == @subject::GitHub
         end
 
-        it "returns passes the url to the concrete instance" do
+        it 'returns passes the url to the concrete instance' do
           concrete = @subject.for_target(tmp_folder, :git => 'url')
           concrete.url.should == 'url'
         end

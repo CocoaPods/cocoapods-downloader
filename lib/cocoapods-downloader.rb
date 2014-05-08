@@ -52,16 +52,16 @@ module Pod
     #
     def self.for_target(target_path, options)
       if target_path.nil?
-        raise DownloaderError, "No target path provided."
+        raise DownloaderError, 'No target path provided.'
       end
 
       if options.nil? || options.empty?
-        raise DownloaderError, "No source URL provided."
+        raise DownloaderError, 'No source URL provided.'
       end
 
       strategy = strategy_from_options(options)
       unless strategy
-        raise DownloaderError, "Unsupported download strategy " \
+        raise DownloaderError, 'Unsupported download strategy ' \
           "`#{options.inspect}`."
       end
 

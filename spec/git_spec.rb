@@ -2,41 +2,41 @@ require File.expand_path('../spec_helper', __FILE__)
 
 module Pod
   module Downloader
-    describe "Git" do
+    describe 'Git' do
 
       before do
         tmp_folder.rmtree if tmp_folder.exist?
       end
 
-      it "checks out a specific commit" do
+      it 'checks out a specific commit' do
         options = { :git => fixture('git-repo'), :commit => '7ad3a6c' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
         tmp_folder('README').read.strip.should == 'first commit'
       end
 
-      it "checks out when the path contains quotes or spaces" do
+      it 'checks out when the path contains quotes or spaces' do
         options = { :git => fixture('git-repo'), :commit => '7ad3a6c' }
         downloader = Downloader.for_target(tmp_folder_with_quotes, options)
         downloader.download
-        tmp_folder_with_quotes("README").read.strip.should == 'first commit'
+        tmp_folder_with_quotes('README').read.strip.should == 'first commit'
       end
 
-      it "checks out a specific branch" do
+      it 'checks out a specific branch' do
         options = { :git => fixture('git-repo'), :branch => 'topic_branch' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
         tmp_folder('README').read.strip.should == 'topic_branch'
       end
 
-      it "checks out a specific tag" do
+      it 'checks out a specific tag' do
         options = { :git => fixture('git-repo'), :tag => 'v1.0' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
         tmp_folder('README').read.strip.should == 'v1.0'
       end
 
-      it "checks out a specific tag using git clone when a cache is available for performance" do
+      it 'checks out a specific tag using git clone when a cache is available for performance' do
         options = { :git => fixture('git-repo'), :tag => 'v1.0' }
         downloader = Downloader.for_target(tmp_folder('destination'), options)
         downloader.cache_root = tmp_folder('cache')
@@ -45,8 +45,8 @@ module Pod
           @spec_commands_log << command
         end
         downloader.download
-        commands = downloader.instance_variable_get("@spec_commands_log").join("\n")
-        commands.should.not.include("init")
+        commands = downloader.instance_variable_get('@spec_commands_log').join("\n")
+        commands.should.not.include('init')
       end
 
       it "doesn't updates submodules by default" do
@@ -57,7 +57,7 @@ module Pod
         tmp_folder('submodule/README').should.not.exist?
       end
 
-      it "initializes submodules when requested" do
+      it 'initializes submodules when requested' do
         FileUtils.rm_rf('/tmp/git-submodule-repo')
         FileUtils.cp_r(fixture('git-submodule-repo'), '/tmp/')
         options = { :git => fixture('git-repo'), :commit => 'd7f4104', :submodules => true }
@@ -70,7 +70,7 @@ module Pod
 
       #--------------------------------------#
 
-      it "prepares the cache if it does not exist" do
+      it 'prepares the cache if it does not exist' do
         options = { :git => fixture('git-repo'), :commit => '7ad3a6c' }
         downloader = Downloader.for_target(tmp_folder('checkout'), options)
         downloader.cache_root = tmp_folder('cache')
@@ -80,7 +80,7 @@ module Pod
         downloader.download
       end
 
-      it "prepares the cache if it does not exist when the HEAD is requested explicitly" do
+      it 'prepares the cache if it does not exist when the HEAD is requested explicitly' do
         options = { :git => fixture('git-repo') }
         downloader = Downloader.for_target(tmp_folder('checkout'), options)
         downloader.cache_root = tmp_folder('cache')
@@ -92,7 +92,7 @@ module Pod
 
       # TODO move to base
       #
-      it "removes the oldest repo if the caches is too big" do
+      it 'removes the oldest repo if the caches is too big' do
         options = { :git => fixture('git-repo'), :commit => '7ad3a6c' }
         downloader = Downloader.for_target(tmp_folder('checkout'), options)
         downloader.cache_root = tmp_folder('cache')
@@ -101,7 +101,7 @@ module Pod
         downloader.cache_path.should.not.exist?
       end
 
-      it "returns whether the provided options are specific" do
+      it 'returns whether the provided options are specific' do
         Downloader.for_target('path', :git => 'url').options_specific?.should.be.false
         Downloader.for_target('path', :git => 'url', :branch => '').options_specific?.should.be.false
         Downloader.for_target('path', :git => 'url', :submodules => '').options_specific?.should.be.false
@@ -110,13 +110,13 @@ module Pod
         Downloader.for_target('path', :git => 'url', :tag => '').options_specific?.should.be.true
       end
 
-      it "returns the checked out revision" do
+      it 'returns the checked out revision' do
         options = { :git => fixture('git-repo') }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
         downloader.checkout_options.should == {
           :git => fixture('git-repo'),
-          :commit => "d7f410490dabf7a6bde665ba22da102c3acf1bd9"
+          :commit => 'd7f410490dabf7a6bde665ba22da102c3acf1bd9'
         }
       end
 
@@ -148,14 +148,14 @@ module Pod
 
       #--------------------------------------#
 
-      it "returns the cache directory as the clone url" do
+      it 'returns the cache directory as the clone url' do
         options = { :git => fixture('git-repo'), :commit => '7ad3a6c' }
         downloader = Downloader.for_target(tmp_folder('checkout'), options)
         downloader.cache_root = tmp_folder('cache')
         downloader.send(:clone_url).to_s.should.match /tmp\/cache\/Git/
       end
 
-      it "updates the cache if the HEAD is requested" do
+      it 'updates the cache if the HEAD is requested' do
         options = { :git => fixture('git-repo') }
         downloader = Downloader.for_target(tmp_folder('checkout'), options)
         downloader.cache_root = tmp_folder('cache')
@@ -163,7 +163,7 @@ module Pod
         downloader.download
       end
 
-      it "updates the cache if the ref is not available" do
+      it 'updates the cache if the ref is not available' do
         # create the origin repo and the cache
         tmp_repo_path = tmp_folder + 'git-repo-source'
         `git clone #{fixture('git-repo').shellescape} #{tmp_repo_path.shellescape}`
@@ -197,7 +197,7 @@ module Pod
         downloader.download
       end
 
-      it "update the cache if the tag is available by default" do
+      it 'update the cache if the tag is available by default' do
         options = { :git => fixture('git-repo'), :tag => 'v1.0' }
         downloader = Downloader.for_target(tmp_folder('checkout'), options)
         downloader.cache_root = tmp_folder('cache')
@@ -218,7 +218,7 @@ module Pod
         downloader.download
       end
 
-      it "always updates the cache if a branch requested" do
+      it 'always updates the cache if a branch requested' do
         options = { :git => fixture('git-repo'), :branch => 'master' }
         downloader = Downloader.for_target(tmp_folder('checkout'), options)
         downloader.cache_root = tmp_folder('cache')
@@ -232,35 +232,35 @@ module Pod
 
     #---------------------------------------------------------------------------#
 
-    describe "for GitHub repositories, with :download_only set to true" do
+    describe 'for GitHub repositories, with :download_only set to true' do
 
       before do
         tmp_folder.rmtree if tmp_folder.exist?
       end
 
-      it "downloads HEAD with no other options specified" do
-        options = { :git => "git://github.com/lukeredpath/libPusher.git", :download_only => true }
+      it 'downloads HEAD with no other options specified' do
+        options = { :git => 'git://github.com/lukeredpath/libPusher.git', :download_only => true }
         downloader = Downloader.for_target(tmp_folder, options)
         VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
         tmp_folder('README.md').readlines[0].should =~ /libPusher/
       end
 
-      it "downloads a specific tag when specified" do
-        options = { :git => "git://github.com/lukeredpath/libPusher.git", :tag => 'v1.1', :download_only => true }
+      it 'downloads a specific tag when specified' do
+        options = { :git => 'git://github.com/lukeredpath/libPusher.git', :tag => 'v1.1', :download_only => true }
         downloader = Downloader.for_target(tmp_folder, options)
         VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
         tmp_folder('libPusher.podspec').readlines.grep(/1.1/).should.not.be.empty
       end
 
-      it "downloads a specific branch when specified" do
-        options = { :git => "git://github.com/lukeredpath/libPusher.git", :branch => 'gh-pages', :download_only => true }
+      it 'downloads a specific branch when specified' do
+        options = { :git => 'git://github.com/lukeredpath/libPusher.git', :branch => 'gh-pages', :download_only => true }
         downloader = Downloader.for_target(tmp_folder, options)
         VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
         tmp_folder('index.html').readlines.grep(/libPusher Documentation/).should.not.be.empty
       end
 
-      it "downloads a specific commit when specified" do
-        options = { :git => "git://github.com/lukeredpath/libPusher.git", :commit => 'eca89998d5', :download_only => true }
+      it 'downloads a specific commit when specified' do
+        options = { :git => 'git://github.com/lukeredpath/libPusher.git', :commit => 'eca89998d5', :download_only => true }
         downloader = Downloader.for_target(tmp_folder, options)
         VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
         tmp_folder('README.md').readlines[0].should =~ /PusherTouch/
@@ -269,27 +269,27 @@ module Pod
       #--------------------------------------@
 
       it 'can convert public HTTP repository URLs to the tarball URL' do
-        options = { :git => "https://github.com/CocoaPods/CocoaPods.git" }
+        options = { :git => 'https://github.com/CocoaPods/CocoaPods.git' }
         downloader = Downloader.for_target(tmp_folder, options)
-        downloader.tarball_url_for('master').should == "https://github.com/CocoaPods/CocoaPods/tarball/master"
+        downloader.tarball_url_for('master').should == 'https://github.com/CocoaPods/CocoaPods/tarball/master'
       end
 
       it 'can convert private HTTP repository URLs to the tarball URL' do
-        options = { :git => "https://lukeredpath@github.com/CocoaPods/CocoaPods.git" }
+        options = { :git => 'https://lukeredpath@github.com/CocoaPods/CocoaPods.git' }
         downloader = Downloader.for_target(tmp_folder, options)
-        downloader.tarball_url_for('master').should == "https://github.com/CocoaPods/CocoaPods/tarball/master"
+        downloader.tarball_url_for('master').should == 'https://github.com/CocoaPods/CocoaPods/tarball/master'
       end
 
       it 'can convert private SSH repository URLs to the tarball URL' do
-        options = { :git => "git@github.com:CocoaPods/CocoaPods.git" }
+        options = { :git => 'git@github.com:CocoaPods/CocoaPods.git' }
         downloader = Downloader.for_target(tmp_folder, options)
-        downloader.tarball_url_for('master').should == "https://github.com/CocoaPods/CocoaPods/tarball/master"
+        downloader.tarball_url_for('master').should == 'https://github.com/CocoaPods/CocoaPods/tarball/master'
       end
 
       it 'can convert public git protocol repository URLs to the tarball URL' do
-        options = { :git => "git://github.com/CocoaPods/CocoaPods.git" }
+        options = { :git => 'git://github.com/CocoaPods/CocoaPods.git' }
         downloader = Downloader.for_target(tmp_folder, options)
-        downloader.tarball_url_for('master').should == "https://github.com/CocoaPods/CocoaPods/tarball/master"
+        downloader.tarball_url_for('master').should == 'https://github.com/CocoaPods/CocoaPods/tarball/master'
       end
     end
   end

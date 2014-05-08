@@ -1,13 +1,13 @@
-require "bundler/gem_tasks"
+require 'bundler/gem_tasks'
 
 task :default => :spec
 
 # Bootstrap
 #-----------------------------------------------------------------------------#
 
-desc "Initializes your working copy to run the specs"
+desc 'Initializes your working copy to run the specs'
 task :bootstrap do
-  puts "Installing gems"
+  puts 'Installing gems'
   `bundle install`
 end
 
@@ -16,7 +16,7 @@ end
 
 desc 'Run specs'
 task :spec => 'fixtures:unpack_fixture_tarballs' do
-  files = FileList["spec/**/*_spec.rb"].shuffle.join(' ')
+  files = FileList['spec/**/*_spec.rb'].shuffle.join(' ')
   ENV['GENERATE_COVERAGE'] = 'true'
   sh "bacon #{files}"
 end
@@ -25,7 +25,7 @@ end
 #-----------------------------------------------------------------------------#
 
 namespace :fixtures do
-  desc "Rebuild all the fixture tarballs"
+  desc 'Rebuild all the fixture tarballs'
   task :rebuild_fixture_tarballs do
     tarballs = FileList['spec/fixtures/**/*.tar.gz']
     tarballs.each do |tarball|
@@ -34,7 +34,7 @@ namespace :fixtures do
     end
   end
 
-  desc "Unpacks all the fixture tarballs"
+  desc 'Unpacks all the fixture tarballs'
   task :unpack_fixture_tarballs do
     tarballs = FileList['spec/fixtures/**/*.tar.gz']
     tarballs.each do |tarball|
@@ -45,9 +45,9 @@ namespace :fixtures do
     end
   end
 
-  desc "Removes the stored VCR fixture"
+  desc 'Removes the stored VCR fixture'
   task :clean_vcr do
-    sh "rm -f spec/fixtures/vcr/tarballs.yml"
+    sh 'rm -f spec/fixtures/vcr/tarballs.yml'
   end
 end
 
@@ -56,7 +56,7 @@ end
 
 namespace :travis do
   task :setup do
-    sh "sudo apt-get install subversion"
+    sh 'sudo apt-get install subversion'
     sh "env CFLAGS='-I#{rvm_ruby_dir}/include' bundle install --without debugging documentation"
     if ENV['TRAVIS']
       sh "git config --global user.name  'CI'"

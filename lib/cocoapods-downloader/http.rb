@@ -69,15 +69,15 @@ module Pod
       def filename_with_type(type = :zip)
         case type
         when :zip
-          "file.zip"
+          'file.zip'
         when :tgz
-          "file.tgz"
+          'file.tgz'
         when :tar
-          "file.tar"
+          'file.tar'
         when :tbz
-          "file.tbz"
+          'file.tbz'
         when :txz
-          "file.txz"
+          'file.txz'
         else
           raise UnsupportedFileTypeError.new "Unsupported file type: #{type}"
         end
@@ -120,7 +120,7 @@ module Pod
         incremental_hash = hasher.new
 
         File.open(filename, 'rb') do |file|
-          buf = ""
+          buf = ''
           incremental_hash << buf while file.read(1024, buf)
         end
 

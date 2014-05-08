@@ -61,7 +61,7 @@ end
 #-- VCR configuration --------------------------------------------------------#
 
 VCR.configure do |c|
-  c.cassette_library_dir = (Pathname.pwd + "spec/fixtures/vcr").to_s
+  c.cassette_library_dir = (Pathname.pwd + 'spec/fixtures/vcr').to_s
   c.hook_into :webmock
   c.ignore_hosts 'codeclimate.com'
 end

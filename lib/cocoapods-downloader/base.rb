@@ -1,4 +1,4 @@
-require "shellwords"
+require 'shellwords'
 
 class Pathname
   # @return [String] a version of the path that is escaped to be safe to use in
@@ -123,7 +123,7 @@ module Pod
             download_head!
           else
             raise DownloaderError, "The `#{name}` downloader does not support " \
-            "the HEAD option."
+            'the HEAD option.'
           end
         end
       end
@@ -139,7 +139,7 @@ module Pod
       #         re-download the exact files.
       #
       def checkout_options
-        raise "Abstract method"
+        raise 'Abstract method'
       end
 
       #-----------------------------------------------------------------------#
@@ -228,7 +228,7 @@ module Pod
           execute_command(name.to_s, command, false)
         end
 
-        define_method(name.to_s + "!") do |command|
+        define_method(name.to_s + '!') do |command|
           execute_command(name.to_s, command, true)
         end
       end

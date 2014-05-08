@@ -36,19 +36,19 @@ module Pod
         tmp_folder('README').read.strip.should == 'Fourth Commit'
       end
 
-      describe "when the directory name has quotes or spaces" do
+      describe 'when the directory name has quotes or spaces' do
         it 'checks out the head revision' do
           options = { :bzr => fixture('bazaar-repo') }
           downloader = Downloader.for_target(tmp_folder_with_quotes, options)
           downloader.download
-          tmp_folder_with_quotes("README").read.strip.should == 'Fourth Commit'
+          tmp_folder_with_quotes('README').read.strip.should == 'Fourth Commit'
         end
 
         it 'checks out a specific revision into a directory with quotes' do
           options = { :bzr => fixture('bazaar-repo'), :revision => '1' }
           downloader = Downloader.for_target(tmp_folder_with_quotes, options)
           downloader.download
-          tmp_folder_with_quotes("README").read.strip.should == 'First Commit'
+          tmp_folder_with_quotes('README').read.strip.should == 'First Commit'
         end
       end
 

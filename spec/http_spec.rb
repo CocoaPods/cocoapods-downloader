@@ -2,13 +2,13 @@ require File.expand_path('../spec_helper', __FILE__)
 
 module Pod
   module Downloader
-    describe "HTTP" do
+    describe 'HTTP' do
 
       before do
         tmp_folder.rmtree if tmp_folder.exist?
       end
 
-      it "download file and unzip it" do
+      it 'download file and unzip it' do
         options = { :http => 'http://dl.google.com/googleadmobadssdk/googleadmobsearchadssdkios.zip' }
         downloader = Downloader.for_target(tmp_folder, options)
         VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
@@ -20,8 +20,8 @@ module Pod
         options = { :http => 'http://dl.google.com/googleadmobadssdk/googleadmobsearchadssdkios.zip' }
         downloader = Downloader.for_target(tmp_folder_with_quotes, options)
         VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
-        tmp_folder_with_quotes("GoogleAdMobSearchAdsSDK/GADSearchRequest.h").should.exist
-        tmp_folder_with_quotes("GoogleAdMobSearchAdsSDK/GADSearchRequest.h").read.strip.should =~ /Google Search Ads iOS SDK/
+        tmp_folder_with_quotes('GoogleAdMobSearchAdsSDK/GADSearchRequest.h').should.exist
+        tmp_folder_with_quotes('GoogleAdMobSearchAdsSDK/GADSearchRequest.h').read.strip.should =~ /Google Search Ads iOS SDK/
       end
 
       it 'should flatten zip archives, when the spec explicitly demands it' do
@@ -46,7 +46,7 @@ module Pod
         Dir.glob(downloader.target_path + '*').count.should == 49 + 1 + 1
       end
 
-      it "does not move unpacked contents to parent dir when archive contains multiple children" do
+      it 'does not move unpacked contents to parent dir when archive contains multiple children' do
         downloader = Downloader.for_target(tmp_folder,
                                            :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip'
         )
@@ -55,31 +55,31 @@ module Pod
         Dir.glob(downloader.target_path + '*').count.should == 4 + 1
       end
 
-      it "raises if it fails to download" do
+      it 'raises if it fails to download' do
         options = { :http => 'broken-link.zip'  }
         downloader = Downloader.for_target(tmp_folder, options)
         lambda { downloader.download }.should.raise DownloaderError
       end
 
-      it "should verify that the downloaded file matches a sha1 hash" do
+      it 'should verify that the downloaded file matches a sha1 hash' do
         options = { :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip', :sha1 => 'fb62ffebfaa5b722fc50f09458aacf617a5b0177' }
         downloader = Downloader.for_target(tmp_folder, options)
         lambda { downloader.download }.should.not.raise DownloaderError
       end
 
-      it "should fail if the sha1 hash does not match" do
+      it 'should fail if the sha1 hash does not match' do
         options = { :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip', :sha1 => 'invalid_sha1_hash' }
         downloader = Downloader.for_target(tmp_folder, options)
         lambda { downloader.download }.should.raise DownloaderError
       end
 
-      it "should verify that the downloaded file matches a sha256 hash" do
+      it 'should verify that the downloaded file matches a sha256 hash' do
         options = { :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip', :sha256 => '400f46f915438a55166f3cea86a81c3bac33e6d76d3bfc403891434bb5518bcc' }
         downloader = Downloader.for_target(tmp_folder, options)
         lambda { downloader.download }.should.not.raise DownloaderError
       end
 
-      it "should fail if the sha256 hash does not match" do
+      it 'should fail if the sha256 hash does not match' do
         options = { :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip', :sha256 => 'invalid_sha256_hash' }
         downloader = Downloader.for_target(tmp_folder, options)
         lambda { downloader.download }.should.raise DownloaderError

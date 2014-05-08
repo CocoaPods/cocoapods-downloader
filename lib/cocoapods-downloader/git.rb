@@ -36,7 +36,7 @@ module Pod
         else
           download_head!
         end
-        Dir.chdir(target_path) { git! "submodule update --init"  } if options[:submodules]
+        Dir.chdir(target_path) { git! 'submodule update --init'  } if options[:submodules]
       end
 
       # @return [void] Checkouts the HEAD of the git source in the destination
@@ -45,7 +45,7 @@ module Pod
       def download_head!
         update_cache if use_cache?
         clone(clone_url, target_path)
-        Dir.chdir(target_path) { git! "submodule update --init"  } if options[:submodules]
+        Dir.chdir(target_path) { git! 'submodule update --init'  } if options[:submodules]
       end
 
       #--------------------------------------#
@@ -61,7 +61,7 @@ module Pod
       # @return [void] Convenience method to perform clones operations.
       #
       def clone(from, to, flags = '')
-        ui_sub_action("Cloning to Pods folder") do
+        ui_sub_action('Cloning to Pods folder') do
           command = %Q(clone #{from.shellescape} #{to.shellescape})
           command << ' ' + flags if flags
           git!(command)
@@ -93,13 +93,13 @@ module Pod
           if use_cache?
             clone(clone_url, target_path)
           else
-            git! "init"
+            git! 'init'
             git! "remote add origin '#{clone_url}'"
           end
 
           git! "fetch origin tags/#{options[:tag]} 2>&1"
-          git! "reset --hard FETCH_HEAD"
-          git! "checkout -b activated-pod-commit 2>&1"
+          git! 'reset --hard FETCH_HEAD'
+          git! 'checkout -b activated-pod-commit 2>&1'
         end
       end
 
@@ -128,7 +128,7 @@ module Pod
         clone(clone_url, target_path)
         Dir.chdir(target_path) do
           git! "remote add upstream '#{@url}'" # we need to add the original url, not the cache url
-          git! "fetch -q upstream" # refresh the branches
+          git! 'fetch -q upstream' # refresh the branches
           git! "checkout --track -b activated-pod-commit upstream/#{options[:branch]} 2>&1" # create a new tracking branch
           ui_message("Downloaded and checked out branch: #{options[:branch]} from upstream #{clone_url}")
         end
@@ -192,7 +192,7 @@ module Pod
       def cache_exist?
         cache_path.exist? &&
           cache_origin_url(cache_path).to_s == url.to_s &&
-          Dir.chdir(cache_path) { git("config core.bare").chomp == "true" }
+          Dir.chdir(cache_path) { git('config core.bare').chomp == 'true' }
       end
 
       # @return [String] The origin URL of the cache with the given directory.
@@ -220,7 +220,7 @@ module Pod
       def update_cache
         if cache_exist?
           ui_sub_action("Updating cache git repo (#{cache_path})") do
-            Dir.chdir(cache_path) { git! "remote update" }
+            Dir.chdir(cache_path) { git! 'remote update' }
           end
         else
           create_cache
@@ -257,7 +257,7 @@ module Pod
       end
 
       def tmp_path
-        target_path + "tarball.tar.gz"
+        target_path + 'tarball.tar.gz'
       end
 
       private
@@ -267,7 +267,7 @@ module Pod
       end
 
       def download_and_extract_tarball(id)
-        File.open(tmp_path, "w+") do |tmpfile|
+        File.open(tmp_path, 'w+') do |tmpfile|
           open tarball_url_for(id) do |archive|
             tmpfile.write Zlib::GzipReader.new(archive).read
           end
