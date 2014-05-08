@@ -4,6 +4,11 @@
 
 ###### Enhancements
 
+* Added support for `:checkout` option in SVN sources.  
+  [Marc C.](https://github.com/yalp)
+  [Fabio Pelosin](https://github.com/irrationalfab)
+  [#7](https://github.com/CocoaPods/cocoapods-downloader/pull/7)
+
 * Added support for `:sha1` and `:sha256` options in HTTP sources to verify a
   files checksum.  
   [Kyle Fuller](kylef)

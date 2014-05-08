@@ -13,6 +13,7 @@ module Pod
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
         tmp_folder('README').read.strip.should == 'first commit'
+        tmp_folder('.svn').should.not.exist
       end
 
       it "checks out a specific tag" do
@@ -85,6 +86,18 @@ module Pod
         downloader.download
         tmp_folder('trunk/README.txt').should.exist?
         tmp_folder('external/README').should.not.exist?
+      end
+
+      it "checks out a specific revision" do
+        options = {
+          :svn => "file://#{fixture('subversion-repo')}",
+          :revision => '1',
+          :checkout => true
+        }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.download
+        tmp_folder('README').read.strip.should == 'first commit'
+        tmp_folder('.svn').should.exist
       end
     end
   end
