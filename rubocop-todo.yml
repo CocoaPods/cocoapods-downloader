@@ -23,8 +23,6 @@ RaiseArgs:
   Enabled: false
 RegexpLiteral:
   Enabled: false
-SpaceAroundEqualsInParameterDefault:
-  Enabled: false
 SpaceInsideHashLiteralBraces:
   Enabled: false
 SpecialGlobalVars:

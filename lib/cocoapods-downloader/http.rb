@@ -66,7 +66,7 @@ module Pod
         end
       end
 
-      def filename_with_type(type=:zip)
+      def filename_with_type(type = :zip)
         case type
         when :zip
           "file.zip"
@@ -87,7 +87,7 @@ module Pod
         curl! %(-L -o #{full_filename.shellescape} "#{url}" --create-dirs)
       end
 
-      def extract_with_type(full_filename, type=:zip)
+      def extract_with_type(full_filename, type = :zip)
         unpack_from = full_filename.shellescape
         unpack_to = @target_path.shellescape
         case type
