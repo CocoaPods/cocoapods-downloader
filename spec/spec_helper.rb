@@ -1,18 +1,9 @@
 # Set up coverage analysis
 #-----------------------------------------------------------------------------#
 
-if ENV['CI'] || ENV['GENERATE_COVERAGE']
-  require 'simplecov'
-  require 'coveralls'
-
-  if ENV['CI']
-    SimpleCov.formatter = Coveralls::SimpleCov::Formatter
-  elsif ENV['GENERATE_COVERAGE']
-    SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
-  end
-  SimpleCov.start do
-    add_filter "/spec_helper/"
-  end
+if RUBY_VERSION >= '1.9.3'
+  require "codeclimate-test-reporter"
+  CodeClimate::TestReporter.start
 end
 
 # Set up

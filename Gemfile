@@ -11,6 +11,7 @@ group :development do
   gem 'webmock', '< 1.9'
   gem 'kicker'
   gem 'prettybacon'
+  gem "codeclimate-test-reporter", :require => nil
 end
 
 group :docs do
