@@ -12,4 +12,5 @@ group :development do
   gem 'rake'
   gem 'vcr'
   gem 'webmock', '< 1.9'
+  gem 'rubocop'
 end
