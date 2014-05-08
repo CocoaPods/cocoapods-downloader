@@ -3,7 +3,6 @@ require 'zlib'
 module Pod
   module Downloader
     class Http < Base
-
       def self.options
         [:type, :flatten, :sha1, :sha256]
       end

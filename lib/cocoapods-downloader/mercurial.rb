@@ -1,7 +1,6 @@
 module Pod
   module Downloader
     class Mercurial < Base
-
       def self.options
         [:revision, :tag, :branch]
       end

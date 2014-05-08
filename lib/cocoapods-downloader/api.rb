@@ -1,11 +1,9 @@
 module Pod
   module Downloader
-
     # The Downloader::Hooks module allows to adapt the Downloader to
     # the UI of other gems.
     #
     module API
-
       # Executes
       # @return [String] the output of the command.
       #

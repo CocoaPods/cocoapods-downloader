@@ -1,11 +1,9 @@
 module Pod
   module Downloader
-
     # Concreted Downloader class that provides support for specifications with
     # git sources.
     #
     class Git < Base
-
       def self.options
         [:commit, :tag, :branch, :submodules]
       end
@@ -235,7 +233,6 @@ module Pod
     # Allows to download tarballs from GitHub.
     #
     class GitHub < Git
-
       require 'open-uri'
 
       def download_head!

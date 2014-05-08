@@ -1,7 +1,6 @@
 module Pod
   module Downloader
     class Bazaar < Base
-
       def self.options
         [:revision, :tag]
       end
@@ -56,7 +55,6 @@ module Pod
       end
 
       #-----------------------------------------------------------------------#
-
     end
   end
 end

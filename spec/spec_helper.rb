@@ -23,7 +23,6 @@ require 'cocoapods-downloader'
 module Pod
   module Downloader
     class Base
-
       # Override hook to suppress executables output.
       #
       def execute_command(executable, command, raise_on_failure = false)

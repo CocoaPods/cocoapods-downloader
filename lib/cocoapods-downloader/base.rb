@@ -10,7 +10,6 @@ end
 
 module Pod
   module Downloader
-
     # The base class defines the common behaviour of the downloaders.
     #
     # @abstract Subclass and implement {#download}.
@@ -18,7 +17,6 @@ module Pod
     # @private
     #
     class Base
-
       extend APIExposable
       expose_api API
 

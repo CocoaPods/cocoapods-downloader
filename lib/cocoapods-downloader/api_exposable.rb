@@ -1,7 +1,6 @@
 module Pod
   module Downloader
     module APIExposable
-
       def expose_api(mod = nil, &block)
         if mod.nil?
           if block.nil?

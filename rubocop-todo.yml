@@ -9,8 +9,6 @@ Documentation:
   Enabled: false
 EmptyLinesAroundAccessModifier:
   Enabled: false
-EmptyLinesAroundBody:
-  Enabled: false
 FileName:
   Enabled: false
 IndentationConsistency:

@@ -1,7 +1,6 @@
 module Pod
   module Downloader
     class Subversion < Base
-
       def self.options
         [:revision, :tag, :folder, :externals, :checkout]
       end
