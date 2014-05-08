@@ -1,10 +1,10 @@
 
 #-- Set up coverage analysis -------------------------------------------------#
 
-if RUBY_VERSION >= '1.9.3'
-  require "codeclimate-test-reporter"
-  CodeClimate::TestReporter.start
-end
+# if RUBY_VERSION >= '1.9.3'
+#   require "codeclimate-test-reporter"
+#   CodeClimate::TestReporter.start
+# end
 
 #-- Requirements -------------------------------------------------------------#
 
