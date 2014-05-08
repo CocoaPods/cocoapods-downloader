@@ -1,6 +1,4 @@
 ---
-AlignParameters:
-  Enabled: false
 ClassLength:
   Max: 128
 CommentAnnotation:
