@@ -41,7 +41,7 @@ module Pod
       def download_revision!
         hg! %(clone "#{url}" --rev '#{options[:revision]}' #{@target_path.shellescape})
       end
-      
+
       def download_tag!
         hg! %(clone "#{url}" --updaterev '#{options[:tag]}' #{@target_path.shellescape})
       end

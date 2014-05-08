@@ -27,8 +27,6 @@ SpecialGlobalVars:
   Enabled: false
 TrailingComma:
   Enabled: false
-TrailingWhitespace:
-  Enabled: false
 UnusedMethodArgument:
   Enabled: false
 UselessAccessModifier:
