@@ -3,7 +3,7 @@ module Pod
     class Subversion < Base
 
       def self.options
-        [:revision, :tag, :folder, :externals]
+        [:revision, :tag, :folder, :externals, :checkout]
       end
 
       def options_specific?
@@ -23,13 +23,18 @@ module Pod
       executable :svn
 
       def download!
-        output = svn!(%|#{export_subcommand} "#{reference_url}" #{@target_path.shellescape}|)
-          store_exported_revision(output)
+        if options[:checkout]
+          subcommand = checkout_subcommand
+        else
+          subcommand = export_subcommand
+        end
+        output = svn!(%|#{subcommand} "#{reference_url}" "#{@target_path.shellescape}"|)
+        store_exported_revision(output)
       end
 
       def download_head!
         output = svn!(%|#{export_subcommand} "#{trunk_url}" #{@target_path.shellescape}|)
-          store_exported_revision(output)
+        store_exported_revision(output)
       end
 
       def store_exported_revision(output)
@@ -41,6 +46,10 @@ module Pod
         result = 'export --non-interactive --trust-server-cert --force'
         result << ' --ignore-externals' if options[:externals] == false
         result
+      end
+
+      def checkout_subcommand
+        result = 'checkout --non-interactive --trust-server-cert --force'
       end
 
       def reference_url
