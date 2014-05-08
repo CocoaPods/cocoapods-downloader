@@ -88,12 +88,12 @@ module Pod
 
       it "checks out a specific branch head" do
         options = { :hg => fixture('mercurial-repo'), :branch => 'feature/feature-branch'}
-          downloader = Downloader.for_target(tmp_folder, options)
-          downloader.download
-          downloader.checkout_options.should == {
-            :hg => fixture('mercurial-repo'),
-            :revision => '61118fa8988c2b2eae826f48abd1e3340dae0c6b'
-          }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.download
+        downloader.checkout_options.should == {
+          :hg => fixture('mercurial-repo'),
+          :revision => '61118fa8988c2b2eae826f48abd1e3340dae0c6b'
+        }
       end
 
     end

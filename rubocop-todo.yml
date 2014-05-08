@@ -11,8 +11,6 @@ EmptyLinesAroundAccessModifier:
   Enabled: false
 FileName:
   Enabled: false
-IndentationConsistency:
-  Enabled: false
 IndentationWidth:
   Enabled: false
 LineLength:
