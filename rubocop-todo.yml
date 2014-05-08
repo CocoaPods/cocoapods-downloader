@@ -17,8 +17,6 @@ MethodLength:
   Max: 24
 NonNilCheck:
   Enabled: false
-PercentLiteralDelimiters:
-  Enabled: false
 PerlBackrefs:
   Enabled: false
 RaiseArgs:

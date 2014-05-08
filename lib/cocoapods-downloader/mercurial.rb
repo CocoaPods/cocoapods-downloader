@@ -35,19 +35,19 @@ module Pod
       end
 
       def download_head!
-        hg! %|clone #{url} #{@target_path.shellescape}|
+        hg! %(clone #{url} #{@target_path.shellescape})
       end
 
       def download_revision!
-        hg! %|clone "#{url}" --rev '#{options[:revision]}' #{@target_path.shellescape}|
+        hg! %(clone "#{url}" --rev '#{options[:revision]}' #{@target_path.shellescape})
       end
       
       def download_tag!
-        hg! %|clone "#{url}" --updaterev '#{options[:tag]}' #{@target_path.shellescape}|
+        hg! %(clone "#{url}" --updaterev '#{options[:tag]}' #{@target_path.shellescape})
       end
 
       def download_branch!
-        hg! %|clone "#{url}" --updaterev '#{options[:branch]}' #{@target_path.shellescape}|
+        hg! %(clone "#{url}" --updaterev '#{options[:branch]}' #{@target_path.shellescape})
       end
     end
   end

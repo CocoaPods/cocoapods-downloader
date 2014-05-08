@@ -22,12 +22,12 @@ module Pod
       executable :svn
 
       def download!
-        output = svn!(%|#{subcommand} "#{reference_url}" #{@target_path.shellescape}|)
+        output = svn!(%(#{subcommand} "#{reference_url}" #{@target_path.shellescape}))
         store_exported_revision(output)
       end
 
       def download_head!
-        output = svn!(%|#{subcommand} "#{trunk_url}" #{@target_path.shellescape}|)
+        output = svn!(%(#{subcommand} "#{trunk_url}" #{@target_path.shellescape}))
         store_exported_revision(output)
       end
 
