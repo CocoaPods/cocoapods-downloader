@@ -92,7 +92,7 @@ module Pod
       #         remote. Defaults to `false`.
       #
       attr_accessor :aggressive_cache
-      alias_method  :aggressive_cache?, :aggressive_cache
+      alias_method :aggressive_cache?, :aggressive_cache
 
       #-----------------------------------------------------------------------#
 
