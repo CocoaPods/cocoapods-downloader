@@ -54,7 +54,6 @@ GEM
     webmock (1.8.11)
       addressable (>= 2.2.7)
       crack (>= 0.1.7)
-    yard (0.8.7.4)
 
 PLATFORMS
   ruby
@@ -67,7 +66,6 @@ DEPENDENCIES
   mime-types (< 2.0)
   mocha-on-bacon
   prettybacon
-  rake (~> 10.1.1)
+  rake
   vcr
   webmock (< 1.9)
-  yard
