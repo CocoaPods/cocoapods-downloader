@@ -5,8 +5,6 @@ CommentAnnotation:
   Enabled: false
 CyclomaticComplexity:
   Max: 9
-DeprecatedHashMethods:
-  Enabled: false
 Documentation:
   Enabled: false
 EmptyLineBetweenDefs:

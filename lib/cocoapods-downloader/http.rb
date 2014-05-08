@@ -42,7 +42,7 @@ module Pod
       #         only one folder.
       #
       def should_flatten?
-        if options.has_key?(:flatten)
+        if options.key?(:flatten)
           true
         elsif [:tgz, :tar, :tbz, :txz].include?(type)
           true # those archives flatten by default
