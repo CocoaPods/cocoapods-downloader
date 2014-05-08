@@ -13,8 +13,6 @@ FileName:
   Enabled: false
 LineLength:
   Max: 178
-MethodCallParentheses:
-  Enabled: false
 MethodLength:
   Max: 24
 NonNilCheck:

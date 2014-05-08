@@ -126,8 +126,8 @@ module Pod
       it 'should download file and extract it with proper type' do
         options = { :http => 'https://file.zip' }
         downloader = Downloader.for_target(tmp_folder, options)
-        downloader.expects(:download_file).with(anything())
-        downloader.expects(:extract_with_type).with(anything(), :zip).at_least_once
+        downloader.expects(:download_file).with(anything)
+        downloader.expects(:extract_with_type).with(anything, :zip).at_least_once
         downloader.download
       end
 
