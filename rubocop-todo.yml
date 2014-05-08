@@ -11,8 +11,6 @@ EmptyLinesAroundAccessModifier:
   Enabled: false
 FileName:
   Enabled: false
-IndentationWidth:
-  Enabled: false
 LineLength:
   Max: 178
 MethodCallParentheses:

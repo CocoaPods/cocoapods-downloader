@@ -77,13 +77,13 @@ module Pod
       end
 
       it "checks out a specific tag" do
-          options = { :hg => fixture('mercurial-repo'), :tag => '1.0.0'}
-          downloader = Downloader.for_target(tmp_folder, options)
-          downloader.download
-          downloader.checkout_options.should == {
-            :hg => fixture('mercurial-repo'),
-            :revision => '3c8b8d211b03c7e686049a8558e4c297104291eb'
-          }
+        options = { :hg => fixture('mercurial-repo'), :tag => '1.0.0'}
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.download
+        downloader.checkout_options.should == {
+          :hg => fixture('mercurial-repo'),
+          :revision => '3c8b8d211b03c7e686049a8558e4c297104291eb'
+        }
       end
 
       it "checks out a specific branch head" do

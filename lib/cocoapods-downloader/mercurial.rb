@@ -47,7 +47,7 @@ module Pod
       end
 
       def download_branch!
-          hg! %|clone "#{url}" --updaterev '#{options[:branch]}' #{@target_path.shellescape}|
+        hg! %|clone "#{url}" --updaterev '#{options[:branch]}' #{@target_path.shellescape}|
       end
     end
   end

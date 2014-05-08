@@ -171,7 +171,7 @@ module Pod
       # @return [Bool] Whether the downloader should use the cache.
       #
       def use_cache?
-         !cache_root.nil? && !@options[:download_only]
+        !cache_root.nil? && !@options[:download_only]
       end
 
       # The default maximum allowed size for the cache expressed in Mb.
