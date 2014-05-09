@@ -90,7 +90,7 @@ module Pod
         downloader.download_head
       end
 
-      # TODO move to base
+      # TODO: move to base
       #
       it 'removes the oldest repo if the caches is too big' do
         options = { :git => fixture('git-repo'), :commit => '7ad3a6c' }
