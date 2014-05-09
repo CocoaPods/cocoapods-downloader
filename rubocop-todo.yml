@@ -37,11 +37,6 @@ MethodLength:
 NonNilCheck:
   Enabled: false
 
-# Offense count: 3
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-RaiseArgs:
-  Enabled: false
-
 # Offense count: 2
 # Configuration parameters: MaxSlashes.
 RegexpLiteral:

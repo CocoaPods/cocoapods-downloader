@@ -79,7 +79,7 @@ module Pod
         when :txz
           'file.txz'
         else
-          raise UnsupportedFileTypeError.new "Unsupported file type: #{type}"
+          raise UnsupportedFileTypeError, "Unsupported file type: #{type}"
         end
       end
 
@@ -102,10 +102,12 @@ module Pod
         when :txz
           tar! %(xf #{unpack_from} -C #{unpack_to})
         else
-          raise UnsupportedFileTypeError.new "Unsupported file type: #{type}"
+          raise UnsupportedFileTypeError, "Unsupported file type: #{type}"
         end
 
-        # If the archive is a tarball and it only contained a folder, move its contents to the target (#727)
+        # If the archive is a tarball and it only contained a folder, move its
+        # contents to the target (#727)
+        #
         if should_flatten?
           contents = @target_path.children
           contents.delete(target_path + @filename)
@@ -127,23 +129,27 @@ module Pod
         computed_hash = incremental_hash.hexdigest
 
         if computed_hash != hash
-          raise DownloaderError.new "Verification checksum was incorrect, expected #{hash}, got #{computed_hash}"
+          raise DownloaderError, 'Verification checksum was incorrect, ' \
+            "expected #{hash}, got #{computed_hash}"
         end
       end
 
       # Verify that the downloaded file matches a sha1 hash
+      #
       def verify_sha1_hash(filename, hash)
         require 'digest/sha1'
         compare_hash(filename, Digest::SHA1, hash)
       end
 
       # Verify that the downloaded file matches a sha256 hash
+      #
       def verify_sha256_hash(filename, hash)
         require 'digest/sha2'
         compare_hash(filename, Digest::SHA2, hash)
       end
 
-      # Verify that the downloaded file matches the a hash if set
+      # Verify that the downloaded file matches the hash if set
+      #
       def verify_checksum(filename)
         if options[:sha256]
           verify_sha256_hash(filename, options[:sha256])
