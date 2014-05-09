@@ -23,10 +23,6 @@ CyclomaticComplexity:
 Documentation:
   Enabled: false
 
-# Offense count: 1
-EmptyLinesAroundAccessModifier:
-  Enabled: false
-
 # Offense count: 2
 # Configuration parameters: Exclude.
 FileName:

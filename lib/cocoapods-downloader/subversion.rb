@@ -17,6 +17,7 @@ module Pod
           options
         end
       end
+
       private
 
       executable :svn
