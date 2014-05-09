@@ -17,11 +17,10 @@ end
 desc 'Run specs'
 task :spec => 'fixtures:unpack_fixture_tarballs' do
   files = FileList['spec/**/*_spec.rb'].shuffle.join(' ')
-  ENV['GENERATE_COVERAGE'] = 'true'
-  sh "bacon #{files}"
+  sh "bundle exec bacon #{files}"
 end
 
-# Spec
+# Fixtures
 #-----------------------------------------------------------------------------#
 
 namespace :fixtures do
