@@ -10,7 +10,7 @@ group :development do
   gem 'webmock', '< 1.9'
 
   # Ruby 1.8.7
-  gem "mime-types", "< 2.0"
+  gem 'mime-types', '< 2.0'
 
   if RUBY_VERSION >= '1.9.3'
     gem 'rubocop'

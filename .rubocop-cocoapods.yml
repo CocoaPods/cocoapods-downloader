@@ -1,6 +1,8 @@
 AllCops:
   Include:
     - Rakefile
+    - Gemfile
+    - ./*.gemspec
   Exclude:
     - spec/fixtures/**/*
 
