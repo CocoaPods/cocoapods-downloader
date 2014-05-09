@@ -7,7 +7,7 @@ task :default => :spec
 
 desc 'Initializes your working copy to run the specs'
 task :bootstrap do
-  puts 'Installing gems'
+  title 'Installing gems'
   `bundle install`
 end
 
@@ -16,8 +16,11 @@ end
 
 desc 'Run specs'
 task :spec => 'fixtures:unpack_fixture_tarballs' do
+  title 'Running Unit Tests'
   files = FileList['spec/**/*_spec.rb'].shuffle.join(' ')
   sh "bundle exec bacon #{files}"
+
+  Rake::Task['rubocop'].invoke
 end
 
 # Fixtures
@@ -26,6 +29,7 @@ end
 namespace :fixtures do
   desc 'Rebuild all the fixture tarballs'
   task :rebuild_fixture_tarballs do
+    title 'Rebuilding fixtures'
     tarballs = FileList['spec/fixtures/**/*.tar.gz']
     tarballs.each do |tarball|
       basename = File.basename(tarball)
@@ -35,6 +39,7 @@ namespace :fixtures do
 
   desc 'Unpacks all the fixture tarballs'
   task :unpack_fixture_tarballs do
+    title 'Unpacking fixtures'
     tarballs = FileList['spec/fixtures/**/*.tar.gz']
     tarballs.each do |tarball|
       basename = File.basename(tarball)
@@ -55,6 +60,7 @@ end
 
 namespace :travis do
   task :setup do
+    title 'Configuring Travis'
     sh 'sudo apt-get install subversion'
     sh "env CFLAGS='-I#{rvm_ruby_dir}/include' bundle install --without debugging documentation"
     if ENV['TRAVIS']
@@ -73,6 +79,7 @@ end
 
 desc 'Print the options of the various downloaders'
 task :print_options do
+  title 'Downloaders options'
   $:.unshift File.expand_path('../lib', __FILE__)
   require 'cocoapods-downloader'
   include Pod::Downloader
@@ -80,4 +87,31 @@ task :print_options do
   Pod::Downloader.downloader_class_by_key.each do |key, klass|
     puts "#{key}: #{klass.options * ', '}"
   end
+end
+
+# Rubocop
+#-----------------------------------------------------------------------------#
+
+desc 'Checks code style'
+task :rubocop do
+  title 'Checking code style'
+  if RUBY_VERSION >= '1.9.3'
+    require 'rubocop'
+    cli = Rubocop::CLI.new
+    result = cli.run
+    abort('RuboCop failed!') unless result == 0
+  else
+    puts '[!] Ruby > 1.9 is required to run style checks'
+  end
+end
+
+#-----------------------------------------------------------------------------#
+
+def title(title)
+  cyan_title = "\033[0;36m#{title}\033[0m"
+  puts
+  puts '-' * 80
+  puts cyan_title
+  puts '-' * 80
+  puts
 end
