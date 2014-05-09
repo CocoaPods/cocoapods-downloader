@@ -33,7 +33,7 @@ module Pod
         it 'returns nil if no single strategy could be identified' do
           options = {
             :git => '',
-            :svn => '',
+            :svn => ''
           }
           @subject.strategy_from_options(options).should.be.nil
         end
