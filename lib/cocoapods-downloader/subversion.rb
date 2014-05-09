@@ -34,7 +34,7 @@ module Pod
 
       def store_exported_revision(output)
         output.match(/Exported revision ([0-9]+)\./)
-        @exported_revision = $1
+        @exported_revision = Regexp.last_match[1] if Regexp.last_match
       end
 
       def subcommand

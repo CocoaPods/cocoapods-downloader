@@ -37,11 +37,6 @@ MethodLength:
 NonNilCheck:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-PerlBackrefs:
-  Enabled: false
-
 # Offense count: 3
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 RaiseArgs:
