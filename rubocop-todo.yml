@@ -1,6 +1,6 @@
 ---
 ClassLength:
-  Max: 128
+  Max: 127
 CommentAnnotation:
   Enabled: false
 CyclomaticComplexity:
