@@ -252,8 +252,8 @@ module Pod
       end
 
       def tarball_url_for(id)
-        original_url, username, reponame = *(url.match(/[:\/]([\w\-]+)\/([\w\-]+)\.git/))
-        "https://github.com/#{username}/#{reponame}/tarball/#{id}"
+        match = url.match(/[:\/]([\w\-]+)\/([\w\-]+)\.git/)
+        "https://github.com/#{match[1]}/#{match[2]}/tarball/#{id}"
       end
 
       def tmp_path
