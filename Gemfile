@@ -11,6 +11,8 @@ group :development do
   gem 'prettybacon'
   gem 'rake'
   gem 'vcr'
-  gem 'webmock', '< 1.9'
   gem 'rubocop'
+  gem 'webmock', '< 1.9'
+  # Ruby 1.8.7
+  gem 'rainbow', '< 2.0'
 end
