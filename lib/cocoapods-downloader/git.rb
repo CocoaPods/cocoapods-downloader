@@ -252,7 +252,7 @@ module Pod
       end
 
       def tarball_url_for(id)
-        match = url.match(/[:\/]([\w\-]+)\/([\w\-]+)\.git/)
+        match = url.match(%r{[:/]([\w\-]+)/([\w\-]+)\.git})
         "https://github.com/#{match[1]}/#{match[2]}/tarball/#{id}"
       end
 

@@ -152,7 +152,7 @@ module Pod
         options = { :git => fixture('git-repo'), :commit => '7ad3a6c' }
         downloader = Downloader.for_target(tmp_folder('checkout'), options)
         downloader.cache_root = tmp_folder('cache')
-        downloader.send(:clone_url).to_s.should.match /tmp\/cache\/Git/
+        downloader.send(:clone_url).to_s.should.match %r{tmp/cache/Git}
       end
 
       it 'updates the cache if the HEAD is requested' do

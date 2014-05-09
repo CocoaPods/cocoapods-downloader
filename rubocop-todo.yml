@@ -37,11 +37,6 @@ MethodLength:
 NonNilCheck:
   Enabled: false
 
-# Offense count: 2
-# Configuration parameters: MaxSlashes.
-RegexpLiteral:
-  Enabled: false
-
 # Offense count: 5
 UnusedMethodArgument:
   Enabled: false
