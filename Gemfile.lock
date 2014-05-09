@@ -38,7 +38,7 @@ GEM
     powerpack (0.0.9)
     prettybacon (0.0.2)
       bacon (~> 1.2)
-    rainbow (1.99.2)
+    rainbow (2.0.0)
     rake (10.3.1)
     rb-fsevent (0.9.4)
     rb-inotify (0.9.4)
@@ -81,7 +81,6 @@ DEPENDENCIES
   mime-types (< 2.0)
   mocha-on-bacon
   prettybacon
-  rainbow (< 2.0)
   rake
   rubocop
   vcr
