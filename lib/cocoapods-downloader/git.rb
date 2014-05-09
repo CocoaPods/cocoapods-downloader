@@ -9,7 +9,7 @@ module Pod
       end
 
       def options_specific?
-        !options[:commit].nil? || !options[:tag].nil?
+        !(options[:commit] || options[:tag]).nil?
       end
 
       def checkout_options
