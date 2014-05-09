@@ -20,7 +20,7 @@ require 'pretty_bacon'
 require 'vcr'
 require 'webmock'
 
-$:.unshift File.expand_path('../../lib', __FILE__)
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'cocoapods-downloader'
 
 #-- Output suppression -------------------------------------------------------#

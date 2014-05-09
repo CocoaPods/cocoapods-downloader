@@ -80,7 +80,7 @@ end
 desc 'Print the options of the various downloaders'
 task :print_options do
   title 'Downloaders options'
-  $:.unshift File.expand_path('../lib', __FILE__)
+  $LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
   require 'cocoapods-downloader'
   include Pod::Downloader
 

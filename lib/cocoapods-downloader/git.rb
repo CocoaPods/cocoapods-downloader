@@ -143,7 +143,7 @@ module Pod
       def ref_exists?(ref)
         if cache_exist?
           Dir.chdir(cache_path) { git "rev-list --max-count=1 #{ref}" }
-          $? == 0
+          $CHILD_STATUS == 0
         else
           false
         end
@@ -164,7 +164,7 @@ module Pod
       #
       def branch_exists?(branch)
         Dir.chdir(cache_path) { git "branch --all | grep #{branch}$" } # check for remote branch and do suffix matching ($ anchor)
-        $? == 0
+        $CHILD_STATUS == 0
       end
 
       # @return [void] Checks if a branch exists in the cache and updates
@@ -175,7 +175,7 @@ module Pod
       def ensure_remote_branch_exists(branch)
         return if branch_exists?(branch)
         update_cache
-        raise DownloaderError, "Cache unable to find git reference `#{branch}' for `#{url}' (#{$?})." unless branch_exists?(branch)
+        raise DownloaderError, "Cache unable to find git reference `#{branch}' for `#{url}' (#{$CHILD_STATUS})." unless branch_exists?(branch)
       end
 
       #--------------------------------------#

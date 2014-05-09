@@ -23,8 +23,6 @@ RaiseArgs:
   Enabled: false
 RegexpLiteral:
   Enabled: false
-SpecialGlobalVars:
-  Enabled: false
 TrailingComma:
   Enabled: false
 UnusedMethodArgument:
