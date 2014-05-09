@@ -36,15 +36,16 @@ module Pod
         output
       end
 
-      def ui_action(ui_message)
+      def ui_action(_)
         yield
       end
 
-      def ui_sub_action(message)
+      def ui_sub_action(_)
         yield
       end
 
-      def ui_message(message)    end
+      def ui_message(_)
+      end
     end
   end
 end

@@ -37,6 +37,3 @@ MethodLength:
 NonNilCheck:
   Enabled: false
 
-# Offense count: 5
-UnusedMethodArgument:
-  Enabled: false

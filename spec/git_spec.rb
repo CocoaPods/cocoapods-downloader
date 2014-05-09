@@ -40,7 +40,7 @@ module Pod
         options = { :git => fixture('git-repo'), :tag => 'v1.0' }
         downloader = Downloader.for_target(tmp_folder('destination'), options)
         downloader.cache_root = tmp_folder('cache')
-        def downloader.execute_command(executable, command, raise_on_failure = false)
+        def downloader.execute_command(_, command, __ = false)
           @spec_commands_log ||= []
           @spec_commands_log << command
         end
