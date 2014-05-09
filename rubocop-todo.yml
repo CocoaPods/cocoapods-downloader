@@ -66,9 +66,5 @@ UnusedMethodArgument:
   Enabled: false
 
 # Offense count: 1
-UselessAccessModifier:
-  Enabled: false
-
-# Offense count: 1
 UselessAssignment:
   Enabled: false

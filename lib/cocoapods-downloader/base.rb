@@ -199,8 +199,6 @@ module Pod
         end
       end
 
-      private
-
       # Defines two methods for an executable, based on its name. The bag
       # version raises if the executable terminates with a non-zero exit code.
       #
