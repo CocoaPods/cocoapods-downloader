@@ -1,5 +1,12 @@
 module Pod
   module Downloader
+
+    if RUBY_VERSION >= '1.9.3'
+      require 'English'
+    else
+      alias $CHILD_STATUS $?
+    end
+
     require 'cocoapods-downloader/gem_version'
     require 'cocoapods-downloader/api'
     require 'cocoapods-downloader/api_exposable'
