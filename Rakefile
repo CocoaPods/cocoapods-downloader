@@ -1,110 +1,129 @@
-require 'bundler/gem_tasks'
-
-task :default => :spec
-
 # Bootstrap
 #-----------------------------------------------------------------------------#
 
 desc 'Initializes your working copy to run the specs'
 task :bootstrap do
-  title 'Installing gems'
-  `bundle install`
+  if system('which bundle')
+    title 'Installing gems'
+    `bundle install`
+  else
+    $stderr.puts "\033[0;31m" \
+      "[!] Please install the bundler gem manually:\n" \
+      "    $ [sudo] gem install bundler" \
+      "\e[0m"
+    exit 1
+  end
 end
 
-# Spec
-#-----------------------------------------------------------------------------#
+begin
 
-desc 'Run specs'
-task :spec => 'fixtures:unpack_fixture_tarballs' do
-  title 'Running Unit Tests'
-  files = FileList['spec/**/*_spec.rb'].shuffle.join(' ')
-  sh "bundle exec bacon #{files}"
+  require 'bundler/gem_tasks'
 
-  Rake::Task['rubocop'].invoke
-end
+  task :default => :spec
 
-# Fixtures
-#-----------------------------------------------------------------------------#
 
-namespace :fixtures do
-  desc 'Rebuild all the fixture tarballs'
-  task :rebuild_fixture_tarballs do
-    title 'Rebuilding fixtures'
-    tarballs = FileList['spec/fixtures/**/*.tar.gz']
-    tarballs.each do |tarball|
-      basename = File.basename(tarball)
-      sh "cd #{File.dirname(tarball)} && rm #{basename} && env COPYFILE_DISABLE=1 tar -zcf #{basename} #{basename[0..-8]}"
+  # Spec
+  #-----------------------------------------------------------------------------#
+
+  desc 'Run specs'
+  task :spec => 'fixtures:unpack_fixture_tarballs' do
+    title 'Running Unit Tests'
+    files = FileList['spec/**/*_spec.rb'].shuffle.join(' ')
+    sh "bundle exec bacon #{files}"
+
+    Rake::Task['rubocop'].invoke
+  end
+
+  # Fixtures
+  #-----------------------------------------------------------------------------#
+
+  namespace :fixtures do
+    desc 'Rebuild all the fixture tarballs'
+    task :rebuild_fixture_tarballs do
+      title 'Rebuilding fixtures'
+      tarballs = FileList['spec/fixtures/**/*.tar.gz']
+      tarballs.each do |tarball|
+        basename = File.basename(tarball)
+        sh "cd #{File.dirname(tarball)} && rm #{basename} && env COPYFILE_DISABLE=1 tar -zcf #{basename} #{basename[0..-8]}"
+      end
+    end
+
+    desc 'Unpacks all the fixture tarballs'
+    task :unpack_fixture_tarballs do
+      title 'Unpacking fixtures'
+      tarballs = FileList['spec/fixtures/**/*.tar.gz']
+      tarballs.each do |tarball|
+        basename = File.basename(tarball)
+        Dir.chdir(File.dirname(tarball)) do
+          sh "rm -rf #{basename[0..-8]} && tar zxf #{basename}"
+        end
+      end
+    end
+
+    desc 'Removes the stored VCR fixture'
+    task :clean_vcr do
+      sh 'rm -f spec/fixtures/vcr/tarballs.yml'
     end
   end
 
-  desc 'Unpacks all the fixture tarballs'
-  task :unpack_fixture_tarballs do
-    title 'Unpacking fixtures'
-    tarballs = FileList['spec/fixtures/**/*.tar.gz']
-    tarballs.each do |tarball|
-      basename = File.basename(tarball)
-      Dir.chdir(File.dirname(tarball)) do
-        sh "rm -rf #{basename[0..-8]} && tar zxf #{basename}"
+  # Travis
+  #-----------------------------------------------------------------------------#
+
+  namespace :travis do
+    task :setup do
+      title 'Configuring Travis'
+      sh 'sudo apt-get install subversion'
+      sh "env CFLAGS='-I#{rvm_ruby_dir}/include' bundle install --without debugging documentation"
+      if ENV['TRAVIS']
+        sh "git config --global user.name  'CI'"
+        sh "git config --global user.email 'CI@example.com'"
       end
     end
   end
 
-  desc 'Removes the stored VCR fixture'
-  task :clean_vcr do
-    sh 'rm -f spec/fixtures/vcr/tarballs.yml'
+  def rvm_ruby_dir
+    @rvm_ruby_dir ||= File.expand_path('../..', `which ruby`.strip)
   end
-end
 
-# Travis
-#-----------------------------------------------------------------------------#
+  # Print options
+  #-----------------------------------------------------------------------------#
 
-namespace :travis do
-  task :setup do
-    title 'Configuring Travis'
-    sh 'sudo apt-get install subversion'
-    sh "env CFLAGS='-I#{rvm_ruby_dir}/include' bundle install --without debugging documentation"
-    if ENV['TRAVIS']
-      sh "git config --global user.name  'CI'"
-      sh "git config --global user.email 'CI@example.com'"
+  desc 'Print the options of the various downloaders'
+  task :print_options do
+    title 'Downloaders options'
+    $LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
+    require 'cocoapods-downloader'
+    include Pod::Downloader
+
+    Pod::Downloader.downloader_class_by_key.each do |key, klass|
+      puts "#{key}: #{klass.options * ', '}"
     end
   end
-end
 
-def rvm_ruby_dir
-  @rvm_ruby_dir ||= File.expand_path('../..', `which ruby`.strip)
-end
+  # Rubocop
+  #-----------------------------------------------------------------------------#
 
-# Print options
-#-----------------------------------------------------------------------------#
-
-desc 'Print the options of the various downloaders'
-task :print_options do
-  title 'Downloaders options'
-  $LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
-  require 'cocoapods-downloader'
-  include Pod::Downloader
-
-  Pod::Downloader.downloader_class_by_key.each do |key, klass|
-    puts "#{key}: #{klass.options * ', '}"
+  desc 'Checks code style'
+  task :rubocop do
+    title 'Checking code style'
+    if RUBY_VERSION >= '1.9.3'
+      require 'rubocop'
+      cli = Rubocop::CLI.new
+      result = cli.run
+      abort('RuboCop failed!') unless result == 0
+    else
+      puts '[!] Ruby > 1.9 is required to run style checks'
+    end
   end
+
+rescue LoadError
+  $stderr.puts "\033[0;31m" \
+    '[!] Some Rake tasks haven been disabled because the environment' \
+    ' couldn’t be loaded. Be sure to run `rake bootstrap` first.' \
+    "\e[0m"
 end
 
-# Rubocop
-#-----------------------------------------------------------------------------#
-
-desc 'Checks code style'
-task :rubocop do
-  title 'Checking code style'
-  if RUBY_VERSION >= '1.9.3'
-    require 'rubocop'
-    cli = Rubocop::CLI.new
-    result = cli.run
-    abort('RuboCop failed!') unless result == 0
-  else
-    puts '[!] Ruby > 1.9 is required to run style checks'
-  end
-end
-
+# Helpers
 #-----------------------------------------------------------------------------#
 
 def title(title)
