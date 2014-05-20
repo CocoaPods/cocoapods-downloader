@@ -1,5 +1,11 @@
 # Changelog
 
+## Master
+
+* Robustness against string keys.  
+  [Fabio Pelosin](https://github.com/irrationalfab)
+  [#25](https://github.com/CocoaPods/cocoapods-downloader/issues/25)
+
 ## 0.6.0
 
 ###### Enhancements

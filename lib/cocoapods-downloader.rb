@@ -57,6 +57,8 @@ module Pod
     #         global options for the Downloader cache?
     #
     def self.for_target(target_path, options)
+      options = Hash[options.map{ |k, v| [k.to_sym, v] }]
+
       if target_path.nil?
         raise DownloaderError, 'No target path provided.'
       end

@@ -40,6 +40,7 @@ module Pod
       end
 
       describe '::for_target' do
+
         it 'returns the Git downloader' do
           concrete = @subject.for_target(tmp_folder, :git => 'url')
           concrete.class.should == @subject::Git
@@ -69,6 +70,15 @@ module Pod
           concrete = @subject.for_target(tmp_folder, :git => 'url')
           concrete.url.should == 'url'
         end
+
+
+        it 'converts the keys of the options to symbols' do
+          options = {'http' => 'url', 'type' => 'zip'}
+          concrete = @subject.for_target(tmp_folder, options)
+          concrete.class.should == @subject::Http
+          concrete.options.should == {:type=>"zip"}
+        end
+
       end
     end
   end

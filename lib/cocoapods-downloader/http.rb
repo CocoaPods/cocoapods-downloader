@@ -30,7 +30,11 @@ module Pod
       end
 
       def type
-        options[:type] || type_with_url(url)
+        if options[:type]
+          options[:type].to_sym
+        else
+          type_with_url(url)
+        end
       end
 
       # @note   The archive is flattened if it contains only one folder and its

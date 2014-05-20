@@ -36,6 +36,7 @@ module Pod
         Dir.glob(tmp_folder + '*').count.should == 8 + 1 + 1
       end
 
+      # TODO: slow 90.6 s
       it 'moves unpacked contents to parent dir when archive contains only a folder (#727)' do
         downloader = Downloader.for_target(tmp_folder,
                                            :http => 'http://www.openssl.org/source/openssl-1.0.0a.tar.gz'
@@ -61,12 +62,14 @@ module Pod
         lambda { downloader.download }.should.raise DownloaderError
       end
 
+      # TODO: slow 109.7 s
       it 'should verify that the downloaded file matches a sha1 hash' do
         options = { :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip', :sha1 => 'fb62ffebfaa5b722fc50f09458aacf617a5b0177' }
         downloader = Downloader.for_target(tmp_folder, options)
         lambda { downloader.download }.should.not.raise DownloaderError
       end
 
+      # TODO: slow 88.1 s
       it 'should fail if the sha1 hash does not match' do
         options = { :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip', :sha1 => 'invalid_sha1_hash' }
         downloader = Downloader.for_target(tmp_folder, options)
@@ -143,6 +146,11 @@ module Pod
         lambda { downloader.download }.should.raise Http::UnsupportedFileTypeError
       end
 
+      it 'detects the file type if specified with a string' do
+        options = { :http => 'https://file', :type => 'zip' }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.send(:type).should == :zip
+      end
     end
   end
 end
