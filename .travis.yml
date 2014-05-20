@@ -5,7 +5,6 @@ addons:
 bundler_args: --without docs
 rvm:
   - 1.8.7
-  - 1.9.3
   - 2.1.1
 
 install: NOEXEC=skip rake travis:setup
