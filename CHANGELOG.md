@@ -1,6 +1,6 @@
 # Changelog
 
-## Master
+## 0.6.1
 
 * Robustness against string keys.  
   [Fabio Pelosin](https://github.com/irrationalfab)
