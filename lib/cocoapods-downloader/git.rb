@@ -62,7 +62,8 @@ module Pod
       #
       def clone(from, to, flags = '')
         ui_sub_action('Cloning to Pods folder') do
-          command = "clone #{from.shellescape} #{to.shellescape}"
+          command = %Q(clone #{from.shellescape} #{to.shellescape})
+          command << ' --depth 1'
           command << ' ' + flags if flags
           git!(command)
         end
