@@ -78,6 +78,29 @@ module Pod
         FileUtils.rm_rf('/tmp/git-submodule-repo')
       end
 
+      it 'shallow clones submodules' do
+        FileUtils.rm_rf('/tmp/git-submodule-repo')
+        FileUtils.cp_r(fixture('git-submodule-repo'), '/tmp/')
+
+        options = {
+          :git => 'file://' + fixture('git-repo').to_s,
+          :submodules => true
+        }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.download
+
+        Dir.chdir("#{tmp_folder}/submodule") do
+          `git rev-list --count HEAD`.strip.should == '1'
+          require 'pry'
+          binding.pry
+        end
+        FileUtils.rm_rf('/tmp/git-submodule-repo')
+        # WIP Y U NO FAIL
+        # Submodule ref is recorded somewhere. Need to update fixture
+        # to actually pick up more commits
+        fail
+      end
+
       #--------------------------------------#
 
       it 'prepares the cache if it does not exist' do
