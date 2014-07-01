@@ -90,15 +90,11 @@ module Pod
         downloader.download
 
         Dir.chdir("#{tmp_folder}/submodule") do
+          #require 'pry'
+          #binding.pry
           `git rev-list --count HEAD`.strip.should == '1'
-          require 'pry'
-          binding.pry
         end
         FileUtils.rm_rf('/tmp/git-submodule-repo')
-        # WIP Y U NO FAIL
-        # Submodule ref is recorded somewhere. Need to update fixture
-        # to actually pick up more commits
-        fail
       end
 
       #--------------------------------------#
@@ -155,7 +151,7 @@ module Pod
         downloader.download
         downloader.checkout_options.should == {
           :git => fixture('git-repo'),
-          :commit => 'd7f410490dabf7a6bde665ba22da102c3acf1bd9',
+          :commit => '98cbf14201a78b56c6b7290f6cac840a7597a1c2'
         }
       end
 
