@@ -26,7 +26,7 @@ module Pod
       executable :git
 
       def download!
-        create_cache if use_cache? && !cache_exist?
+        create_cache if use_cache? && !cache_exists?
         if options[:tag]
           download_tag
         elsif options[:branch]
@@ -39,7 +39,7 @@ module Pod
         Dir.chdir(target_path) { git! 'submodule update --init'  } if options[:submodules]
       end
 
-      # @return [void] Checkouts the HEAD of the git source in the destination
+      # @return [void] Checks out the HEAD of the git source in the destination
       #         path.
       #
       def download_head!
@@ -60,53 +60,21 @@ module Pod
 
       # @return [void] Convenience method to perform clones operations.
       #
+      # @todo Refactor / clean up this a bit later
+      #
       def clone(from, to, flags = '')
         ui_sub_action('Cloning to Pods folder') do
           command = %Q(clone #{from.shellescape} #{to.shellescape})
+          command << shallow_flags unless options[:commit]
           command << ' ' + flags if flags
           git!(command)
         end
       end
 
-      # @return [void] Checkouts a specific tag of the git source in the
+      # @return [void] Checks out a specific commit of the git source in the
       #         destination path.
       #
-      # @note   Tags trigger a cache update unless aggressive cache is
-      #         specified.
-      #
-      # @note   Git fetch and checkout output to standard error and thus they
-      #         are redirected to stdout.
-      #
-      # @note   For performance if the cache is used the repo is inialized with
-      #         git clone (see CocoaPods/CocoaPods#1077).
-      #
-      def download_tag
-        if use_cache?
-          if aggressive_cache?
-            ensure_ref_exists(options[:tag])
-          else
-            update_cache
-          end
-        end
-
-        Dir.chdir(target_path) do
-          if use_cache?
-            clone(clone_url, target_path)
-          else
-            git! 'init'
-            git! "remote add origin '#{clone_url}'"
-          end
-
-          git! "fetch origin tags/#{options[:tag]} 2>&1"
-          git! 'reset --hard FETCH_HEAD'
-          git! 'checkout -b activated-pod-commit 2>&1'
-        end
-      end
-
-      # @return [void] Checkouts a specific commit of the git source in the
-      #         destination path.
-      #
-      # @note   Git checkouts output to standard error and thus it is
+      # @note   Checks out output to standard error and thus it is
       #         redirected to stdout.
       #
       def download_commit
@@ -117,21 +85,49 @@ module Pod
         end
       end
 
-      # @return [void] Checkouts the HEAD of a specific branch of the git
+      # @return [void] Checks out the HEAD of a specific branch of the git
       #         source in the destination path.
       #
-      # @note   Git checkouts output to standard error and thus it is
+      # @note   `git checkout` outputs to stderr and thus it is
       #         redirected to stdout.
       #
+      # @todo: this is cleaned up a bit, revisit for cache
       def download_branch
         update_cache if use_cache?
         clone(clone_url, target_path)
-        Dir.chdir(target_path) do
-          git! "remote add upstream '#{@url}'" # we need to add the original url, not the cache url
-          git! 'fetch -q upstream' # refresh the branches
-          git! "checkout --track -b activated-pod-commit upstream/#{options[:branch]} 2>&1" # create a new tracking branch
-          ui_message("Downloaded and checked out branch: #{options[:branch]} from upstream #{clone_url}")
+      end
+
+      # @return [void] Checks out a specific tag of the git source in the
+      #         destination path.
+      #
+      # @todo: this is cleaned up a bit, revisit for cache
+      def download_tag
+        if use_cache?
+          if aggressive_cache?
+            ensure_ref_exists(options[:tag])
+          else
+            update_cache
+          end
         end
+        clone(clone_url, target_path)
+      end
+
+      # @return [String] Flags for performant git clone
+      #
+      # @note Due to a workaround in `git`, there's no different specifier
+      #       for cloning just a branch, tag or a commit.
+      #       Branches and Tags are accepted via `-b my_branch` or `-b 0.1.2`,
+      #       but commits aren't.
+      #
+      # @note That means, we'll need to use a different technique for commits
+      #
+      # @todo move to private
+      #
+      def shallow_flags
+        flags = [ ' --single-branch', '--depth 1' ]
+        flags << " -b #{options[:branch]}" if options[:branch]
+        flags << " -b #{options[:tag]}" if options[:tag]
+        flags.join(' ')
       end
 
       #--------------------------------------#
@@ -141,7 +137,7 @@ module Pod
       # @return [Bool] Whether a reference (commit SHA or tag)
       #
       def ref_exists?(ref)
-        if cache_exist?
+        if cache_exists?
           Dir.chdir(cache_path) { git "rev-list --max-count=1 #{ref}" }
           $CHILD_STATUS == 0
         else
@@ -189,7 +185,7 @@ module Pod
       #         that the cache is actually a barebone repo. If the cache was
       #         not barebone it will be deleted and recreated.
       #
-      def cache_exist?
+      def cache_exists?
         cache_path.exist? &&
           cache_origin_url(cache_path).to_s == url.to_s &&
           Dir.chdir(cache_path) { git('config core.bare').chomp == 'true' }
@@ -218,7 +214,7 @@ module Pod
       #         remote creating it if needed.
       #
       def update_cache
-        if cache_exist?
+        if cache_exists?
           ui_sub_action("Updating cache git repo (#{cache_path})") do
             Dir.chdir(cache_path) { git! 'remote update' }
           end

@@ -15,6 +15,76 @@ module Pod
         tmp_folder('README').read.strip.should == 'first commit'
       end
 
+      describe 'shallow cloning' do
+        def ensure_only_one_ref(folder)
+          Dir.chdir(folder) do
+            `git rev-list --count HEAD`.strip.should == '1'
+          end
+        end
+
+        # @note This is only needed for __shallow__ cloning local repos,
+        #       it requires file:// prefix in order to be treated as remote.
+        #       Otherwise it will perform normal clone
+        #
+        def local_fixture(name)
+          'file://' + fixture(name).to_s
+        end
+
+        before do
+          FileUtils.rm_rf('/tmp/git-submodule-repo')
+          FileUtils.cp_r(fixture('git-submodule-repo'), '/tmp/')
+        end
+
+        after do
+          FileUtils.rm_rf('/tmp/git-submodule-repo')
+        end
+
+        it 'uses shallow clone' do
+          options = { :git => local_fixture('git-repo') }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.download
+
+          ensure_only_one_ref(tmp_folder)
+        end
+
+        it 'clones a specific branch' do
+          options = { :git => local_fixture('git-repo'), :branch => 'topic_branch' }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.download
+
+          tmp_folder('README').read.strip.should == 'topic_branch'
+          ensure_only_one_ref(tmp_folder)
+        end
+
+        it 'clones a specific tag' do
+          options = { :git => local_fixture('git-repo'), :tag => 'v1.0' }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.download
+
+          tmp_folder('README').read.strip.should == 'v1.0'
+          ensure_only_one_ref(tmp_folder)
+        end
+
+        it 'clones a specific commit' do
+          options = { :git => local_fixture('git-repo'), :commit => '407e385' }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.download
+
+          Dir.chdir(tmp_folder) do
+            `git rev-list HEAD`.chomp.should.include '407e385'
+          end
+        end
+
+        it 'shallow clones submodules' do
+          options = { :git => local_fixture('git-repo'), :submodules => true }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.download
+
+          ensure_only_one_ref("#{tmp_folder}/submodule")
+        end
+
+      end
+
       it 'checks out when the path contains quotes or spaces' do
         options = { :git => fixture('git-repo'), :commit => '7ad3a6c' }
         downloader = Downloader.for_target(tmp_folder_with_quotes, options)
