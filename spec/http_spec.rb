@@ -38,9 +38,7 @@ module Pod
 
       # TODO: slow 90.6 s
       it 'moves unpacked contents to parent dir when archive contains only a folder (#727)' do
-        downloader = Downloader.for_target(tmp_folder,
-                                           :http => 'http://www.openssl.org/source/openssl-1.0.0a.tar.gz',
-        )
+        downloader = Downloader.for_target(tmp_folder, :http => 'http://www.openssl.org/source/openssl-1.0.0a.tar.gz')
         VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
         # Archive contains one folder, which contains 49 items. The archive is
         # 1, and the parent folder that we moved stuff out of is 1.
@@ -48,9 +46,7 @@ module Pod
       end
 
       it 'does not move unpacked contents to parent dir when archive contains multiple children' do
-        downloader = Downloader.for_target(tmp_folder,
-                                           :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip',
-        )
+        downloader = Downloader.for_target(tmp_folder, :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip')
         VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
         # Archive contains 4 files, and the archive is 1
         Dir.glob(downloader.target_path + '*').count.should == 4 + 1
