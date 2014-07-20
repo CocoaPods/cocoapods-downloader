@@ -18,14 +18,14 @@ module Pod
       describe '::strategy_from_options' do
         it 'returns the strategy' do
           options = {
-            :git => ''
+            :git => '',
           }
           @subject.strategy_from_options(options).should == :git
         end
 
         it 'returns nil if no strategy could be identified' do
           options = {
-            :scm_from_future => ''
+            :scm_from_future => '',
           }
           @subject.strategy_from_options(options).should.be.nil
         end
@@ -33,7 +33,7 @@ module Pod
         it 'returns nil if no single strategy could be identified' do
           options = {
             :git => '',
-            :svn => ''
+            :svn => '',
           }
           @subject.strategy_from_options(options).should.be.nil
         end

@@ -30,7 +30,7 @@ module Pod
         :git  => Git,
         :hg   => Mercurial,
         :http => Http,
-        :svn  => Subversion
+        :svn  => Subversion,
       }
     end
 

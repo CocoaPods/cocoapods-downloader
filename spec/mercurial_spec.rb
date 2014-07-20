@@ -59,7 +59,7 @@ module Pod
         downloader.download
         downloader.checkout_options.should == {
           :hg => fixture('mercurial-repo'),
-          :revision => 'df97b9ee89577f2da1925154472888b2b57e971e'
+          :revision => 'df97b9ee89577f2da1925154472888b2b57e971e',
         }
       end
 
@@ -82,7 +82,7 @@ module Pod
         downloader.download
         downloader.checkout_options.should == {
           :hg => fixture('mercurial-repo'),
-          :revision => '3c8b8d211b03c7e686049a8558e4c297104291eb'
+          :revision => '3c8b8d211b03c7e686049a8558e4c297104291eb',
         }
       end
 
@@ -92,7 +92,7 @@ module Pod
         downloader.download
         downloader.checkout_options.should == {
           :hg => fixture('mercurial-repo'),
-          :revision => '61118fa8988c2b2eae826f48abd1e3340dae0c6b'
+          :revision => '61118fa8988c2b2eae826f48abd1e3340dae0c6b',
         }
       end
 

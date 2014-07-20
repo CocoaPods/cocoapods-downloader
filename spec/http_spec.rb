@@ -27,7 +27,7 @@ module Pod
       it 'should flatten zip archives, when the spec explicitly demands it' do
         options = {
           :http => 'https://github.com/kevinoneill/Useful-Bits/archive/1.0.zip',
-          :flatten => true
+          :flatten => true,
         }
         downloader = Downloader.for_target(tmp_folder, options)
         VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
@@ -39,7 +39,7 @@ module Pod
       # TODO: slow 90.6 s
       it 'moves unpacked contents to parent dir when archive contains only a folder (#727)' do
         downloader = Downloader.for_target(tmp_folder,
-                                           :http => 'http://www.openssl.org/source/openssl-1.0.0a.tar.gz'
+                                           :http => 'http://www.openssl.org/source/openssl-1.0.0a.tar.gz',
         )
         VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
         # Archive contains one folder, which contains 49 items. The archive is
@@ -49,7 +49,7 @@ module Pod
 
       it 'does not move unpacked contents to parent dir when archive contains multiple children' do
         downloader = Downloader.for_target(tmp_folder,
-                                           :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip'
+                                           :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip',
         )
         VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
         # Archive contains 4 files, and the archive is 1

@@ -58,7 +58,7 @@ module Pod
         downloader.download
         downloader.checkout_options.should == {
           :bzr => fixture('bazaar-repo'),
-          :revision => '4'
+          :revision => '4',
         }
       end
 

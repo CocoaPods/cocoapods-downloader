@@ -52,7 +52,7 @@ module Pod
         downloader.download
         downloader.checkout_options.should == {
           :svn => "file://#{fixture('subversion-repo')}",
-          :revision => '12'
+          :revision => '12',
         }
       end
 
@@ -92,7 +92,7 @@ module Pod
         options = {
           :svn => "file://#{fixture('subversion-repo')}",
           :revision => '1',
-          :checkout => true
+          :checkout => true,
         }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
