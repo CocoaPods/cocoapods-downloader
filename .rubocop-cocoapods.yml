@@ -6,6 +6,11 @@ AllCops:
   Exclude:
     - spec/fixtures/**/*
 
+# At the moment not ready to be used
+# https://github.com/bbatsov/rubocop/issues/947
+Documentation:
+  Enabled: false
+
 #- CocoaPods -----------------------------------------------------------------#
 
 # We adopted raise instead of fail.
@@ -32,6 +37,19 @@ SingleLineBlockParams:
 Encoding:
   Enabled: false
 
+# Having these make it easier to *not* forget to add one when adding a new
+# value and you can simply copy the previous line.
+TrailingComma:
+  EnforcedStyleForMultiline: comma
+
+# Clashes with CLAide Command#validate!
+GuardClause:
+  Enabled: false
+
+# Not always desirable: lib/claide/command/plugins_helper.rb:12:15
+Next:
+  Enabled: false
+
 #- CocoaPods support for Ruby 1.8.7 ------------------------------------------#
 
 HashSyntax:
@@ -40,6 +58,11 @@ HashSyntax:
 Lambda:
   Enabled: false
 
+DotPosition:
+  EnforcedStyle: trailing
+
+EachWithObject:
+  Enabled: false
 
 #- CocoaPods specs -----------------------------------------------------------#
 
