@@ -36,6 +36,12 @@ module Pod
         tmp_folder('README').read.strip.should == 'Fourth Commit'
       end
 
+      it 'returns whether it supports the download of the head' do
+        options = { :bzr => fixture('bazaar-repo') }
+        downloader = Downloader.for_target(tmp_folder('checkout'), options)
+        downloader.head_supported?.should.be.true
+      end
+
       describe 'when the directory name has quotes or spaces' do
         it 'checks out the head revision' do
           options = { :bzr => fixture('bazaar-repo') }

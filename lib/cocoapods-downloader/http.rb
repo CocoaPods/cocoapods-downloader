@@ -25,10 +25,6 @@ module Pod
         extract_with_type(@download_path, type)
       end
 
-      def download_head!
-        download!
-      end
-
       def type
         if options[:type]
           options[:type].to_sym

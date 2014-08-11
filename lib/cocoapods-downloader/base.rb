@@ -119,13 +119,20 @@ module Pod
       #
       def download_head
         ui_action("#{name} HEAD download") do
-          if self.respond_to?(:download_head!, true)
+          if head_supported?
             download_head!
           else
             raise DownloaderError, "The `#{name}` downloader does not support " \
             'the HEAD option.'
           end
         end
+      end
+
+      # @return [Bool] Whether the downloader supports the head download
+      #         strategy.
+      #
+      def head_supported?
+        self.respond_to?(:download_head!, true)
       end
 
       # @return [Bool] Whether the options provided completely identify a source

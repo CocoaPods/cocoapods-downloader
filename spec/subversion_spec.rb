@@ -30,6 +30,12 @@ module Pod
         tmp_folder('README').read.strip.should == 'unintersting'
       end
 
+      it 'returns whether it supports the download of the head' do
+        options = { :svn => "file://#{fixture('subversion-repo')}", :tag => 'tag-1' }
+        downloader = Downloader.for_target(tmp_folder('checkout'), options)
+        downloader.head_supported?.should.be.true
+      end
+
       describe 'when the directory name has quotes or spaces' do
         it 'checks out a specific revision' do
           options = { :svn => "file://#{fixture('subversion-repo')}", :revision => '1' }

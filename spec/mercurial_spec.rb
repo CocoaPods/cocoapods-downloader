@@ -22,6 +22,12 @@ module Pod
         tmp_folder('README').read.strip.should == 'second commit'
       end
 
+      it 'returns whether it supports the download of the head' do
+        options = { :hg => fixture('mercurial-repo') }
+        downloader = Downloader.for_target(tmp_folder('checkout'), options)
+        downloader.head_supported?.should.be.true
+      end
+
       describe 'when the directory name has quotes or spaces' do
         it 'checks out a specific revision' do
           options = { :hg => fixture('mercurial-repo'), :revision => '46198bb3af96' }

@@ -90,6 +90,12 @@ module Pod
         downloader.download_head
       end
 
+      it 'returns whether it supports the download of the head' do
+        options = { :git => fixture('git-repo') }
+        downloader = Downloader.for_target(tmp_folder('checkout'), options)
+        downloader.head_supported?.should.be.true
+      end
+
       # TODO: move to base
       #
       it 'removes the oldest repo if the caches is too big' do

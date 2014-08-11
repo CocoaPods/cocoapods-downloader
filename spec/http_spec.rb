@@ -147,6 +147,12 @@ module Pod
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.send(:type).should == :zip
       end
+
+      it 'returns whether it does not supports the download of the head' do
+        options = { :http => 'https://file', :type => 'zip' }
+        downloader = Downloader.for_target(tmp_folder('checkout'), options)
+        downloader.head_supported?.should.be.false
+      end
     end
   end
 end
