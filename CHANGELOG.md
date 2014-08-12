@@ -1,5 +1,15 @@
 # Changelog
 
+## Master
+
+###### Enhancements
+
+* Added method to check if the head strategy is supported by a concreted
+  downloader class.  
+  [Fabio Pelosin](https://github.com/irrationalfab)
+  [#12](https://github.com/CocoaPods/cocoapods-downloader/issues/28)
+
+
 ## 0.6.1
 
 * Robustness against string keys.  
