@@ -3,7 +3,9 @@ module Pod
     if RUBY_VERSION >= '1.9.3'
       require 'English'
     else
-      alias $CHILD_STATUS $CHILD_STATUS
+      # rubocop:disable Style/SpecialGlobalVars
+      alias $CHILD_STATUS $?
+      # rubocop:enable Style/SpecialGlobalVars
     end
 
     require 'cocoapods-downloader/gem_version'

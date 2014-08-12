@@ -9,6 +9,12 @@
   [Fabio Pelosin](https://github.com/irrationalfab)
   [#12](https://github.com/CocoaPods/cocoapods-downloader/issues/28)
 
+###### Bug Fixes
+
+* Fixed the check for git references on Ruby 1.8.7.  
+  [Fabio Pelosin](https://github.com/irrationalfab)
+  [#28](https://github.com/CocoaPods/cocoapods-downloader/issues/28)
+
 
 ## 0.6.1
 
