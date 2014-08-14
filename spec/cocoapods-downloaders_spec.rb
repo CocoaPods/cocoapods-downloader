@@ -67,10 +67,10 @@ module Pod
         end
 
         it 'converts the keys of the options to symbols' do
-          options = {'http' => 'url', 'type' => 'zip'}
+          options = { 'http' => 'url', 'type' => 'zip' }
           concrete = @subject.for_target(tmp_folder, options)
           concrete.class.should == @subject::Http
-          concrete.options.should == {:type=>"zip"}
+          concrete.options.should == { :type => 'zip' }
         end
       end
     end

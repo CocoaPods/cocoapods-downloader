@@ -64,7 +64,7 @@ module Pod
       #
       def clone(from, to, flags = '')
         ui_sub_action('Cloning to Pods folder') do
-          command = %Q(clone #{from.shellescape} #{to.shellescape})
+          command = "clone #{from.shellescape} #{to.shellescape}"
           command << shallow_flags unless options[:commit]
           command << ' ' + flags if flags
           git!(command)
@@ -124,7 +124,7 @@ module Pod
       # @todo move to private
       #
       def shallow_flags
-        flags = [ ' --single-branch', '--depth 1' ]
+        flags = [' --single-branch', '--depth 1']
         flags << " -b #{options[:branch]}" if options[:branch]
         flags << " -b #{options[:tag]}" if options[:tag]
         flags.join(' ')
@@ -225,6 +225,5 @@ module Pod
     end
 
     #---------------------------------------------------------------------------#
-
   end
 end

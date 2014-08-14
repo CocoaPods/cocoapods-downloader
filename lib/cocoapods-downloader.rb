@@ -57,7 +57,7 @@ module Pod
     # @todo   Improve the common support for the cache in Base and add specs.
     #
     def self.for_target(target_path, options)
-      options = Hash[options.map{ |k, v| [k.to_sym, v] }]
+      options = Hash[options.map { |k, v| [k.to_sym, v] }]
 
       if target_path.nil?
         raise DownloaderError, 'No target path provided.'
