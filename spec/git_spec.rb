@@ -4,6 +4,10 @@ module Pod
   module Downloader
     describe 'Git' do
 
+      def fixture_url(name)
+        'file://' + fixture(name).to_s
+      end
+
       before do
         tmp_folder.rmtree if tmp_folder.exist?
       end
@@ -28,6 +32,24 @@ module Pod
           downloader = Downloader.for_target(tmp_folder, options)
           downloader.download
           tmp_folder('README').read.strip.should == 'v1.0'
+        end
+
+        it 'downloads the head of a repo' do
+          options = { :git => fixture('git-repo') }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.download_head
+          Dir.chdir(tmp_folder) do
+            `git rev-list HEAD`.chomp.should.include '98cbf14'
+          end
+        end
+
+        it 'downloads the head of a repo if no specific options are provided' do
+          options = { :git => fixture('git-repo') }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.download
+          Dir.chdir(tmp_folder) do
+            `git rev-list HEAD`.chomp.should.include '98cbf14'
+          end
         end
 
         it "doesn't initializes submodules by default" do
@@ -82,21 +104,13 @@ module Pod
           end
         end
 
-        # @note This is only needed for __shallow__ cloning local repos,
-        #       it requires file:// prefix in order to be treated as remote.
-        #       Otherwise it will perform normal clone
-        #
-        def local_fixture(name)
-          'file://' + fixture(name).to_s
-        end
-
         before do
           FileUtils.rm_rf('/tmp/git-submodule-repo')
           FileUtils.cp_r(fixture('git-submodule-repo'), '/tmp/')
         end
 
         it 'uses shallow clone' do
-          options = { :git => local_fixture('git-repo') }
+          options = { :git => fixture_url('git-repo') }
           downloader = Downloader.for_target(tmp_folder, options)
           downloader.download
 
@@ -104,7 +118,7 @@ module Pod
         end
 
         it 'clones a specific branch' do
-          options = { :git => local_fixture('git-repo'), :branch => 'topic_branch' }
+          options = { :git => fixture_url('git-repo'), :branch => 'topic_branch' }
           downloader = Downloader.for_target(tmp_folder, options)
           downloader.download
 
@@ -113,7 +127,7 @@ module Pod
         end
 
         it 'clones a specific tag' do
-          options = { :git => local_fixture('git-repo'), :tag => 'v1.0' }
+          options = { :git => fixture_url('git-repo'), :tag => 'v1.0' }
           downloader = Downloader.for_target(tmp_folder, options)
           downloader.download
 
@@ -122,7 +136,7 @@ module Pod
         end
 
         it 'clones a specific commit' do
-          options = { :git => local_fixture('git-repo'), :commit => '407e385' }
+          options = { :git => fixture_url('git-repo'), :commit => '407e385' }
           downloader = Downloader.for_target(tmp_folder, options)
           downloader.download
 
@@ -135,7 +149,7 @@ module Pod
         # option but it doesn't.
         #
         xit 'shallow clones submodules' do
-          options = { :git => local_fixture('git-repo'), :submodules => true }
+          options = { :git => fixture_url('git-repo'), :submodules => true }
           downloader = Downloader.for_target(tmp_folder, options)
           downloader.download
 
@@ -173,6 +187,15 @@ module Pod
           options = { :git => fixture('git-repo'), :commit => 'aaaaaa' }
           downloader = Downloader.for_target(tmp_folder, options)
           lambda { downloader.download }.should.raise DownloaderError
+        end
+
+        it 'is not confused by specific options in download head' do
+          options = { :git => fixture_url('git-repo'), :tag => 'v1.0' }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.download_head
+          Dir.chdir(tmp_folder) do
+            `git rev-list HEAD`.chomp.should.include '98cbf14'
+          end
         end
       end
     end

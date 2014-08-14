@@ -35,7 +35,7 @@ module Pod
       #         path.
       #
       def download_head!
-        clone
+        clone(true)
         init_submodules if options[:submodules]
       end
 
@@ -51,7 +51,11 @@ module Pod
       # @note   `--branch` command line option can also take tags and detaches
       #         the HEAD.
       #
-      def clone
+      # @param  [Bool] force_head
+      #         If any specific option should be ignored and the HEAD of the
+      #         repo should be cloned.
+      #
+      def clone(force_head = false)
         ui_sub_action('Git download') do
           command = ['clone', url.shellescape, target_path.shellescape]
 
@@ -59,8 +63,10 @@ module Pod
             command += ['--single-branch', '--depth 1']
           end
 
-          if tag_or_branch = options[:tag] || options[:branch]
-            command += ['--branch', tag_or_branch]
+          unless force_head
+            if tag_or_branch = options[:tag] || options[:branch]
+              command += ['--branch', tag_or_branch]
+            end
           end
 
           git! command.join(' ')
