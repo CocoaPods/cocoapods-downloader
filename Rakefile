@@ -16,14 +16,10 @@ task :bootstrap do
 end
 
 begin
-
   require 'bundler/gem_tasks'
-
   task :default => :spec
 
-
-  # Spec
-  #-----------------------------------------------------------------------------#
+  #-- Specs ------------------------------------------------------------------#
 
   desc 'Run specs'
   task :spec => 'fixtures:unpack' do
@@ -34,8 +30,7 @@ begin
     Rake::Task['rubocop'].invoke if RUBY_VERSION >= '1.9.3'
   end
 
-  # Fixtures
-  #-----------------------------------------------------------------------------#
+  #-- Fixtures ---------------------------------------------------------------#
 
   namespace :fixtures do
     desc 'Rebuild all the fixture archives'
@@ -79,8 +74,7 @@ begin
     end
   end
 
-  # Print options
-  #-----------------------------------------------------------------------------#
+  #-- Print Options ----------------------------------------------------------#
 
   desc 'Print the options of the various downloaders'
   task :print_options do
@@ -94,7 +88,7 @@ begin
     end
   end
 
-  #-- Rubocop ----------------------------------------------------------------#
+  #-- RuboCop ----------------------------------------------------------------#
 
   if RUBY_VERSION >= '1.9.3'
     require 'rubocop/rake_task'
@@ -106,10 +100,12 @@ rescue LoadError
     '[!] Some Rake tasks haven been disabled because the environment' \
     ' couldn’t be loaded. Be sure to run `rake bootstrap` first.' \
     "\e[0m"
+  $stderr.puts e.message
+  $stderr.puts e.backtrace
+  $stderr.puts
 end
 
-# Helpers
-#-----------------------------------------------------------------------------#
+#-- Helpers ------------------------------------------------------------------#
 
 def title(title)
   cyan_title = "\033[0;36m#{title}\033[0m"
