@@ -23,96 +23,64 @@ module Pod
 
       private
 
-      executable :git
+      # @!group Base class hooks
 
       def download!
-        if options[:tag]
-          download_tag
-        elsif options[:branch]
-          download_branch
-        elsif options[:commit]
-          download_commit
-        else
-          download_head!
-        end
-        if options[:submodules]
-          Dir.chdir(target_path) { git! 'submodule update --init --depth 1' }
-        end
+        clone
+        checkout_commit if options[:commit]
+        init_submodules if options[:submodules]
       end
 
       # @return [void] Checks out the HEAD of the git source in the destination
       #         path.
       #
       def download_head!
-        clone(url, target_path)
-        if options[:submodules]
-          Dir.chdir(target_path) { git! 'submodule update --init --depth 1' }
-        end
+        clone
+        init_submodules if options[:submodules]
       end
-
-      #--------------------------------------#
 
       # @!group Download implementations
 
-      # @return [void] Convenience method to perform clones operations.
+      executable :git
+
+      # Clones the repo. If possible the repo will be shallowly cloned.
       #
-      # @todo Refactor / clean up this a bit later
+      # @note   The `:commit` option requires a specific strategy as it is not
+      #         possible to specify the commit to the `clone` command.
       #
-      def clone(from, to, flags = '')
-        ui_sub_action('Cloning to Pods folder') do
-          command = "clone #{from.shellescape} #{to.shellescape}"
-          command << shallow_flags unless options[:commit]
-          command << ' ' + flags if flags
-          git!(command)
+      # @note   `--branch` command line option can also take tags and detaches
+      #         the HEAD.
+      #
+      def clone
+        ui_sub_action('Git download') do
+          command = ['clone', url.shellescape, target_path.shellescape]
+
+          unless options[:commit]
+            command += ['--single-branch', '--depth 1']
+          end
+
+          if tag_or_branch = options[:tag] || options[:branch]
+            command += ['--branch', tag_or_branch]
+          end
+
+          git! command.join(' ')
         end
       end
 
-      # @return [void] Checks out a specific commit of the git source in the
-      #         destination path.
+      # Checks out a specific commit of the cloned repo.
       #
-      # @note   Checks out output to standard error and thus it is
-      #         redirected to stdout.
-      #
-      def download_commit
-        clone(url, target_path)
+      def checkout_commit
         Dir.chdir(target_path) do
-          git! "checkout -b activated-pod-commit #{options[:commit]} 2>&1"
+          git! "checkout -b activated-commit #{options[:commit]}"
         end
       end
 
-      # @return [void] Checks out the HEAD of a specific branch of the git
-      #         source in the destination path.
+      # Initializes and updates the submodules of the cloned repo.
       #
-      # @note   `git checkout` outputs to stderr and thus it is
-      #         redirected to stdout.
-      #
-      def download_branch
-        clone(url, target_path)
-      end
-
-      # @return [void] Checks out a specific tag of the git source in the
-      #         destination path.
-      #
-      def download_tag
-        clone(url, target_path)
-      end
-
-      # @return [String] Flags for performant git clone
-      #
-      # @note Due to a workaround in `git`, there's no different specifier
-      #       for cloning just a branch, tag or a commit.
-      #       Branches and Tags are accepted via `-b my_branch` or `-b 0.1.2`,
-      #       but commits aren't.
-      #
-      # @note That means, we'll need to use a different technique for commits
-      #
-      # @todo move to private
-      #
-      def shallow_flags
-        flags = [' --single-branch', '--depth 1']
-        flags << " -b #{options[:branch]}" if options[:branch]
-        flags << " -b #{options[:tag]}" if options[:tag]
-        flags.join(' ')
+      def init_submodules
+        Dir.chdir(target_path) do
+          git! 'submodule update --init --depth 1'
+        end
       end
     end
   end
