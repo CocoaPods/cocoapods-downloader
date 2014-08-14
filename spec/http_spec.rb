@@ -6,82 +6,98 @@ module Pod
 
       before do
         tmp_folder.rmtree if tmp_folder.exist?
+        @fixtures_url = 'file://' + fixture('http').to_s
       end
 
       it 'download file and unzip it' do
-        options = { :http => 'http://dl.google.com/googleadmobadssdk/googleadmobsearchadssdkios.zip' }
+        options = { :http => "#{@fixtures_url}/lib.zip" }
         downloader = Downloader.for_target(tmp_folder, options)
-        VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
-        tmp_folder('GoogleAdMobSearchAdsSDK/GADSearchRequest.h').should.exist
-        tmp_folder('GoogleAdMobSearchAdsSDK/GADSearchRequest.h').read.strip.should =~ /Google Search Ads iOS SDK/
+        downloader.download
+        tmp_folder('lib/file.txt').should.exist
+        tmp_folder('lib/file.txt').read.strip.should =~ /This is a fixture/
       end
 
       it 'should download file and unzip it when the target folder name contains quotes or spaces' do
-        options = { :http => 'http://dl.google.com/googleadmobadssdk/googleadmobsearchadssdkios.zip' }
+        options = { :http => "#{@fixtures_url}/lib.zip" }
         downloader = Downloader.for_target(tmp_folder_with_quotes, options)
-        VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
-        tmp_folder_with_quotes('GoogleAdMobSearchAdsSDK/GADSearchRequest.h').should.exist
-        tmp_folder_with_quotes('GoogleAdMobSearchAdsSDK/GADSearchRequest.h').read.strip.should =~ /Google Search Ads iOS SDK/
+        downloader.download
+        tmp_folder_with_quotes('lib/file.txt').should.exist
+        tmp_folder_with_quotes('lib/file.txt').read.strip.should =~ /This is a fixture/
       end
 
       it 'should flatten zip archives, when the spec explicitly demands it' do
         options = {
-          :http => 'https://github.com/kevinoneill/Useful-Bits/archive/1.0.zip',
+          :http => "#{@fixtures_url}/lib.zip",
           :flatten => true,
         }
         downloader = Downloader.for_target(tmp_folder, options)
-        VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
-        # Archive contains one folder, which contains 8 items. The archive is
-        # 1, and the parent folder that we moved stuff out of is 1.
-        Dir.glob(tmp_folder + '*').count.should == 8 + 1 + 1
+        downloader.download
+        tmp_folder('file.txt').should.exist
       end
 
-      # TODO: slow 90.6 s
       it 'moves unpacked contents to parent dir when archive contains only a folder (#727)' do
-        downloader = Downloader.for_target(tmp_folder, :http => 'http://www.openssl.org/source/openssl-1.0.0a.tar.gz')
-        VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
-        # Archive contains one folder, which contains 49 items. The archive is
-        # 1, and the parent folder that we moved stuff out of is 1.
-        Dir.glob(downloader.target_path + '*').count.should == 49 + 1 + 1
+        downloader = Downloader.for_target(tmp_folder, :http => "#{@fixtures_url}/lib.tar.gz")
+        downloader.download
+        tmp_folder('file.txt').should.exist
       end
 
       it 'does not move unpacked contents to parent dir when archive contains multiple children' do
-        downloader = Downloader.for_target(tmp_folder, :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip')
-        VCR.use_cassette('tarballs', :record => :new_episodes) { downloader.download }
-        # Archive contains 4 files, and the archive is 1
-        Dir.glob(downloader.target_path + '*').count.should == 4 + 1
+        downloader = Downloader.for_target(tmp_folder, :http => "#{@fixtures_url}/lib_multiple.tar.gz")
+        downloader.download
+        tmp_folder('lib_1/file.txt').should.exist
+        tmp_folder('lib_2/file.txt').should.exist
       end
 
       it 'raises if it fails to download' do
         options = { :http => 'broken-link.zip'  }
         downloader = Downloader.for_target(tmp_folder, options)
-        lambda { downloader.download }.should.raise DownloaderError
+        should.raise DownloaderError do
+          downloader.download
+        end
       end
 
-      # TODO: slow 109.7 s
       it 'should verify that the downloaded file matches a sha1 hash' do
-        options = { :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip', :sha1 => 'fb62ffebfaa5b722fc50f09458aacf617a5b0177' }
+        options = {
+          :http => "#{@fixtures_url}/lib.zip",
+          :sha1 => 'be62f423e2afde57ae7d79ba7bd3443df73e0021'
+        }
         downloader = Downloader.for_target(tmp_folder, options)
-        lambda { downloader.download }.should.not.raise DownloaderError
+        should.not.raise do
+          downloader.download
+        end
       end
 
-      # TODO: slow 88.1 s
       it 'should fail if the sha1 hash does not match' do
-        options = { :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip', :sha1 => 'invalid_sha1_hash' }
+        options = {
+          :http => "#{@fixtures_url}/lib.zip",
+          :sha1 => 'invalid_sha1_hash'
+        }
         downloader = Downloader.for_target(tmp_folder, options)
-        lambda { downloader.download }.should.raise DownloaderError
+        should.raise DownloaderError do
+          downloader.download
+        end
       end
 
       it 'should verify that the downloaded file matches a sha256 hash' do
-        options = { :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip', :sha256 => '400f46f915438a55166f3cea86a81c3bac33e6d76d3bfc403891434bb5518bcc' }
+        options = {
+          :http => "#{@fixtures_url}/lib.zip",
+          :sha256 => '0a2cb9eca9c468d21d1a9af9031385c5bb7039f1b287836f87cc78b3650e2bdb'
+        }
         downloader = Downloader.for_target(tmp_folder, options)
-        lambda { downloader.download }.should.not.raise DownloaderError
+        should.not.raise do
+          downloader.download
+        end
       end
 
       it 'should fail if the sha256 hash does not match' do
-        options = { :http => 'https://testflightapp.com/media/sdk-downloads/TestFlightSDK1.0.zip', :sha256 => 'invalid_sha256_hash' }
+        options = {
+          :http => "#{@fixtures_url}/lib.zip",
+          :sha256 => 'invalid_sha256_hash'
+        }
         downloader = Downloader.for_target(tmp_folder, options)
-        lambda { downloader.download }.should.raise DownloaderError
+        should.raise DownloaderError do
+          downloader.download
+        end
       end
 
       #-------------------------------------------------------------------------#

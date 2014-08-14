@@ -26,7 +26,7 @@ begin
   #-----------------------------------------------------------------------------#
 
   desc 'Run specs'
-  task :spec => 'fixtures:unpack_fixture_tarballs' do
+  task :spec => 'fixtures:unpack' do
     title 'Running Unit Tests'
     files = FileList['spec/**/*_spec.rb'].shuffle.join(' ')
     sh "bundle exec bacon #{files}"
@@ -38,23 +38,36 @@ begin
   #-----------------------------------------------------------------------------#
 
   namespace :fixtures do
-    desc 'Rebuild all the fixture tarballs'
-    task :rebuild_fixture_tarballs do
+    desc 'Rebuild all the fixture archives'
+    task :pack do
       title 'Rebuilding fixtures'
-      tarballs = FileList['spec/fixtures/**/*.tar.gz']
-      tarballs.each do |tarball|
-        basename = File.basename(tarball)
-        sh "cd #{File.dirname(tarball)} && rm #{basename} && env COPYFILE_DISABLE=1 tar -zcf #{basename} #{basename[0..-8]}"
+      archives = FileList['spec/fixtures/**/*.{tar.gz,zip}']
+      archives.each do |archive|
+        puts
+        puts archive
+
+        basename = File.basename(archive)
+        Dir.chdir(File.dirname(archive)) do
+          sh "rm #{basename}"
+          if archive.end_with?('_multiple.tar.gz')
+            childs = FileList[basename[0..-8] + '/*']
+            sh "env COPYFILE_DISABLE=1 tar -zcf #{basename} #{childs.join(' ')}"
+          elsif File.extname(archive) == '.gz'
+            sh "env COPYFILE_DISABLE=1 tar -zcf #{basename} #{basename[0..-8]}"
+          else
+            sh "zip -r #{basename} #{basename[0..-5]}"
+          end
+        end
       end
     end
 
-    desc 'Unpacks all the fixture tarballs'
-    task :unpack_fixture_tarballs do
+    desc 'Unpacks all the fixture archives'
+    task :unpack do
       title 'Unpacking fixtures'
-      tarballs = FileList['spec/fixtures/**/*.tar.gz']
-      tarballs.each do |tarball|
-        basename = File.basename(tarball)
-        Dir.chdir(File.dirname(tarball)) do
+      archives = FileList['spec/fixtures/**/*.tar.gz']
+      archives.each do |archive|
+        basename = File.basename(archive)
+        Dir.chdir(File.dirname(archive)) do
           sh "rm -rf #{basename[0..-8]} && tar zxf #{basename}"
         end
       end
