@@ -70,7 +70,7 @@ module Pod
           downloader.download
           downloader.checkout_options.should == {
             :git => fixture('git-repo'),
-            :commit => 'd7f410490dabf7a6bde665ba22da102c3acf1bd9',
+            :commit => '98cbf14201a78b56c6b7290f6cac840a7597a1c2',
           }
         end
       end
