@@ -55,8 +55,6 @@ module Pod
     #         options.
     #
     # @todo   Improve the common support for the cache in Base and add specs.
-    # @todo   Find a way to switch to GitHub tarballs if no cache is used. Have
-    #         global options for the Downloader cache?
     #
     def self.for_target(target_path, options)
       options = Hash[options.map{ |k, v| [k.to_sym, v] }]
@@ -79,11 +77,6 @@ module Pod
       sub_options = options.dup
       sub_options.delete(strategy)
       klass = downloader_class_by_key[strategy]
-
-      if klass == Git && url.to_s =~ /github.com/
-        klass = GitHub
-      end
-
       klass.new(target_path, url, sub_options)
     end
   end

@@ -46,8 +46,7 @@ module Pod
       # @param  [Hash={Symbol=>String}] options @see options
       #
       # @todo   There is no need of the download only option, it should be
-      #         deprecated and the GitHub downloader should be initialized by
-      #         other means.
+      #         deprecated.
       #
       def initialize(target_path, url, options)
         require 'pathname'

@@ -226,51 +226,5 @@ module Pod
 
     #---------------------------------------------------------------------------#
 
-    # Allows to download tarballs from GitHub.
-    #
-    class GitHub < Git
-      require 'open-uri'
-
-      def download_head!
-        download_only? ? download_and_extract_tarball('master') : super
-      end
-
-      def download_tag
-        download_only? ? download_and_extract_tarball(options[:tag]) : super
-      end
-
-      def download_commit
-        download_only? ? download_and_extract_tarball(options[:commit]) : super
-      end
-
-      def download_branch
-        download_only? ? download_and_extract_tarball(options[:branch]) : super
-      end
-
-      def tarball_url_for(id)
-        match = url.match(%r{[:/]([\w\-]+)/([\w\-]+)\.git})
-        "https://github.com/#{match[1]}/#{match[2]}/tarball/#{id}"
-      end
-
-      def tmp_path
-        target_path + 'tarball.tar.gz'
-      end
-
-      private
-
-      def download_only?
-        @options[:download_only]
-      end
-
-      def download_and_extract_tarball(id)
-        File.open(tmp_path, 'w+') do |tmpfile|
-          open tarball_url_for(id) do |archive|
-            tmpfile.write Zlib::GzipReader.new(archive).read
-          end
-
-          system "tar xf #{tmpfile.path.shellescape} -C #{target_path.shellescape} --strip-components 1"
-        end
-      end
-    end
   end
 end
