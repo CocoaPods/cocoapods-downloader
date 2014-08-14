@@ -35,7 +35,9 @@ module Pod
         else
           download_head!
         end
-        Dir.chdir(target_path) { git! 'submodule update --init'  } if options[:submodules]
+        if options[:submodules]
+          Dir.chdir(target_path) { git! 'submodule update --init --depth 1' }
+        end
       end
 
       # @return [void] Checks out the HEAD of the git source in the destination
@@ -43,7 +45,9 @@ module Pod
       #
       def download_head!
         clone(url, target_path)
-        Dir.chdir(target_path) { git! 'submodule update --init'  } if options[:submodules]
+        if options[:submodules]
+          Dir.chdir(target_path) { git! 'submodule update --init --depth 1' }
+        end
       end
 
       #--------------------------------------#
