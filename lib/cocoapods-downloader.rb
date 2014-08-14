@@ -54,8 +54,6 @@ module Pod
     # @return [Downloader::Base] A concrete downloader according to the
     #         options.
     #
-    # @todo   Improve the common support for the cache in Base and add specs.
-    #
     def self.for_target(target_path, options)
       options = Hash[options.map { |k, v| [k.to_sym, v] }]
 

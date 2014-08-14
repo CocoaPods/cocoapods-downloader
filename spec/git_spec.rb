@@ -106,19 +106,6 @@ module Pod
         tmp_folder('README').read.strip.should == 'v1.0'
       end
 
-      it 'checks out a specific tag using git clone when a cache is available for performance' do
-        options = { :git => fixture('git-repo'), :tag => 'v1.0' }
-        downloader = Downloader.for_target(tmp_folder('destination'), options)
-        downloader.cache_root = tmp_folder('cache')
-        def downloader.execute_command(_, command, __ = false)
-          @spec_commands_log ||= []
-          @spec_commands_log << command
-        end
-        downloader.download
-        commands = downloader.instance_variable_get('@spec_commands_log').join("\n")
-        commands.should.not.include('init')
-      end
-
       it "doesn't updates submodules by default" do
         options = { :git => fixture('git-repo'), :commit => 'd7f4104' }
         downloader = Downloader.for_target(tmp_folder, options)
@@ -138,43 +125,10 @@ module Pod
         FileUtils.rm_rf('/tmp/git-submodule-repo')
       end
 
-      #--------------------------------------#
-
-      it 'prepares the cache if it does not exist' do
-        options = { :git => fixture('git-repo'), :commit => '7ad3a6c' }
-        downloader = Downloader.for_target(tmp_folder('checkout'), options)
-        downloader.cache_root = tmp_folder('cache')
-        downloader.cache_path.rmtree if downloader.cache_path.exist?
-        downloader.expects(:create_cache).once
-        downloader.stubs(:download_commit)
-        downloader.download
-      end
-
-      it 'prepares the cache if it does not exist when the HEAD is requested explicitly' do
-        options = { :git => fixture('git-repo') }
-        downloader = Downloader.for_target(tmp_folder('checkout'), options)
-        downloader.cache_root = tmp_folder('cache')
-        downloader.cache_path.rmtree if downloader.cache_path.exist?
-        downloader.expects(:create_cache).once
-        downloader.stubs(:clone)
-        downloader.download_head
-      end
-
       it 'returns whether it supports the download of the head' do
         options = { :git => fixture('git-repo') }
         downloader = Downloader.for_target(tmp_folder('checkout'), options)
         downloader.head_supported?.should.be.true
-      end
-
-      # TODO: move to base
-      #
-      it 'removes the oldest repo if the caches is too big' do
-        options = { :git => fixture('git-repo'), :commit => '7ad3a6c' }
-        downloader = Downloader.for_target(tmp_folder('checkout'), options)
-        downloader.cache_root = tmp_folder('cache')
-        downloader.max_cache_size = 0
-        downloader.download
-        downloader.cache_path.should.not.exist?
       end
 
       it 'returns whether the provided options are specific' do
@@ -220,88 +174,6 @@ module Pod
         options = { :git => fixture('git-repo'), :commit => 'aaaaaa' }
         downloader = Downloader.for_target(tmp_folder, options)
         lambda { downloader.download }.should.raise DownloaderError
-      end
-
-      #--------------------------------------#
-
-      it 'returns the cache directory as the clone url' do
-        options = { :git => fixture('git-repo'), :commit => '7ad3a6c' }
-        downloader = Downloader.for_target(tmp_folder('checkout'), options)
-        downloader.cache_root = tmp_folder('cache')
-        downloader.send(:clone_url).to_s.should.match %r{tmp/cache/Git}
-      end
-
-      it 'updates the cache if the HEAD is requested' do
-        options = { :git => fixture('git-repo') }
-        downloader = Downloader.for_target(tmp_folder('checkout'), options)
-        downloader.cache_root = tmp_folder('cache')
-        downloader.expects(:update_cache).once
-        downloader.download
-      end
-
-      it 'updates the cache if the ref is not available' do
-        # create the origin repo and the cache
-        tmp_repo_path = tmp_folder + 'git-repo-source'
-        `git clone #{fixture('git-repo').shellescape} #{tmp_repo_path.shellescape}`
-        options = { :git => tmp_repo_path, :commit => '7ad3a6c' }
-        downloader = Downloader.for_target(tmp_folder('checkout'), options)
-        downloader.download
-
-        # make a new commit in the origin
-        commit = ''
-        Dir.chdir(tmp_repo_path) do
-          `touch test.txt`
-          `git add test.txt`
-          `git commit -m 'test'`
-          commit = `git rev-parse HEAD`.chomp
-        end
-
-        # require the new commit
-        options = { :git => tmp_repo_path, :commit => commit }
-        downloader = Downloader.for_target(tmp_folder('checkout-1'), options)
-        downloader.download
-        tmp_folder('checkout-1/test.txt').should.exist?
-      end
-
-      it "doesn't update the cache if the ref is available" do
-        options = { :git => fixture('git-repo'), :commit => '7ad3a6c' }
-        downloader = Downloader.for_target(tmp_folder('checkout'), options)
-        downloader.cache_root = tmp_folder('cache')
-        downloader.download
-        tmp_folder.rmtree
-        downloader.expects(:update_cache).never
-        downloader.download
-      end
-
-      it 'update the cache if the tag is available by default' do
-        options = { :git => fixture('git-repo'), :tag => 'v1.0' }
-        downloader = Downloader.for_target(tmp_folder('checkout'), options)
-        downloader.cache_root = tmp_folder('cache')
-        downloader.download
-        tmp_folder('checkout').rmtree
-        downloader.expects(:update_cache).once
-        downloader.download
-      end
-
-      it "doesn't update the cache if the tag is available and the aggressive cache option is specified" do
-        options = { :git => fixture('git-repo'), :tag => 'v1.0' }
-        downloader = Downloader.for_target(tmp_folder('checkout'), options)
-        downloader.cache_root = tmp_folder('cache')
-        downloader.aggressive_cache = true
-        downloader.download
-        tmp_folder('checkout').rmtree
-        downloader.expects(:update_cache).never
-        downloader.download
-      end
-
-      it 'always updates the cache if a branch requested' do
-        options = { :git => fixture('git-repo'), :branch => 'master' }
-        downloader = Downloader.for_target(tmp_folder('checkout'), options)
-        downloader.cache_root = tmp_folder('cache')
-        downloader.download
-        tmp_folder.rmtree
-        downloader.expects(:update_cache).once
-        downloader.download
       end
     end
   end
