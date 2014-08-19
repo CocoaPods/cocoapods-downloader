@@ -21,7 +21,7 @@ module Pod
       # @return [void]
       #
       def check_exit_code!(executable, command, output)
-        if $CHILD_STATUS.to_i != 0
+        if $?.to_i != 0
           raise DownloaderError, "Error on `#{executable} #{command}`.\n#{output}"
         end
       end
