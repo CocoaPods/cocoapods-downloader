@@ -59,7 +59,7 @@ module Pod
       it 'should verify that the downloaded file matches a sha1 hash' do
         options = {
           :http => "#{@fixtures_url}/lib.zip",
-          :sha1 => 'be62f423e2afde57ae7d79ba7bd3443df73e0021'
+          :sha1 => 'be62f423e2afde57ae7d79ba7bd3443df73e0021',
         }
         downloader = Downloader.for_target(tmp_folder, options)
         should.not.raise do
@@ -70,7 +70,7 @@ module Pod
       it 'should fail if the sha1 hash does not match' do
         options = {
           :http => "#{@fixtures_url}/lib.zip",
-          :sha1 => 'invalid_sha1_hash'
+          :sha1 => 'invalid_sha1_hash',
         }
         downloader = Downloader.for_target(tmp_folder, options)
         should.raise DownloaderError do
@@ -81,7 +81,7 @@ module Pod
       it 'should verify that the downloaded file matches a sha256 hash' do
         options = {
           :http => "#{@fixtures_url}/lib.zip",
-          :sha256 => '0a2cb9eca9c468d21d1a9af9031385c5bb7039f1b287836f87cc78b3650e2bdb'
+          :sha256 => '0a2cb9eca9c468d21d1a9af9031385c5bb7039f1b287836f87cc78b3650e2bdb',
         }
         downloader = Downloader.for_target(tmp_folder, options)
         should.not.raise do
@@ -92,7 +92,7 @@ module Pod
       it 'should fail if the sha256 hash does not match' do
         options = {
           :http => "#{@fixtures_url}/lib.zip",
-          :sha256 => 'invalid_sha256_hash'
+          :sha256 => 'invalid_sha256_hash',
         }
         downloader = Downloader.for_target(tmp_folder, options)
         should.raise DownloaderError do
