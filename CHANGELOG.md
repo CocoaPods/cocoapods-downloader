@@ -2,7 +2,16 @@
 
 ## Master
 
+###### Breaking
+
+* The `Git` cache and the `GitHub` strategy have been dropped.  
+  [Fabio Pelosin](https://github.com/irrationalfab)
+
 ###### Enhancements
+
+* Improved performance of `Git` downloads using shallow clone.  
+  [Marin Usalj](https://github.com/supermarin)
+  [Fabio Pelosin](https://github.com/irrationalfab)
 
 * Added method to check if the head strategy is supported by a concreted
   downloader class.  
