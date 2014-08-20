@@ -45,15 +45,11 @@ module Pod
       # @param  [String] url @see url
       # @param  [Hash={Symbol=>String}] options @see options
       #
-      # @todo   There is no need of the download only option, it should be
-      #         deprecated.
-      #
       def initialize(target_path, url, options)
         require 'pathname'
         @target_path, @url, @options = Pathname.new(target_path), url, options
 
-        accepted_options = self.class.options + [:download_only]
-        unrecognized_options = options.keys - accepted_options
+        unrecognized_options = options.keys - self.class.options
         unless unrecognized_options.empty?
           raise DownloaderError, "Unrecognized options `#{unrecognized_options}`"
         end
