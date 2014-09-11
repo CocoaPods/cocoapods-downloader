@@ -16,7 +16,7 @@
 * Added method to check if the head strategy is supported by a concreted
   downloader class.  
   [Fabio Pelosin](https://github.com/fabiopelosin)
-  [#12](https://github.com/CocoaPods/cocoapods-downloader/issues/28)
+  [#12](https://github.com/CocoaPods/cocoapods-downloader/issues/12)
 
 ###### Bug Fixes
 
