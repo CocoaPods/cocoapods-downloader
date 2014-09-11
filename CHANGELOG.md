@@ -5,30 +5,30 @@
 ###### Breaking
 
 * The `Git` cache and the `GitHub` strategy have been dropped.  
-  [Fabio Pelosin](https://github.com/irrationalfab)
+  [Fabio Pelosin](https://github.com/fabiopelosin)
 
 ###### Enhancements
 
 * Improved performance of `Git` downloads using shallow clone.  
   [Marin Usalj](https://github.com/supermarin)
-  [Fabio Pelosin](https://github.com/irrationalfab)
+  [Fabio Pelosin](https://github.com/fabiopelosin)
 
 * Added method to check if the head strategy is supported by a concreted
   downloader class.  
-  [Fabio Pelosin](https://github.com/irrationalfab)
+  [Fabio Pelosin](https://github.com/fabiopelosin)
   [#12](https://github.com/CocoaPods/cocoapods-downloader/issues/28)
 
 ###### Bug Fixes
 
 * Fixed the check for git references on Ruby 1.8.7.  
-  [Fabio Pelosin](https://github.com/irrationalfab)
+  [Fabio Pelosin](https://github.com/fabiopelosin)
   [#28](https://github.com/CocoaPods/cocoapods-downloader/issues/28)
 
 
 ## 0.6.1
 
 * Robustness against string keys.  
-  [Fabio Pelosin](https://github.com/irrationalfab)
+  [Fabio Pelosin](https://github.com/fabiopelosin)
   [#25](https://github.com/CocoaPods/cocoapods-downloader/issues/25)
 
 ## 0.6.0
@@ -37,12 +37,12 @@
 
 * Added support for `:checkout` option in SVN sources.  
   [Marc C.](https://github.com/yalp)
-  [Fabio Pelosin](https://github.com/irrationalfab)
+  [Fabio Pelosin](https://github.com/fabiopelosin)
   [#7](https://github.com/CocoaPods/cocoapods-downloader/pull/7)
 
 * Added support for `:sha1` and `:sha256` options in HTTP sources to verify a
   files checksum.  
-  [Kyle Fuller](kylef)
+  [Kyle Fuller](https://github.com/kylef)
   [CocoaPods#2105](https://github.com/CocoaPods/CocoaPods/issues/2105)
 
 ## 0.5.0
@@ -60,7 +60,7 @@
 ###### Bug Fixes
 
 * Support `:http` downloads with `get` parameters.  
-  [Fabio Pelosin](https://github.com/irrationalfab)
+  [Fabio Pelosin](https://github.com/fabiopelosin)
   [#15](https://github.com/CocoaPods/cocoapods-downloader/issues/15)
 
 ## 0.4.1
