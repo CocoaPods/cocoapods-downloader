@@ -60,7 +60,11 @@ module Pod
           command = ['clone', url.shellescape, target_path.shellescape]
 
           unless options[:commit]
-            command += ['--single-branch', '--depth 1']
+            command << '--single-branch'
+
+            if supports_depth?
+              command << '--depth 1'
+            end
           end
 
           unless force_head
@@ -85,8 +89,27 @@ module Pod
       #
       def init_submodules
         Dir.chdir(target_path) do
-          git! 'submodule update --init --depth 1'
+          command = 'submodule update --init'
+
+          if supports_depth?
+             command += ' --depth 1'
+          end
+
+          git! command
         end
+      end
+
+      # Does git server support '--depth' parameter?
+      #
+      def supports_depth?
+        is_github?
+      end
+
+      # Is the URI pointing to github.com?
+      #
+      def is_github?
+        require 'uri'
+        URI(url.to_s).host == 'github.com'
       end
     end
   end
