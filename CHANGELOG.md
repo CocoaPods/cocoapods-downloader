@@ -1,5 +1,12 @@
 # Changelog
 
+## Master
+
+###### Enhancements
+
+* Guards against remote code execution with malicious download options.  
+  [Kyle Fuller](https://github.com/kylef)
+
 ## 0.7.1
 
 ###### Bug Fixes

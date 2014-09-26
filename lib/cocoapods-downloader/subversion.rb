@@ -28,7 +28,7 @@ module Pod
       end
 
       def download_head!
-        output = svn!(%(#{subcommand} "#{trunk_url}" #{@target_path.shellescape}))
+        output = svn!(%(#{subcommand} #{trunk_url.shellescape} #{@target_path.shellescape}))
         store_exported_revision(output)
       end
 

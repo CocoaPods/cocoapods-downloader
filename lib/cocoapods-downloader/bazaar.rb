@@ -36,11 +36,11 @@ module Pod
       end
 
       def download_head!
-        bzr! %(branch "#{url}" #{dir_opts} #{@target_path.shellescape})
+        bzr! %(branch #{url.shellescape} #{dir_opts.shellescape} #{@target_path.shellescape})
       end
 
       def download_revision!(rev)
-        bzr! %(branch "#{url}" #{dir_opts} -r '#{rev}' #{@target_path.shellescape})
+        bzr! %(branch #{url.shellescape} #{dir_opts.shellescape} -r #{rev.shellescape} #{@target_path.shellescape})
       end
 
       # @return [String] The command line flags to use according to whether the

@@ -65,7 +65,7 @@ module Pod
 
           unless force_head
             if tag_or_branch = options[:tag] || options[:branch]
-              command += ['--branch', tag_or_branch]
+              command += ['--branch', tag_or_branch.shellescape]
             end
           end
 
@@ -77,7 +77,7 @@ module Pod
       #
       def checkout_commit
         Dir.chdir(target_path) do
-          git! "checkout -b activated-commit #{options[:commit]}"
+          git! "checkout -b activated-commit #{options[:commit].shellescape}"
         end
       end
 
