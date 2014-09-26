@@ -8,7 +8,7 @@
   [Richard Lee](https://github.com/dlackty)
   [#32](https://github.com/CocoaPods/cocoapods-downloader/issues/32)
 
-## 0.7.0
+## 0.7.1
 
 ###### Breaking
 
