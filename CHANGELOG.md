@@ -1,5 +1,13 @@
 # Changelog
 
+## Master
+
+###### Bug Fixes
+
+* Fixed an issue downloading shallow git submodules.  
+  [Richard Lee](https://github.com/dlackty)
+  [#32](https://github.com/CocoaPods/cocoapods-downloader/issues/32)
+
 ## 0.7.0
 
 ###### Breaking
