@@ -85,7 +85,7 @@ module Pod
       #
       def init_submodules
         Dir.chdir(target_path) do
-          git! 'submodule update --init --depth 1'
+          git! 'submodule update --init'
         end
       end
     end

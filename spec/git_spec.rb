@@ -144,17 +144,6 @@ module Pod
             `git rev-list HEAD`.chomp.should.include '407e385'
           end
         end
-
-        # It should work because the submodule command supports the depth
-        # option but it doesn't.
-        #
-        xit 'shallow clones submodules' do
-          options = { :git => fixture_url('git-repo'), :submodules => true }
-          downloader = Downloader.for_target(tmp_folder, options)
-          downloader.download
-
-          ensure_only_one_ref("#{tmp_folder}/submodule")
-        end
       end
 
       describe 'Robustness' do
