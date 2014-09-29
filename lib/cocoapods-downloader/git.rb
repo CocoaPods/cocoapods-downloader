@@ -91,7 +91,7 @@ module Pod
 
       def smart_remote?
         return true if Pathname.new(url).directory?
-        return false unless url =~ URI.regexp
+        return true unless url =~ URI.regexp
         target = URI(url)
         return true if target.scheme == 'file'
         require 'rest'
