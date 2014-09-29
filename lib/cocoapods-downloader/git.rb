@@ -90,11 +90,17 @@ module Pod
       end
 
       def smart_remote?
+        return true if Pathname.new(url).directory?
+        require 'gitable'
+        return false unless target = Gitable::URI.parse(url)
+        return true if target.scheme == 'file'
         require 'rest'
-        return false unless URI.regexp =~ url.to_s
-        target = url.to_s + '/info/refs?service=git-upload-pack'
+        target.path += 'info/refs'
+        target.query = 'service=git-upload-pack'
         response = REST.head(target)
         response.success && (response.headers['Content-Type'] =~ /application\/x-git/)
+      rescue Addressable::URI::InvalidURIError => e
+        return false
       end
     end
   end
