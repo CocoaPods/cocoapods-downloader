@@ -99,7 +99,7 @@ module Pod
         target.query = 'service=git-upload-pack'
         response = REST.head(target)
         response.success && (response.headers['Content-Type'] =~ /application\/x-git/)
-      rescue Addressable::URI::InvalidURIError => e
+      rescue Addressable::URI::InvalidURIError
         return false
       end
     end
