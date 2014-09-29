@@ -59,7 +59,7 @@ module Pod
         ui_sub_action('Git download') do
           command = ['clone', url.shellescape, target_path.shellescape]
 
-          unless options[:commit]
+          if smart_remote? && !options[:commit]
             command += ['--single-branch', '--depth 1']
           end
 
@@ -87,6 +87,14 @@ module Pod
         Dir.chdir(target_path) do
           git! 'submodule update --init'
         end
+      end
+
+      def smart_remote?
+        require 'rest'
+        return false unless URI.regexp =~ url.to_s
+        target = url.to_s + '/info/refs?service=git-upload-pack'
+        response = REST.head(target)
+        response.success && (response.headers['Content-Type'] =~ /application\/x-git/)
       end
     end
   end

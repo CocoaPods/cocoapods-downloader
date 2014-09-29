@@ -1,3 +1,9 @@
+PATH
+  remote: .
+  specs:
+    cocoapods-downloader (0.7.1)
+      nap (~> 0.8.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -24,6 +30,7 @@ GEM
     mocha-on-bacon (0.2.2)
       mocha (>= 0.13.0)
     multi_json (1.10.1)
+    nap (0.8.0)
     notify (0.5.2)
     parser (2.2.0.pre.4)
       ast (>= 1.1, < 3.0)
@@ -61,6 +68,7 @@ PLATFORMS
 
 DEPENDENCIES
   bacon
+  cocoapods-downloader!
   codeclimate-test-reporter
   kicker
   mime-types (< 2.0)
