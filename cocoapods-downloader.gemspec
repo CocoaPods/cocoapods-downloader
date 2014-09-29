@@ -16,7 +16,6 @@ Gem::Specification.new do |s|
   s.require_paths = %w{ lib }
 
   s.add_runtime_dependency 'nap', '~> 0.8.0'
-  s.add_runtime_dependency 'gitable', '~> 0.3.1'
 
   ## Make sure you can build the gem on older versions of RubyGems too:
   s.rubygems_version = "1.6.2"
