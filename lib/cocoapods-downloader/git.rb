@@ -55,22 +55,14 @@ module Pod
       #         If any specific option should be ignored and the HEAD of the
       #         repo should be cloned.
       #
+      # @param  [Bool] shallow_clone
+      #         Whether a shallow clone of the repo should be attempted, if
+      #         possible given the specified {#options}.
+      #
       def clone(force_head = false, shallow_clone = true)
         ui_sub_action('Git download') do
-          command = ['clone', url.shellescape, target_path.shellescape]
-
-          if shallow_clone && !options[:commit]
-            command += ['--single-branch', '--depth 1']
-          end
-
-          unless force_head
-            if tag_or_branch = options[:tag] || options[:branch]
-              command += ['--branch', tag_or_branch]
-            end
-          end
-
           begin
-            git! command.join(' ')
+            git! clone_arguments(force_head, shallow_clone).join(' ')
           rescue DownloaderError => e
             if e.message =~ /^fatal:.*does not support --depth$/im
               clone(force_head, false)
@@ -79,6 +71,34 @@ module Pod
             end
           end
         end
+      end
+
+      # The arguments to pass to `git` to clone the repo.
+      #
+      # @param  [Bool] force_head
+      #         If any specific option should be ignored and the HEAD of the
+      #         repo should be cloned.
+      #
+      # @param  [Bool] shallow_clone
+      #         Whether a shallow clone of the repo should be attempted, if
+      #         possible given the specified {#options}.
+      #
+      # @return [Array<String>] arguments to pass to `git` to clone the repo.
+      #
+      def clone_arguments(force_head, shallow_clone)
+        command = ['clone', url.shellescape, target_path.shellescape]
+
+        if shallow_clone && !options[:commit]
+          command += ['--single-branch', '--depth 1']
+        end
+
+        unless force_head
+          if tag_or_branch = options[:tag] || options[:branch]
+            command += ['--branch', tag_or_branch]
+          end
+        end
+
+        command
       end
 
       # Checks out a specific commit of the cloned repo.
