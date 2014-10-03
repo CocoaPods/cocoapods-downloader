@@ -190,7 +190,10 @@ module Pod
         it 'will retry if a remote does not support shallow clones' do
           options = { :git => fixture_url('git-repo'), :tag => 'v1.0' }
           downloader = Downloader.for_target(tmp_folder, options)
-          dumb_remote_error = Pod::Downloader::DownloaderError.new("/usr/local/bin/git clone URL directory --single-branch --depth 1\nCloning into 'directory'...\nfatal: dumb http transport does not support --depth")
+          message = '/usr/local/bin/git clone URL directory --single-branch ' \
+            "--depth 1\nCloning into 'directory'...\n" \
+            'fatal: dumb http transport does not support --depth'
+          dumb_remote_error = Pod::Downloader::DownloaderError.new(message)
           downloader.stubs(:git!).raises(dumb_remote_error).then.returns(true)
           should.not.raise { downloader.download }
         end
