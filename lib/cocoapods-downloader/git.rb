@@ -55,11 +55,11 @@ module Pod
       #         If any specific option should be ignored and the HEAD of the
       #         repo should be cloned.
       #
-      def clone(force_head = false)
+      def clone(force_head = false, shallow_clone = true)
         ui_sub_action('Git download') do
           command = ['clone', url.shellescape, target_path.shellescape]
 
-          if smart_remote? && !options[:commit]
+          if shallow_clone && !options[:commit]
             command += ['--single-branch', '--depth 1']
           end
 
@@ -69,7 +69,15 @@ module Pod
             end
           end
 
-          git! command.join(' ')
+          begin
+            git! command.join(' ')
+          rescue DownloaderError => e
+            if e.message =~ /^fatal:.*does not support --depth$/im
+              clone(force_head, false)
+            else
+              raise
+            end
+          end
         end
       end
 
@@ -87,20 +95,6 @@ module Pod
         Dir.chdir(target_path) do
           git! 'submodule update --init'
         end
-      end
-
-      def smart_remote?
-        return true if Pathname.new(url).directory?
-        return true unless url =~ URI.regexp
-        target = URI(url)
-        return true if target.scheme == 'file'
-        require 'rest'
-        target.path += 'info/refs'
-        target.query = 'service=git-upload-pack'
-        response = REST.head(target)
-        response.success && (response.headers['Content-Type'] =~ /application\/x-git/)
-      rescue URI::InvalidURIError
-        return false
       end
     end
   end
