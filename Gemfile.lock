@@ -1,3 +1,8 @@
+PATH
+  remote: .
+  specs:
+    cocoapods-downloader (0.7.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -61,6 +66,7 @@ PLATFORMS
 
 DEPENDENCIES
   bacon
+  cocoapods-downloader!
   codeclimate-test-reporter
   kicker
   mime-types (< 2.0)
