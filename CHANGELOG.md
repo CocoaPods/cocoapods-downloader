@@ -1,5 +1,15 @@
 # Changelog
 
+## Master
+
+###### Enhancements
+
+* Fixed fetching from 'dumb' git remotes that don't support shallow clones.  
+  [Samuel Giddins](https://github.com/segiddins)
+  [CocoaPods#2537](https://github.com/CocoaPods/CocoaPods/issues/2537)
+  [#35](https://github.com/CocoaPods/cocoapods-downloader/issues/35)
+
+
 ## 0.7.1
 
 ###### Bug Fixes
@@ -119,4 +129,3 @@
 * Added support for specification of the cache path relative from the current
   working directory.  
   [#1](https://github.com/CocoaPods/cocoapods-downloader/issues/1)
-
