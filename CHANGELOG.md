@@ -1,6 +1,6 @@
 # Changelog
 
-## Master
+## 0.7.2
 
 ###### Enhancements
 
