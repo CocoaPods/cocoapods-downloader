@@ -1,6 +1,11 @@
 # Changelog
 
+## Master
+
 ## 0.7.2
+* Fixed fetching from 'dumb' git remotes that don't support shallow clones.  
+  [Michael Bishop](https://github.com/mbishop-fiksu)
+  [#40](https://github.com/CocoaPods/cocoapods-downloader/pull/40)
 
 ###### Enhancements
 
