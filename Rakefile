@@ -98,7 +98,7 @@ begin
 rescue LoadError
   $stderr.puts "\033[0;31m" \
     '[!] Some Rake tasks haven been disabled because the environment' \
-    ' couldn’t be loaded. Be sure to run `rake bootstrap` first.' \
+    ' couldn\'t be loaded. Be sure to run `rake bootstrap` first.' \
     "\e[0m"
   $stderr.puts e.message
   $stderr.puts e.backtrace
