@@ -17,6 +17,14 @@ module Pod
         tmp_folder('lib/file.txt').read.strip.should =~ /This is a fixture/
       end
 
+      it 'ignores any params in the url' do
+        options = { :http => "#{@fixtures_url}/lib.zip?param=value" }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.download
+        tmp_folder('lib/file.txt').should.exist
+        tmp_folder('lib/file.txt').read.strip.should =~ /This is a fixture/
+      end
+
       it 'should download file and unzip it when the target folder name contains quotes or spaces' do
         options = { :http => "#{@fixtures_url}/lib.zip" }
         downloader = Downloader.for_target(tmp_folder_with_quotes, options)

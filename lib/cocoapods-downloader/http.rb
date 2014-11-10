@@ -51,15 +51,16 @@ module Pod
       end
 
       def type_with_url(url)
-        if url =~ /.zip$/
+        path = URI::parse(url).path
+        if path =~ /.zip$/
           :zip
-        elsif url =~ /.(tgz|tar\.gz)$/
+        elsif path =~ /.(tgz|tar\.gz)$/
           :tgz
-        elsif url =~ /.tar$/
+        elsif path =~ /.tar$/
           :tar
-        elsif url =~ /.(tbz|tar\.bz2)$/
+        elsif path =~ /.(tbz|tar\.bz2)$/
           :tbz
-        elsif url =~ /.(txz|tar\.xz)$/
+        elsif path =~ /.(txz|tar\.xz)$/
           :txz
         else
           nil
