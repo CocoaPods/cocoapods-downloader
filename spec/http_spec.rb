@@ -20,9 +20,7 @@ module Pod
       it 'ignores any params in the url' do
         options = { :http => "#{@fixtures_url}/lib.zip?param=value" }
         downloader = Downloader.for_target(tmp_folder, options)
-        downloader.download
-        tmp_folder('lib/file.txt').should.exist
-        tmp_folder('lib/file.txt').read.strip.should =~ /This is a fixture/
+        downloader.send(:type).should == :zip
       end
 
       it 'should download file and unzip it when the target folder name contains quotes or spaces' do
@@ -111,43 +109,43 @@ module Pod
       #-------------------------------------------------------------------------#
 
       it 'detects zip files' do
-        options = { :http => 'https://file.zip' }
+        options = { :http => 'file:///file.zip' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.send(:type).should == :zip
       end
 
       it 'detects tar files' do
-        options = { :http => 'https://file.tar' }
+        options = { :http => 'file:///file.tar' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.send(:type).should == :tar
       end
 
       it 'detects tgz files' do
-        options = { :http => 'https://file.tgz' }
+        options = { :http => 'file:///file.tgz' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.send(:type).should == :tgz
       end
 
       it 'detects tbz files' do
-        options = { :http => 'https://file.tbz' }
+        options = { :http => 'file:///file.tbz' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.send(:type).should == :tbz
       end
 
       it 'detects txz files' do
-        options = { :http => 'https://file.txz' }
+        options = { :http => 'file:///file.txz' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.send(:type).should == :txz
       end
 
       it 'allows to specify the file type in the sources' do
-        options = { :http => 'https://file', :type => :zip }
+        options = { :http => 'file:///file', :type => :zip }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.send(:type).should == :zip
       end
 
       it 'should download file and extract it with proper type' do
-        options = { :http => 'https://file.zip' }
+        options = { :http => 'file:///file.zip' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.expects(:download_file).with(anything)
         downloader.expects(:extract_with_type).with(anything, :zip).at_least_once
@@ -155,25 +153,25 @@ module Pod
       end
 
       it 'should raise error when an unsupported file type is detected' do
-        options = { :http => 'https://file.rar' }
+        options = { :http => 'file:///file.rar' }
         downloader = Downloader.for_target(tmp_folder, options)
         lambda { downloader.download }.should.raise Http::UnsupportedFileTypeError
       end
 
       it 'should raise error when an unsupported file type is specified in the options' do
-        options = { :http => 'https://file', :type => :rar }
+        options = { :http => 'file:///file', :type => :rar }
         downloader = Downloader.for_target(tmp_folder, options)
         lambda { downloader.download }.should.raise Http::UnsupportedFileTypeError
       end
 
       it 'detects the file type if specified with a string' do
-        options = { :http => 'https://file', :type => 'zip' }
+        options = { :http => 'file:///file', :type => 'zip' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.send(:type).should == :zip
       end
 
       it 'returns whether it does not supports the download of the head' do
-        options = { :http => 'https://file', :type => 'zip' }
+        options = { :http => 'file:///file', :type => 'zip' }
         downloader = Downloader.for_target(tmp_folder('checkout'), options)
         downloader.head_supported?.should.be.false
       end
