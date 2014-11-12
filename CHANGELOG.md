@@ -2,10 +2,14 @@
 
 ## Master
 
-## 0.7.2
-* Fixed fetching from 'dumb' git remotes that don't support shallow clones.  
+###### Bug Fixes
+
+* Fixes an issue detecting file types when query parameters are used.  
   [Michael Bishop](https://github.com/mbishop-fiksu)
   [#40](https://github.com/CocoaPods/cocoapods-downloader/pull/40)
+
+
+## 0.7.2
 
 ###### Enhancements
 
