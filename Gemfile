@@ -14,9 +14,7 @@ group :development do
   # Ruby 1.8.7
   gem 'mime-types', '< 2.0'
 
-  if RUBY_VERSION >= '1.9.3'
-    gem 'rubocop'
-    gem 'codeclimate-test-reporter', :require => nil
-    gem 'simplecov'
-  end
+  gem 'rubocop'
+  gem 'codeclimate-test-reporter', :require => nil
+  gem 'simplecov'
 end
