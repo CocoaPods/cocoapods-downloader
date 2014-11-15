@@ -1,8 +1,14 @@
 # Changelog
 
-## Master
+## 0.8.0
 
-###### Bug Fixes
+##### Breaking
+
+* Support for older versions of Ruby has been dropped. cocoapods-downloader now
+  requires Ruby 2.0.0 or greater.
+  [Kyle Fuller](https://github.com/kylef)
+
+##### Bug Fixes
 
 * Fixes an issue detecting file types when query parameters are used.  
   [Michael Bishop](https://github.com/mbishop-fiksu)
