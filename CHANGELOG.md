@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.8.1
+
+##### Bug Fixes
+
+* Ensure that `curl` fails on HTTP error status codes so that archive handling
+  fails at the right time and not when it tries to unpack a 404 HTML document.
+  [Eloy Durán](https://github.com/alloy)
+  [#41](https://github.com/CocoaPods/cocoapods-downloader/issues/41)
+
+
 ## 0.8.0
 
 ##### Breaking

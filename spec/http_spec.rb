@@ -57,123 +57,126 @@ module Pod
       it 'raises if it fails to download' do
         options = { :http => 'broken-link.zip'  }
         downloader = Downloader.for_target(tmp_folder, options)
+        downloader.expects(:curl!).with { |command| command.include?('-f') }.raises(DownloaderError)
         should.raise DownloaderError do
           downloader.download
         end
       end
 
-      it 'should verify that the downloaded file matches a sha1 hash' do
-        options = {
-          :http => "#{@fixtures_url}/lib.zip",
-          :sha1 => 'be62f423e2afde57ae7d79ba7bd3443df73e0021',
-        }
-        downloader = Downloader.for_target(tmp_folder, options)
-        should.not.raise do
-          downloader.download
-        end
-      end
-
-      it 'should fail if the sha1 hash does not match' do
-        options = {
-          :http => "#{@fixtures_url}/lib.zip",
-          :sha1 => 'invalid_sha1_hash',
-        }
-        downloader = Downloader.for_target(tmp_folder, options)
-        should.raise DownloaderError do
-          downloader.download
-        end
-      end
-
-      it 'should verify that the downloaded file matches a sha256 hash' do
-        options = {
-          :http => "#{@fixtures_url}/lib.zip",
-          :sha256 => '0a2cb9eca9c468d21d1a9af9031385c5bb7039f1b287836f87cc78b3650e2bdb',
-        }
-        downloader = Downloader.for_target(tmp_folder, options)
-        should.not.raise do
-          downloader.download
-        end
-      end
-
-      it 'should fail if the sha256 hash does not match' do
-        options = {
-          :http => "#{@fixtures_url}/lib.zip",
-          :sha256 => 'invalid_sha256_hash',
-        }
-        downloader = Downloader.for_target(tmp_folder, options)
-        should.raise DownloaderError do
-          downloader.download
-        end
-      end
-
-      #-------------------------------------------------------------------------#
-
-      it 'detects zip files' do
-        options = { :http => 'https://foo/file.zip' }
-        downloader = Downloader.for_target(tmp_folder, options)
-        downloader.send(:type).should == :zip
-      end
-
-      it 'detects tar files' do
-        options = { :http => 'https://foo/file.tar' }
-        downloader = Downloader.for_target(tmp_folder, options)
-        downloader.send(:type).should == :tar
-      end
-
-      it 'detects tgz files' do
-        options = { :http => 'https://foo/file.tgz' }
-        downloader = Downloader.for_target(tmp_folder, options)
-        downloader.send(:type).should == :tgz
-      end
-
-      it 'detects tbz files' do
-        options = { :http => 'https://foo/file.tbz' }
-        downloader = Downloader.for_target(tmp_folder, options)
-        downloader.send(:type).should == :tbz
-      end
-
-      it 'detects txz files' do
-        options = { :http => 'https://foo/file.txz' }
-        downloader = Downloader.for_target(tmp_folder, options)
-        downloader.send(:type).should == :txz
-      end
-
-      it 'allows to specify the file type in the sources' do
-        options = { :http => 'https://foo/file', :type => :zip }
-        downloader = Downloader.for_target(tmp_folder, options)
-        downloader.send(:type).should == :zip
-      end
-
-      it 'should download file and extract it with proper type' do
-        options = { :http => 'https://foo/file.zip' }
-        downloader = Downloader.for_target(tmp_folder, options)
-        downloader.expects(:download_file).with(anything)
-        downloader.expects(:extract_with_type).with(anything, :zip).at_least_once
-        downloader.download
-      end
-
-      it 'should raise error when an unsupported file type is detected' do
-        options = { :http => 'https://foo/file.rar' }
-        downloader = Downloader.for_target(tmp_folder, options)
-        lambda { downloader.download }.should.raise Http::UnsupportedFileTypeError
-      end
-
-      it 'should raise error when an unsupported file type is specified in the options' do
-        options = { :http => 'https://foo/file', :type => :rar }
-        downloader = Downloader.for_target(tmp_folder, options)
-        lambda { downloader.download }.should.raise Http::UnsupportedFileTypeError
-      end
-
-      it 'detects the file type if specified with a string' do
-        options = { :http => 'https://foo/file', :type => 'zip' }
-        downloader = Downloader.for_target(tmp_folder, options)
-        downloader.send(:type).should == :zip
-      end
-
-      it 'returns whether it does not supports the download of the head' do
-        options = { :http => 'https://foo/file', :type => 'zip' }
+      it 'returns whether it does not support checking for HEAD' do
+        options = { :http => 'https://host/file', :type => 'zip' }
         downloader = Downloader.for_target(tmp_folder('checkout'), options)
         downloader.head_supported?.should.be.false
+      end
+
+      describe 'concerning archive validation' do
+        it 'verifies that the downloaded file matches a sha1 hash' do
+          options = {
+            :http => "#{@fixtures_url}/lib.zip",
+            :sha1 => 'be62f423e2afde57ae7d79ba7bd3443df73e0021',
+          }
+          downloader = Downloader.for_target(tmp_folder, options)
+          should.not.raise do
+            downloader.download
+          end
+        end
+
+        it 'fails if the sha1 hash does not match' do
+          options = {
+            :http => "#{@fixtures_url}/lib.zip",
+            :sha1 => 'invalid_sha1_hash',
+          }
+          downloader = Downloader.for_target(tmp_folder, options)
+          should.raise DownloaderError do
+            downloader.download
+          end
+        end
+
+        it 'verifies that the downloaded file matches a sha256 hash' do
+          options = {
+            :http => "#{@fixtures_url}/lib.zip",
+            :sha256 => '0a2cb9eca9c468d21d1a9af9031385c5bb7039f1b287836f87cc78b3650e2bdb',
+          }
+          downloader = Downloader.for_target(tmp_folder, options)
+          should.not.raise do
+            downloader.download
+          end
+        end
+
+        it 'fails if the sha256 hash does not match' do
+          options = {
+            :http => "#{@fixtures_url}/lib.zip",
+            :sha256 => 'invalid_sha256_hash',
+          }
+          downloader = Downloader.for_target(tmp_folder, options)
+          should.raise DownloaderError do
+            downloader.download
+          end
+        end
+      end
+
+      describe 'concerning archive handling' do
+        it 'detects zip files' do
+          options = { :http => 'https://host/file.zip' }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.send(:type).should == :zip
+        end
+
+        it 'detects tar files' do
+          options = { :http => 'https://host/file.tar' }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.send(:type).should == :tar
+        end
+
+        it 'detects tgz files' do
+          options = { :http => 'https://host/file.tgz' }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.send(:type).should == :tgz
+        end
+
+        it 'detects tbz files' do
+          options = { :http => 'https://host/file.tbz' }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.send(:type).should == :tbz
+        end
+
+        it 'detects txz files' do
+          options = { :http => 'https://host/file.txz' }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.send(:type).should == :txz
+        end
+
+        it 'allows to specify the file type in the sources' do
+          options = { :http => 'https://host/file', :type => :zip }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.send(:type).should == :zip
+        end
+
+        it 'should download file and extract it with proper type' do
+          options = { :http => 'https://host/file.zip' }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.expects(:download_file).with(anything)
+          downloader.expects(:extract_with_type).with(anything, :zip).at_least_once
+          downloader.download
+        end
+
+        it 'should raise error when an unsupported file type is detected' do
+          options = { :http => 'https://host/file.rar' }
+          downloader = Downloader.for_target(tmp_folder, options)
+          lambda { downloader.download }.should.raise Http::UnsupportedFileTypeError
+        end
+
+        it 'should raise error when an unsupported file type is specified in the options' do
+          options = { :http => 'https://host/file', :type => :rar }
+          downloader = Downloader.for_target(tmp_folder, options)
+          lambda { downloader.download }.should.raise Http::UnsupportedFileTypeError
+        end
+
+        it 'detects the file type if specified with a string' do
+          options = { :http => 'https://host/file', :type => 'zip' }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.send(:type).should == :zip
+        end
       end
     end
   end

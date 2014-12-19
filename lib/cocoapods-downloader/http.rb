@@ -85,7 +85,7 @@ module Pod
       end
 
       def download_file(full_filename)
-        curl! %(-L -o #{full_filename.shellescape} "#{url}" --create-dirs)
+        curl! %(-f -L -o #{full_filename.shellescape} "#{url}" --create-dirs)
       end
 
       def extract_with_type(full_filename, type = :zip)
