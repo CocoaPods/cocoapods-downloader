@@ -3,7 +3,6 @@ require File.expand_path('../spec_helper', __FILE__)
 module Pod
   module Downloader
     describe 'Git' do
-
       def fixture_url(name)
         'file://' + fixture(name).to_s
       end

@@ -3,7 +3,6 @@ require File.expand_path('../spec_helper', __FILE__)
 module Pod
   module Downloader
     describe 'Mercurial' do
-
       before do
         tmp_folder.rmtree if tmp_folder.exist?
       end
@@ -56,7 +55,6 @@ module Pod
           downloader.download
           tmp_folder_with_quotes('README').read.strip.should == 'fourth commit'
         end
-
       end
 
       it 'returns the checked out revision' do
@@ -101,7 +99,6 @@ module Pod
           :revision => '61118fa8988c2b2eae826f48abd1e3340dae0c6b',
         }
       end
-
     end
   end
 end

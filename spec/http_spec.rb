@@ -3,7 +3,6 @@ require File.expand_path('../spec_helper', __FILE__)
 module Pod
   module Downloader
     describe 'HTTP' do
-
       before do
         tmp_folder.rmtree if tmp_folder.exist?
         @fixtures_url = 'file://' + fixture('http').to_s

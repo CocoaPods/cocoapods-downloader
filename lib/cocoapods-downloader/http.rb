@@ -62,8 +62,6 @@ module Pod
           :tbz
         elsif path =~ /.(txz|tar\.xz)$/
           :txz
-        else
-          nil
         end
       end
 

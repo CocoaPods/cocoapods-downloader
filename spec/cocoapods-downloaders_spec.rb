@@ -3,7 +3,6 @@ require File.expand_path('../spec_helper', __FILE__)
 module Pod
   module Downloader
     describe Downloader do
-
       before do
         @subject = Downloader
       end
@@ -40,7 +39,6 @@ module Pod
       end
 
       describe '::for_target' do
-
         it 'returns the Git downloader' do
           concrete = @subject.for_target(tmp_folder, :git => 'url')
           concrete.class.should == @subject::Git
