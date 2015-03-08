@@ -10,7 +10,7 @@ module Pod
       end
 
       def checkout_options
-        Dir.chdir(target_path) do
+        chdir(target_path) do
           options = {}
           options[:svn] = url
           options[:revision] = @exported_revision

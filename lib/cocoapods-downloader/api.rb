@@ -66,6 +66,13 @@ module Pod
       def ui_message(message)
         puts message
       end
+
+      require 'monitor'
+      CHDIR_MONITOR ||= Monitor.new
+
+      def chdir_monitor
+        CHDIR_MONITOR
+      end
     end
   end
 end

@@ -13,7 +13,7 @@ module Pod
       end
 
       def checkout_options
-        Dir.chdir(target_path) do
+        chdir(target_path) do
           options = {}
           options[:git] = url
           options[:commit] = `git rev-parse HEAD`.chomp
@@ -104,7 +104,7 @@ module Pod
       # Checks out a specific commit of the cloned repo.
       #
       def checkout_commit
-        Dir.chdir(target_path) do
+        chdir(target_path) do
           git! "checkout -b activated-commit #{options[:commit]}"
         end
       end
@@ -112,7 +112,7 @@ module Pod
       # Initializes and updates the submodules of the cloned repo.
       #
       def init_submodules
-        Dir.chdir(target_path) do
+        chdir(target_path) do
           git! 'submodule update --init'
         end
       end

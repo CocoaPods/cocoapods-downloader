@@ -152,6 +152,12 @@ module Pod
           execute_command(name.to_s, command, true)
         end
       end
+
+      def chdir(dir, &blk)
+        chdir_monitor.synchronize do
+          Dir.chdir(dir, &blk)
+        end
+      end
     end
   end
 end
