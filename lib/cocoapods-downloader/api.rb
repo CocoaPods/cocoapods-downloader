@@ -8,6 +8,8 @@ module Pod
       # @return [String] the output of the command.
       #
       def execute_command(executable, command, raise_on_failure = false)
+        require 'shellwords'
+        command = command.map(&:to_s).map(&:shellescape).join(' ')
         output = `\n#{executable} #{command} 2>&1`
         check_exit_code!(executable, command, output) if raise_on_failure
         puts output

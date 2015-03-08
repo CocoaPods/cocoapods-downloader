@@ -144,12 +144,12 @@ module Pod
       # @return [void]
       #
       def self.executable(name)
-        define_method(name) do |command|
-          execute_command(name.to_s, command, false)
+        define_method(name) do |*command|
+          execute_command(name.to_s, command.flatten, false)
         end
 
-        define_method(name.to_s + '!') do |command|
-          execute_command(name.to_s, command, true)
+        define_method(name.to_s + '!') do |*command|
+          execute_command(name.to_s, command.flatten, true)
         end
       end
     end

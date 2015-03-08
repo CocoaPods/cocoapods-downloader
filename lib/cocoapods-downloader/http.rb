@@ -83,23 +83,23 @@ module Pod
       end
 
       def download_file(full_filename)
-        curl! %(-f -L -o #{full_filename.shellescape} "#{url}" --create-dirs)
+        curl! '-f', '-L', '-o', full_filename, url, '--create-dirs'
       end
 
       def extract_with_type(full_filename, type = :zip)
-        unpack_from = full_filename.shellescape
-        unpack_to = @target_path.shellescape
+        unpack_from = full_filename
+        unpack_to = @target_path
         case type
         when :zip
-          unzip! %(#{unpack_from} -d #{unpack_to})
+          unzip! unpack_from, '-d', unpack_to
         when :tgz
-          tar! %(xfz #{unpack_from} -C #{unpack_to})
+          tar! 'xfz', unpack_from, '-C', unpack_to
         when :tar
-          tar! %(xf #{unpack_from} -C #{unpack_to})
+          tar! 'xf', unpack_from, '-C', unpack_to
         when :tbz
-          tar! %(xfj #{unpack_from} -C #{unpack_to})
+          tar! 'xfj', unpack_from, '-C', unpack_to
         when :txz
-          tar! %(xf #{unpack_from} -C #{unpack_to})
+          tar! 'xf', unpack_from, '-C', unpack_to
         else
           raise UnsupportedFileTypeError, "Unsupported file type: #{type}"
         end
