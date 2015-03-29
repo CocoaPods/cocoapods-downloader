@@ -36,11 +36,11 @@ module Pod
       end
 
       def download_head!
-        bzr! %(branch "#{url}" #{dir_opts} #{@target_path.shellescape})
+        bzr! 'branch', url, *dir_opts, target_path
       end
 
       def download_revision!(rev)
-        bzr! %(branch "#{url}" #{dir_opts} -r '#{rev}' #{@target_path.shellescape})
+        bzr! 'branch', url, *dir_opts, '-r', rev, @target_path
       end
 
       # @return [String] The command line flags to use according to whether the
@@ -48,9 +48,9 @@ module Pod
       #
       def dir_opts
         if @target_path.exist?
-          '--use-existing-dir'
+          %w(--use-existing-dir)
         else
-          ''
+          []
         end
       end
 

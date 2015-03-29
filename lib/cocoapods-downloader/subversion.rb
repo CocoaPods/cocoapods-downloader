@@ -23,12 +23,12 @@ module Pod
       executable :svn
 
       def download!
-        output = svn!(%(#{subcommand} "#{reference_url}" #{@target_path.shellescape}))
+        output = svn!(*subcommand, *reference_url, @target_path)
         store_exported_revision(output)
       end
 
       def download_head!
-        output = svn!(%(#{subcommand} "#{trunk_url}" #{@target_path.shellescape}))
+        output = svn!(*subcommand, *trunk_url, @target_path)
         store_exported_revision(output)
       end
 
@@ -39,13 +39,13 @@ module Pod
 
       def subcommand
         if options[:checkout]
-          result = 'checkout'
+          result = %w(checkout)
         else
-          result = 'export'
+          result = %w(export)
         end
 
-        result << ' --non-interactive --trust-server-cert --force'
-        result << ' --ignore-externals' if options[:externals] == false
+        result += %w(--non-interactive --trust-server-cert --force)
+        result << '--ignore-externals' if options[:externals] == false
         result
       end
 
@@ -53,7 +53,8 @@ module Pod
         result = url.dup
         result << '/'       << options[:folder] if options[:folder]
         result << '/tags/'  << options[:tag] if options[:tag]
-        result << '" -r "'  << options[:revision] if options[:revision]
+        result = [result]
+        result << '-r'      << options[:revision] if options[:revision]
         result
       end
 
@@ -61,7 +62,7 @@ module Pod
         result = url.dup
         result << '/' << options[:folder] if options[:folder]
         result << '/trunk'
-        result
+        [result]
       end
     end
   end

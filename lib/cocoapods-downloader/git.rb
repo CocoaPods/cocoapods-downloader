@@ -62,7 +62,7 @@ module Pod
       def clone(force_head = false, shallow_clone = true)
         ui_sub_action('Git download') do
           begin
-            git! clone_arguments(force_head, shallow_clone).join(' ')
+            git! clone_arguments(force_head, shallow_clone)
           rescue DownloaderError => e
             if e.message =~ /^fatal:.*does not support --depth$/im
               clone(force_head, false)
@@ -86,10 +86,10 @@ module Pod
       # @return [Array<String>] arguments to pass to `git` to clone the repo.
       #
       def clone_arguments(force_head, shallow_clone)
-        command = ['clone', url.shellescape, target_path.shellescape]
+        command = ['clone', url, target_path]
 
         if shallow_clone && !options[:commit]
-          command += ['--single-branch', '--depth 1']
+          command += %w(--single-branch --depth 1)
         end
 
         unless force_head
@@ -105,7 +105,7 @@ module Pod
       #
       def checkout_commit
         Dir.chdir(target_path) do
-          git! "checkout -b activated-commit #{options[:commit]}"
+          git! 'checkout', '-b', 'activated-commit', options[:commit]
         end
       end
 
@@ -113,7 +113,7 @@ module Pod
       #
       def init_submodules
         Dir.chdir(target_path) do
-          git! 'submodule update --init'
+          git! %w(submodule update --init)
         end
       end
     end
