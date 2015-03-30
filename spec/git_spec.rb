@@ -196,6 +196,22 @@ module Pod
           downloader.stubs(:git!).raises(dumb_remote_error).then.returns(true)
           should.not.raise { downloader.download }
         end
+
+        it 'will retry if the remote times out when doing a clone' do
+          options = { :git => fixture('git-repo') }
+          downloader = Downloader.for_target(tmp_folder, options)
+          message =  '/usr/local/bin/git clone URL directory --single-branch ' \
+            "--depth 1\nCloning into 'directory'...\n" \
+            "fatal: unable to access 'URL': Failed to connect to github.com port 443: Operation timed out"
+          timeout_error = Pod::Downloader::DownloaderError.new(message)
+          downloader.stubs(:git!).raises(timeout_error).then.returns(true)
+          should.not.raise { downloader.download }
+          downloader.unstub(:git!)
+          should.not.raise { downloader.download }
+          Dir.chdir(tmp_folder) do
+            `git rev-list HEAD`.chomp.should.include '98cbf14'
+          end
+        end
       end
     end
   end

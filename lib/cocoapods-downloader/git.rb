@@ -1,3 +1,5 @@
+require 'retriable'
+
 module Pod
   module Downloader
     # Concreted Downloader class that provides support for specifications with
@@ -26,9 +28,11 @@ module Pod
       # @!group Base class hooks
 
       def download!
-        clone
-        checkout_commit if options[:commit]
-        init_submodules if options[:submodules]
+        retriable :on => DownloaderTimeoutError, :tries => 3, :interval => 3  do
+          clone
+          checkout_commit if options[:commit]
+          init_submodules if options[:submodules]
+        end
       end
 
       # @return [void] Checks out the HEAD of the git source in the destination
@@ -66,6 +70,8 @@ module Pod
           rescue DownloaderError => e
             if e.message =~ /^fatal:.*does not support --depth$/im
               clone(force_head, false)
+            elsif e.message =~ /^fatal:.* Operation timed out$/im
+              raise DownloaderTimeoutError.new e.message
             else
               raise
             end
