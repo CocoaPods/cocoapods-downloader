@@ -77,7 +77,9 @@ module Pod
       def download
         ui_action("#{name} download") do
           target_path.mkpath
-          download!
+          retriable :on => DownloaderTimeoutError, :tries => 3, :interval => 3  do
+            download!
+          end
         end
       end
 

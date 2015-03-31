@@ -28,11 +28,9 @@ module Pod
       # @!group Base class hooks
 
       def download!
-        retriable :on => DownloaderTimeoutError, :tries => 3, :interval => 3  do
-          clone
-          checkout_commit if options[:commit]
-          init_submodules if options[:submodules]
-        end
+        clone
+        checkout_commit if options[:commit]
+        init_submodules if options[:submodules]
       end
 
       # @return [void] Checks out the HEAD of the git source in the destination
@@ -71,7 +69,7 @@ module Pod
             if e.message =~ /^fatal:.*does not support --depth$/im
               clone(force_head, false)
             elsif e.message =~ /^fatal:.* Operation timed out$/im
-              raise DownloaderTimeoutError.new e.message
+              raise DownloaderTimeoutError.new, e.message
             else
               raise
             end
