@@ -1,5 +1,14 @@
 # Changelog
 
+## Master
+
+##### Enhancements
+
+* Execute downloads without the use of a subshell (or ensuring that all command
+  arguments are escaped).  
+  [Samuel Giddins](https://github.com/segiddins)
+
+
 ## 0.8.1
 
 ##### Bug Fixes
