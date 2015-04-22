@@ -16,6 +16,14 @@ module Pod
         tmp_folder('lib/file.txt').read.strip.should =~ /This is a fixture/
       end
 
+      it 'download file and extract it' do
+        options = { :http => "#{@fixtures_url}/lib.dmg" }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.download
+        tmp_folder('lib/file.txt').should.exist
+        tmp_folder('lib/file.txt').read.strip.should =~ /This is a fixture/
+      end
+
       it 'ignores any params in the url' do
         options = { :http => "#{@fixtures_url}/lib.zip?param=value" }
         downloader = Downloader.for_target(tmp_folder, options)
@@ -40,14 +48,37 @@ module Pod
         tmp_folder('file.txt').should.exist
       end
 
+      it 'should flatten disk images, when the spec explicitly demands it' do
+        options = {
+          :http => "#{@fixtures_url}/lib.dmg",
+          :flatten => true,
+        }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.download
+        tmp_folder('file.txt').should.exist
+      end
+
       it 'moves unpacked contents to parent dir when archive contains only a folder (#727)' do
         downloader = Downloader.for_target(tmp_folder, :http => "#{@fixtures_url}/lib.tar.gz")
         downloader.download
         tmp_folder('file.txt').should.exist
       end
 
+      it 'moves extracted contents to parent dir when archive contains only a folder (#727)' do
+        downloader = Downloader.for_target(tmp_folder, :http => "#{@fixtures_url}/lib.dmg")
+        downloader.download
+        tmp_folder('file.txt').should.exist
+      end
+
       it 'does not move unpacked contents to parent dir when archive contains multiple children' do
         downloader = Downloader.for_target(tmp_folder, :http => "#{@fixtures_url}/lib_multiple.tar.gz")
+        downloader.download
+        tmp_folder('lib_1/file.txt').should.exist
+        tmp_folder('lib_2/file.txt').should.exist
+      end
+
+      it 'does not move unpacked contents to parent dir when archive contains multiple children' do
+        downloader = Downloader.for_target(tmp_folder, :http => "#{@fixtures_url}/lib_multiple.dmg")
         downloader.download
         tmp_folder('lib_1/file.txt').should.exist
         tmp_folder('lib_2/file.txt').should.exist
@@ -72,6 +103,17 @@ module Pod
         it 'verifies that the downloaded file matches a sha1 hash' do
           options = {
             :http => "#{@fixtures_url}/lib.zip",
+            :sha1 => 'be62f423e2afde57ae7d79ba7bd3443df73e0021',
+          }
+          downloader = Downloader.for_target(tmp_folder, options)
+          should.not.raise do
+            downloader.download
+          end
+        end
+
+        it 'verifies that the downloaded image file matches a sha1 hash' do
+          options = {
+            :http => "#{@fixtures_url}/lib.dmg",
             :sha1 => 'be62f423e2afde57ae7d79ba7bd3443df73e0021',
           }
           downloader = Downloader.for_target(tmp_folder, options)
@@ -143,6 +185,12 @@ module Pod
           options = { :http => 'https://host/file.txz' }
           downloader = Downloader.for_target(tmp_folder, options)
           downloader.send(:type).should == :txz
+        end
+
+        it 'detects dmg files' do
+          options = { :http => 'https://host/file.dmg' }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.send(:type).should == :dmg
         end
 
         it 'allows to specify the file type in the sources' do
