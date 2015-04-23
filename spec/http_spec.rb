@@ -64,12 +64,6 @@ module Pod
         tmp_folder('file.txt').should.exist
       end
 
-      it 'moves extracted contents to parent dir when archive contains only a folder (#727)' do
-        downloader = Downloader.for_target(tmp_folder, :http => "#{@fixtures_url}/lib.dmg")
-        downloader.download
-        tmp_folder('file.txt').should.exist
-      end
-
       it 'does not move unpacked contents to parent dir when archive contains multiple children' do
         downloader = Downloader.for_target(tmp_folder, :http => "#{@fixtures_url}/lib_multiple.tar.gz")
         downloader.download
@@ -114,7 +108,7 @@ module Pod
         it 'verifies that the downloaded image file matches a sha1 hash' do
           options = {
             :http => "#{@fixtures_url}/lib.dmg",
-            :sha1 => 'be62f423e2afde57ae7d79ba7bd3443df73e0021',
+            :sha1 => '3c89800f23ca956672b74c74291ee0eb76c84cdc',
           }
           downloader = Downloader.for_target(tmp_folder, options)
           should.not.raise do
