@@ -1,5 +1,6 @@
 require 'zlib'
 require 'rexml/document'
+require 'fileutils'
 
 module Pod
   module Downloader
@@ -16,7 +17,6 @@ module Pod
       executable :unzip
       executable :tar
       executable :hdiutil
-      executable :cp
 
       attr_accessor :filename, :download_path
 
@@ -65,7 +65,7 @@ module Pod
           :tbz
         elsif path =~ /.(txz|tar\.xz)$/
           :txz
-        elsif path =~ /.dmg$/
+        elsif path =~ /\.dmg$/
           :dmg
         end
       end
@@ -108,12 +108,12 @@ module Pod
         when :txz
           tar! 'xf', unpack_from, '-C', unpack_to
         when :dmg
-          plist_s = hdiutil! %(attach -plist -nobrowse #{unpack_from} -mountrandom #{unpack_to})
+          plist_s = hdiutil! 'attach', '-plist', '-nobrowse', unpack_from, '-mountrandom', unpack_to
           plist = REXML::Document.new plist_s
           xpath = '//key[.="mount-point"]/following-sibling::string'
-          mount_point = REXML::XPath.first(plist, xpath).text.shellescape
-          cp! %(-r #{mount_point}/* #{unpack_to})
-          hdiutil! %(detach #{mount_point})
+          mount_point = REXML::XPath.first(plist, xpath).text
+          FileUtils.cp_r(Dir.glob(mount_point + '/*'), unpack_to)
+          hdiutil! 'detach', mount_point
         else
           raise UnsupportedFileTypeError, "Unsupported file type: #{type}"
         end
