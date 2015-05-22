@@ -109,11 +109,11 @@ module Pod
         end
       end
 
-      # Initializes and updates the submodules of the cloned repo.
+      # Initializes and updates the submodules of the cloned repo recursively.
       #
       def init_submodules
         Dir.chdir(target_path) do
-          git! %w(submodule update --init)
+          git! %w(submodule update --init --recursive)
         end
       end
     end
