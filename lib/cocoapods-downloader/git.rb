@@ -105,7 +105,7 @@ module Pod
       #
       def checkout_commit
         Dir.chdir(target_path) do
-          git! 'checkout', '-b', 'activated-commit', options[:commit]
+          git! 'checkout', '--quiet', options[:commit]
         end
       end
 
