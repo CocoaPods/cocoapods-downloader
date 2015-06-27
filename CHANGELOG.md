@@ -1,5 +1,13 @@
 # Changelog
 
+## Master
+
+##### Enhancements
+
+* Don't checkout git commits onto a new branch, just use the detached head.  
+  [Samuel Giddins](https://github.com/segiddins)
+
+
 ## 0.9.0
 
 ##### Enhancements
