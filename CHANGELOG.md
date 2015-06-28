@@ -6,6 +6,7 @@
 
 * Checkout git submodules recursively.  
   [Boris Bügling](https://github.com/neonichu)
+  [Samuel Giddins](https://github.com/segiddins)
   [#46](https://github.com/CocoaPods/cocoapods-downloader/pull/46)
 
 
