@@ -1,5 +1,15 @@
 # Changelog
 
+## Master
+
+##### Bug Fixes
+
+* Checkout git submodules recursively.  
+  [Boris Bügling](https://github.com/neonichu)
+  [Samuel Giddins](https://github.com/segiddins)
+  [#46](https://github.com/CocoaPods/cocoapods-downloader/pull/46)
+
+
 ## 0.9.1
 
 ##### Enhancements

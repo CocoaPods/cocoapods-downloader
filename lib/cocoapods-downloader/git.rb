@@ -28,7 +28,6 @@ module Pod
       def download!
         clone
         checkout_commit if options[:commit]
-        init_submodules if options[:submodules]
       end
 
       # @return [void] Checks out the HEAD of the git source in the destination
@@ -36,7 +35,6 @@ module Pod
       #
       def download_head!
         clone(true)
-        init_submodules if options[:submodules]
       end
 
       # @!group Download implementations
@@ -98,6 +96,8 @@ module Pod
           end
         end
 
+        command << '--recursive' if options[:submodules]
+
         command
       end
 
@@ -106,14 +106,6 @@ module Pod
       def checkout_commit
         Dir.chdir(target_path) do
           git! 'checkout', '--quiet', options[:commit]
-        end
-      end
-
-      # Initializes and updates the submodules of the cloned repo.
-      #
-      def init_submodules
-        Dir.chdir(target_path) do
-          git! %w(submodule update --init)
         end
       end
     end

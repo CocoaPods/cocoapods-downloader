@@ -7,3 +7,4 @@ tmp/
 coverage/
 spec/fixtures/git-repo
 spec/fixtures/git-submodule-repo
+spec/fixtures/mercurial-repo
