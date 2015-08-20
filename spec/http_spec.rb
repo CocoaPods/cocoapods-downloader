@@ -71,7 +71,7 @@ module Pod
         tmp_folder('lib_2/file.txt').should.exist
       end
 
-      it 'does not move unpacked contents to parent dir when archive contains multiple children' do
+      it 'does not move unpacked contents to parent dir when disk image contains multiple children' do
         downloader = Downloader.for_target(tmp_folder, :http => "#{@fixtures_url}/lib_multiple.dmg")
         downloader.download
         tmp_folder('lib_1/file.txt').should.exist
