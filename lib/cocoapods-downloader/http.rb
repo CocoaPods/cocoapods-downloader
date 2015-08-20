@@ -54,18 +54,18 @@ module Pod
       end
 
       def type_with_url(url)
-        path = URI.parse(url).path
-        if path =~ /\.zip$/
+        case URI.parse(url).path
+        when /\.zip$/
           :zip
-        elsif path =~ /\.(tgz|tar\.gz)$/
+        when /\.(tgz|tar\.gz)$/
           :tgz
-        elsif path =~ /\.tar$/
+        when /\.tar$/
           :tar
-        elsif path =~ /\.(tbz|tar\.bz2)$/
+        when /\.(tbz|tar\.bz2)$/
           :tbz
-        elsif path =~ /\.(txz|tar\.xz)$/
+        when /\.(txz|tar\.xz)$/
           :txz
-        elsif path =~ /\.dmg$/
+        when /\.dmg$/
           :dmg
         end
       end
