@@ -10,7 +10,7 @@
   [#46](https://github.com/CocoaPods/cocoapods-downloader/pull/46)
 
 
-## 0.9.1
+## 0.9.1 (2015-06-27)
 
 ##### Enhancements
 
@@ -18,7 +18,7 @@
   [Samuel Giddins](https://github.com/segiddins)
 
 
-## 0.9.0
+## 0.9.0 (2015-04-01)
 
 ##### Enhancements
 
@@ -27,7 +27,7 @@
   [Samuel Giddins](https://github.com/segiddins)
 
 
-## 0.8.1
+## 0.8.1 (2014-12-25)
 
 ##### Bug Fixes
 
@@ -37,7 +37,7 @@
   [#41](https://github.com/CocoaPods/cocoapods-downloader/issues/41)
 
 
-## 0.8.0
+## 0.8.0 (2014-11-15)
 
 ##### Breaking
 
@@ -52,7 +52,7 @@
   [#40](https://github.com/CocoaPods/cocoapods-downloader/pull/40)
 
 
-## 0.7.2
+## 0.7.2 (2014-10-07)
 
 ###### Enhancements
 
@@ -62,7 +62,7 @@
   [#35](https://github.com/CocoaPods/cocoapods-downloader/issues/35)
 
 
-## 0.7.1
+## 0.7.1 (2014-09-26)
 
 ###### Bug Fixes
 
@@ -70,7 +70,7 @@
   [Richard Lee](https://github.com/dlackty)
   [#32](https://github.com/CocoaPods/cocoapods-downloader/issues/32)
 
-## 0.7.0
+## 0.7.0 (2014-09-11)
 
 ###### Breaking
 
@@ -95,13 +95,13 @@
   [#28](https://github.com/CocoaPods/cocoapods-downloader/issues/28)
 
 
-## 0.6.1
+## 0.6.1 (2014-05-20)
 
 * Robustness against string keys.  
   [Fabio Pelosin](https://github.com/fabiopelosin)
   [#25](https://github.com/CocoaPods/cocoapods-downloader/issues/25)
 
-## 0.6.0
+## 0.6.0 (2014-05-19)
 
 ###### Enhancements
 
@@ -115,7 +115,7 @@
   [Kyle Fuller](https://github.com/kylef)
   [CocoaPods#2105](https://github.com/CocoaPods/CocoaPods/issues/2105)
 
-## 0.5.0
+## 0.5.0 (2014-04-15)
 
 ###### Enhancements
 
@@ -133,13 +133,13 @@
   [Fabio Pelosin](https://github.com/fabiopelosin)
   [#15](https://github.com/CocoaPods/cocoapods-downloader/issues/15)
 
-## 0.4.1
+## 0.4.1 (2014-03-31)
 
 * add shellescape for some path arguments in git.rb
   [Vladimir Burdukov](https://github.com/chipp)
   [#14](https://github.com/CocoaPods/cocoapods-downloader/pull/14)
 
-## 0.4.0
+## 0.4.0 (2014-03-26)
 
 ###### Enhancements
 
@@ -153,7 +153,7 @@
   [Mike Walker](https://github.com/lazerwalker)
   [#6](https://github.com/CocoaPods/cocoapods-downloader/pull/6)
 
-## 0.3.0
+## 0.3.0 (2013-12-24)
 
 ###### Enhancements
 
@@ -162,7 +162,7 @@
   [#5](https://github.com/CocoaPods/cocoapods-downloader/pull/5)
 
 
-## 0.2.0
+## 0.2.0 (2013-09-04)
 
 ###### Enhancements
 
@@ -171,7 +171,7 @@
   [#4](https://github.com/CocoaPods/cocoapods-downloader/pull/4)
 
 
-## 0.1.2
+## 0.1.2 (2013-08-02)
 
 ###### Enhancements
 
