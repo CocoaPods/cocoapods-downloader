@@ -1,6 +1,6 @@
 # Changelog
 
-## Master
+## 0.9.2 (2015-08-26)
 
 ##### Bug Fixes
 
