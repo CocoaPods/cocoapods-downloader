@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.3 (2015-08-28)
+
+##### Bug Fixes
+
+* This release fixes a file permissions error when using the RubyGem.  
+  [Samuel Giddins](https://github.com/segiddins)
+
+
 ## 0.9.2 (2015-08-26)
 
 ##### Bug Fixes
