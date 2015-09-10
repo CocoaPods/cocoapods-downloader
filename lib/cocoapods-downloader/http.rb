@@ -1,5 +1,4 @@
 require 'zlib'
-require 'rexml/document'
 require 'fileutils'
 
 module Pod
@@ -127,6 +126,7 @@ module Pod
       end
 
       def extract_dmg(unpack_from, unpack_to)
+        require 'rexml/document'
         plist_s = hdiutil! 'attach', '-plist', '-nobrowse', unpack_from, '-mountrandom', unpack_to
         plist = REXML::Document.new plist_s
         xpath = '//key[.="mount-point"]/following-sibling::string'
