@@ -4,7 +4,7 @@
 
 ##### Enhancements
 
-+ Support for apple disk image (\*.dmg)
++ Support for apple disk image (\*.dmg).  
   [Ryosuke Ito](https://github.com/manicmaniac)
 
 ##### Bug Fixes
