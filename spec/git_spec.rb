@@ -68,6 +68,12 @@ module Pod
           tmp_folder('README').read.strip.should == 'added submodule'
           tmp_folder('submodule/README').read.strip.should == 'submodule'
           FileUtils.rm_rf('/tmp/git-submodule-repo')
+
+          downloader.checkout_options.should == {
+            :git => fixture('git-repo'),
+            :commit => 'd7f410490dabf7a6bde665ba22da102c3acf1bd9',
+            :submodules => true,
+          }
         end
 
         it 'returns whether it supports the download of the head' do
