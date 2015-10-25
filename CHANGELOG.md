@@ -1,5 +1,15 @@
 # Changelog
 
+## Master
+
+##### Bug Fixes
+
+* Include the `submodules` option in the git checkout options when it is
+  specified.  
+  [Samuel Giddins](https://github.com/segiddins)
+  [CocoaPods#3421](https://github.com/CocoaPods/CocoaPods/issues/3421)
+
+
 ## 0.9.3 (2015-08-28)
 
 ##### Bug Fixes
