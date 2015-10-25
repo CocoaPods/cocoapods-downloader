@@ -47,7 +47,9 @@ module Pod
       #
       def initialize(target_path, url, options)
         require 'pathname'
-        @target_path, @url, @options = Pathname.new(target_path), url, options
+        @target_path = Pathname.new(target_path)
+        @url = url
+        @options = options
 
         unrecognized_options = options.keys - self.class.options
         unless unrecognized_options.empty?

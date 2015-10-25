@@ -17,6 +17,7 @@ module Pod
           options = {}
           options[:git] = url
           options[:commit] = `git rev-parse HEAD`.chomp
+          options[:submodules] = true if self.options[:submodules]
           options
         end
       end
