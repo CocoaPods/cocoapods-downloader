@@ -54,7 +54,7 @@ module Pod
       end
 
       it 'raises if it fails to download' do
-        options = { :http => 'broken-link.zip'  }
+        options = { :http => 'broken-link.zip' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.expects(:curl!).with { |command| command.include?('-f') }.raises(DownloaderError)
         should.raise DownloaderError do

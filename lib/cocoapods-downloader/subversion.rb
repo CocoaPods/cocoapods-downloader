@@ -51,10 +51,10 @@ module Pod
 
       def reference_url
         result = url.dup
-        result << '/'       << options[:folder] if options[:folder]
-        result << '/tags/'  << options[:tag] if options[:tag]
+        result << '/' << options[:folder] if options[:folder]
+        result << '/tags/' << options[:tag] if options[:tag]
         result = [result]
-        result << '-r'      << options[:revision] if options[:revision]
+        result << '-r' << options[:revision] if options[:revision]
         result
       end
 
