@@ -1,4 +1,5 @@
 require 'zlib'
+require 'fileutils'
 
 module Pod
   module Downloader
@@ -14,6 +15,7 @@ module Pod
       executable :curl
       executable :unzip
       executable :tar
+      executable :hdiutil
 
       attr_accessor :filename, :download_path
 
@@ -51,17 +53,19 @@ module Pod
       end
 
       def type_with_url(url)
-        path = URI.parse(url).path
-        if path =~ /.zip$/
+        case URI.parse(url).path
+        when /\.zip$/
           :zip
-        elsif path =~ /.(tgz|tar\.gz)$/
+        when /\.(tgz|tar\.gz)$/
           :tgz
-        elsif path =~ /.tar$/
+        when /\.tar$/
           :tar
-        elsif path =~ /.(tbz|tar\.bz2)$/
+        when /\.(tbz|tar\.bz2)$/
           :tbz
-        elsif path =~ /.(txz|tar\.xz)$/
+        when /\.(txz|tar\.xz)$/
           :txz
+        when /\.dmg$/
+          :dmg
         end
       end
 
@@ -77,6 +81,8 @@ module Pod
           'file.tbz'
         when :txz
           'file.txz'
+        when :dmg
+          'file.dmg'
         else
           raise UnsupportedFileTypeError, "Unsupported file type: #{type}"
         end
@@ -100,6 +106,8 @@ module Pod
           tar! 'xfj', unpack_from, '-C', unpack_to
         when :txz
           tar! 'xf', unpack_from, '-C', unpack_to
+        when :dmg
+          extract_dmg(unpack_from, unpack_to)
         else
           raise UnsupportedFileTypeError, "Unsupported file type: #{type}"
         end
@@ -115,6 +123,16 @@ module Pod
             FileUtils.move(entry.children, target_path)
           end
         end
+      end
+
+      def extract_dmg(unpack_from, unpack_to)
+        require 'rexml/document'
+        plist_s = hdiutil! 'attach', '-plist', '-nobrowse', unpack_from, '-mountrandom', unpack_to
+        plist = REXML::Document.new plist_s
+        xpath = '//key[.="mount-point"]/following-sibling::string'
+        mount_point = REXML::XPath.first(plist, xpath).text
+        FileUtils.cp_r(Dir.glob(mount_point + '/*'), unpack_to)
+        hdiutil! 'detach', mount_point
       end
 
       def compare_hash(filename, hasher, hash)

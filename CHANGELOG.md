@@ -2,6 +2,11 @@
 
 ## Master
 
+##### Enhancements
+
++ Support for apple disk image (\*.dmg).  
+  [Ryosuke Ito](https://github.com/manicmaniac)
+
 ##### Bug Fixes
 
 * Include the `submodules` option in the git checkout options when it is
