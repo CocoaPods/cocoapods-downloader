@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cocoapods-downloader (0.9.3)
+    cocoapods-downloader (1.0.0.beta.1)
 
 GEM
   remote: https://rubygems.org/
@@ -80,4 +80,4 @@ DEPENDENCIES
   webmock (< 1.9)
 
 BUNDLED WITH
-   1.10.6
+   1.11.2

@@ -3,6 +3,6 @@ module Pod
     # @return [String] Downloader’s version, following
     #         [semver](http://semver.org).
     #
-    VERSION = '0.9.3'
+    VERSION = '1.0.0.beta.1'.freeze
   end
 end
