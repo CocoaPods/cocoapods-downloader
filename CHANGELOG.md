@@ -4,7 +4,7 @@
 
 ##### Enhancements
 
-+ Support for apple disk image (\*.dmg).  
++ Support for Apple disk images (`.dmg` files) in the HTTP downloader.  
   [Ryosuke Ito](https://github.com/manicmaniac)
 
 ##### Bug Fixes
