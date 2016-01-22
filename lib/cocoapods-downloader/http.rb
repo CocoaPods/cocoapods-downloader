@@ -1,5 +1,6 @@
 require 'zlib'
 require 'fileutils'
+require 'uri'
 
 module Pod
   module Downloader
