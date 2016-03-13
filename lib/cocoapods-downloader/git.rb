@@ -85,7 +85,7 @@ module Pod
       # @return [Array<String>] arguments to pass to `git` to clone the repo.
       #
       def clone_arguments(force_head, shallow_clone)
-        command = ['clone', url, target_path]
+        command = ['clone', url, target_path, '--template=']
 
         if shallow_clone && !options[:commit]
           command += %w(--single-branch --depth 1)
