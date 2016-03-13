@@ -33,16 +33,16 @@ module Pod
       end
 
       def store_exported_revision(output)
-        output.match(/Exported revision ([0-9]+)\./)
+        output =~ /Exported revision ([0-9]+)\./
         @exported_revision = Regexp.last_match[1] if Regexp.last_match
       end
 
       def subcommand
-        if options[:checkout]
-          result = %w(checkout)
-        else
-          result = %w(export)
-        end
+        result = if options[:checkout]
+                   %w(checkout)
+                 else
+                   %w(export)
+                 end
 
         result += %w(--non-interactive --trust-server-cert --force)
         result << '--ignore-externals' if options[:externals] == false

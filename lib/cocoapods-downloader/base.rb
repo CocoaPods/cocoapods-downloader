@@ -104,7 +104,7 @@ module Pod
       #         strategy.
       #
       def head_supported?
-        self.respond_to?(:download_head!, true)
+        respond_to?(:download_head!, true)
       end
 
       # @return [Bool] Whether the options provided completely identify a source
