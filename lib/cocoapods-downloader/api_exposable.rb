@@ -14,7 +14,7 @@ module Pod
         include mod
       end
 
-      alias_method :override_api, :expose_api
+      alias override_api expose_api
     end
   end
 end

@@ -1,5 +1,14 @@
 # Changelog
 
+## Master
+
+##### Bug Fixes
+
+* Perform git clones without copying the user's default git repo templates.  
+  [Samuel Giddins](https://github.com/segiddins)
+  [CocoaPods#4715](https://github.com/CocoaPods/CocoaPods/issues/4715)
+
+
 ## 1.0.0.beta.1 (2015-12-30)
 
 ##### Enhancements
