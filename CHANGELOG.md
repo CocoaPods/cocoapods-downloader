@@ -1,6 +1,6 @@
 # Changelog
 
-## Master
+## 1.0.0.beta.2 (2016-03-15)
 
 ##### Bug Fixes
 
