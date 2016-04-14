@@ -1,6 +1,6 @@
 # Changelog
 
-## Master
+## 1.0.0.beta.3 (2016-04-14)
 
 ##### Enhancements
 
