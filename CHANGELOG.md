@@ -4,7 +4,11 @@
 
 ##### Enhancements
 
-* None.  
+* When downloading via `HTTP`, `curl` will take into account the user's
+  `~/.netrc` file to determine authentication credentials.  
+  [Marius Rackwitz](https://github.com/mrackwitz)
+  [#53](https://github.com/CocoaPods/cocoapods-downloader/issues/53)
+  [CocoaPods#5055](https://github.com/CocoaPods/CocoaPods/issues/5055)
 
 ##### Bug Fixes
 
