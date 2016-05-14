@@ -4,7 +4,13 @@
 
 ##### Enhancements
 
-* None.  
+* When downloading via `HTTP`, `curl` won't force users from having a
+  `~/.netrc` file set up on their machine when the remote server requires
+  authentication.
+  [Sylvain Guillopé](https://github.com/sguillope)
+  [#55](https://github.com/CocoaPods/cocoapods-downloader/issues/55)
+  [CocoaPods#5318](https://github.com/CocoaPods/CocoaPods/issues/5318)
+  
 
 ##### Bug Fixes
 
