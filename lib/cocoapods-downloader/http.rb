@@ -90,7 +90,7 @@ module Pod
       end
 
       def download_file(full_filename)
-        curl! '-f', '-L', '-o', full_filename, url, '--create-dirs', '--netrc'
+        curl! '-f', '-L', '-o', full_filename, url, '--create-dirs', '--netrc-optional'
       end
 
       def extract_with_type(full_filename, type = :zip)
