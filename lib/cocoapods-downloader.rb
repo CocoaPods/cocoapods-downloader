@@ -69,5 +69,29 @@ module Pod
       klass = downloader_class_by_key[strategy]
       klass.new(target_path, url, sub_options)
     end
+
+    # Have the concrete strategy preprocess options
+    #
+    # @param [Hash<Symbol,String>] options
+    #        The request options to preprocess
+    #
+    # @return [Hash<Symbol,String>] the new options
+    #
+    def self.preprocess_options(options)
+      options = Hash[options.map { |k, v| [k.to_sym, v] }]
+
+      if options.nil? || options.empty?
+        raise DownloaderError, 'No source URL provided.'
+      end
+
+      strategy = strategy_from_options(options)
+      unless strategy
+        raise DownloaderError, 'Unsupported download strategy ' \
+          "`#{options.inspect}`."
+      end
+
+      klass = downloader_class_by_key[strategy]
+      klass.preprocess_options(options)
+    end
   end
 end

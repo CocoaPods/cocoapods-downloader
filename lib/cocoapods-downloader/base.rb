@@ -154,6 +154,20 @@ module Pod
           execute_command(name.to_s, command.flatten, true)
         end
       end
+
+      # preprocess download options
+      #
+      # Usage of this method is optional. concrete strategies should not
+      # assume options are preprocessed for correct execution.
+      #
+      # @param  [Hash<Symbol,String>] options
+      #         The request options to preprocess
+      #
+      # @return [Hash<Symbol,String>] the new options
+      #
+      def self.preprocess_options(options)
+        options
+      end
     end
   end
 end
