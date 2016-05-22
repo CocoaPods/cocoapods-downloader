@@ -12,6 +12,9 @@ module Pod
           raise 'Only a module *or* is required, not both.'
         end
         include mod
+        # TODO: Try to find a nicer way to do this
+        # See https://github.com/CocoaPods/cocoapods-downloader/pull/57
+        extend mod
       end
 
       alias override_api expose_api

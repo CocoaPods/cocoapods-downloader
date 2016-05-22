@@ -28,7 +28,7 @@ module Pod
         command = ['ls-remote',
                    options[:git],
                    options[:branch]]
-        output = Executable.execute_command('git', command)
+        output = Git.execute_command('git', command)
         match = /^([a-z0-9]*)\t.*/.match(output)
 
         return options if match.nil?
