@@ -8,6 +8,12 @@ module Pod
         e = lambda { Base.new('path', 'url', options) }.should.raise DownloaderError
         e.message.should.match /Unrecognized options/
       end
+
+      it 'has no preprocessing' do
+        options = { :symbol => 'aaaaaa' }
+        new_options = Base.preprocess_options(options)
+        new_options.should == options
+      end
     end
   end
 end

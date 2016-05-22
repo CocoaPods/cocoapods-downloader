@@ -206,16 +206,21 @@ module Pod
 
       describe '::preprocess_options' do
         it 'skips non-branch requests' do
-          options = { :git=> fixture_url('git-repo'), :commit => 'aaaa' }
+          options = { :git => fixture_url('git-repo'), :commit => 'aaaa' }
           new_options = Downloader.preprocess_options(options)
           options.should == new_options
         end
 
-        it 'skips non-branch requests' do
-          puts fixture_url('git-repo')
-          options = { :git=> fixture_url('git-repo'), :branch => 'master' }
+        it 'resolves master to a commit' do
+          options = { :git => fixture_url('git-repo'), :branch => 'master' }
           new_options = Downloader.preprocess_options(options)
           new_options[:commit].should == '98cbf14201a78b56c6b7290f6cac840a7597a1c2'
+        end
+
+        it 'ignores invalid branches' do
+          options = { :git => fixture_url('git-repo'), :branch => 'aaaa' }
+          new_options = Downloader.preprocess_options(options)
+          new_options[:branch].should == 'aaaa'
         end
       end
     end
