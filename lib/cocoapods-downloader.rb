@@ -47,26 +47,18 @@ module Pod
     #         options.
     #
     def self.for_target(target_path, options)
-      options = Hash[options.map { |k, v| [k.to_sym, v] }]
+      options = options_to_sym(options)
 
       if target_path.nil?
         raise DownloaderError, 'No target path provided.'
       end
 
-      if options.nil? || options.empty?
-        raise DownloaderError, 'No source URL provided.'
-      end
-
-      strategy = strategy_from_options(options)
-      unless strategy
-        raise DownloaderError, 'Unsupported download strategy ' \
-          "`#{options.inspect}`."
-      end
+      strategy, klass = class_for_options(options)
 
       url = options[strategy]
       sub_options = options.dup
       sub_options.delete(strategy)
-      klass = downloader_class_by_key[strategy]
+
       klass.new(target_path, url, sub_options)
     end
 
@@ -78,8 +70,19 @@ module Pod
     # @return [Hash<Symbol,String>] the new options
     #
     def self.preprocess_options(options)
-      options = Hash[options.map { |k, v| [k.to_sym, v] }]
+      options = options_to_sym(options)
 
+      _, klass = class_for_options(options)
+      klass.preprocess_options(options)
+    end
+
+    private_class_method
+
+    def self.options_to_sym(options)
+      Hash[options.map { |k, v| [k.to_sym, v] }]
+    end
+
+    def self.class_for_options(options)
       if options.nil? || options.empty?
         raise DownloaderError, 'No source URL provided.'
       end
@@ -90,8 +93,8 @@ module Pod
           "`#{options.inspect}`."
       end
 
-      klass = downloader_class_by_key[strategy]
-      klass.preprocess_options(options)
+      # Explicit return for multiple params, rubocop thinks it's useless but it's not
+      return strategy, downloader_class_by_key[strategy] # rubocop:disable Style/RedundantReturn
     end
   end
 end
