@@ -104,6 +104,16 @@ module Pod
         tmp_folder('README').read.strip.should == 'first commit'
         tmp_folder('.svn').should.exist
       end
+
+      it 'has no preprocessing' do
+        options = {
+          :svn => "file://#{fixture('subversion-repo')}",
+          :revision => '1',
+          :checkout => true,
+        }
+        new_options = Downloader.preprocess_options(options)
+        new_options.should == options
+      end
     end
   end
 end
