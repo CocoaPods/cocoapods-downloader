@@ -19,6 +19,7 @@ require 'cocoapods-downloader'
 
 target_path = './Downloads/MyDownload'
 options = { :git => 'example.com' }
+options = Pod::Downloader.preprocess_options(options)
 downloader = Pod::Downloader.for_target(target_path, options)
 downloader.cache_root = '~/Library/Caches/APPNAME'
 downloader.max_cache_size = 500
