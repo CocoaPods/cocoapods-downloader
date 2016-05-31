@@ -12,9 +12,9 @@
   [CocoaPods#5318](https://github.com/CocoaPods/CocoaPods/issues/5318)
 
 * Allow download strategies to preprocess download options. This is used by
-  `git` strategy to resolve branches into commits directly.
+  `git` strategy to resolve branches into commits directly.  
   [Juan Civile](https://github.com/champo)
-  [Cocoapods#5386](https://github.com/CocoaPods/CocoaPods/pull/5386)
+  [CocoaPods#5386](https://github.com/CocoaPods/CocoaPods/pull/5386)
 
 
 ##### Bug Fixes
