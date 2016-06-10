@@ -10,7 +10,12 @@
   [Sylvain Guillopé](https://github.com/sguillope)
   [#55](https://github.com/CocoaPods/cocoapods-downloader/issues/55)
   [CocoaPods#5318](https://github.com/CocoaPods/CocoaPods/issues/5318)
-  
+
+* Allow download strategies to preprocess download options. This is used by
+  `git` strategy to resolve branches into commits directly.  
+  [Juan Civile](https://github.com/champo)
+  [CocoaPods#5386](https://github.com/CocoaPods/CocoaPods/pull/5386)
+
 
 ##### Bug Fixes
 

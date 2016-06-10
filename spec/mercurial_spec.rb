@@ -99,6 +99,12 @@ module Pod
           :revision => '61118fa8988c2b2eae826f48abd1e3340dae0c6b',
         }
       end
+
+      it 'has no preprocessing' do
+        options = { :hg => fixture('mercurial-repo'), :tag => '1.0.0' }
+        new_options = Downloader.preprocess_options(options)
+        new_options.should == options
+      end
     end
   end
 end

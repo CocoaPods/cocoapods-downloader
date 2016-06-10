@@ -77,6 +77,12 @@ module Pod
         downloader = Downloader.for_target(tmp_folder, options)
         lambda { downloader.download }.should.raise DownloaderError
       end
+
+      it 'has no preprocessing' do
+        options = { :bzr => fixture('bazaar-repo'), :revision => '1' }
+        new_options = Downloader.preprocess_options(options)
+        new_options.should == options
+      end
     end
   end
 end

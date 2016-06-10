@@ -219,6 +219,12 @@ module Pod
           downloader.send(:type).should == :zip
         end
       end
+
+      it 'has no preprocessing' do
+        options = { :http => 'https://host/file', :type => 'zip' }
+        new_options = Downloader.preprocess_options(options)
+        new_options.should == options
+      end
     end
   end
 end
