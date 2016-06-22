@@ -19,7 +19,13 @@
 
 ##### Bug Fixes
 
-* None.  
+* When downloading git submodules, use an explicit command (`git submodules
+  --init --recursive`) instead of relying on the `--recursive` behavior for
+  `git checkout`. This fixes an issue where submodules were checked out using
+  `--depth=1` under git 2.9.  
+  [Gordon Fontenot](https://github.com/gfontenot)
+  [#58](https://github.com/CocoaPods/cocoapods-downloader/pull/58)
+  [CocoaPods#5555](https://github.com/CocoaPods/CocoaPods/issues/5555)
 
 
 ## 1.0.0 (2016-05-10)
