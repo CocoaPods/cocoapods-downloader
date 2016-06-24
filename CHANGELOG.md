@@ -17,6 +17,12 @@
   [CocoaPods#5386](https://github.com/CocoaPods/CocoaPods/pull/5386)
 
 
+## 1.0.1 (2016-06-24)
+
+##### Enhancements
+
+* None.  
+
 ##### Bug Fixes
 
 * When downloading git submodules, use an explicit command (`git submodules
