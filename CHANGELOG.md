@@ -8,7 +8,9 @@
 
 ##### Bug Fixes
 
-* None.  
+* Ensure submodules are updated after checking out a specific git commit.  
+  [Samuel Giddins](https://github.com/segiddins)
+  [CocoaPods#5778](https://github.com/CocoaPods/CocoaPods/issues/5778)
 
 
 ## 1.1.0 (2016-07-11)

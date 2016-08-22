@@ -79,12 +79,7 @@ module Pod
         ui_sub_action('Git download') do
           begin
             git! clone_arguments(force_head, shallow_clone)
-
-            if options[:submodules]
-              Dir.chdir(target_path) do
-                git! %w(submodule update --init --recursive)
-              end
-            end
+            update_submodules
           rescue DownloaderError => e
             if e.message =~ /^fatal:.*does not support --depth$/im
               clone(force_head, false)
@@ -92,6 +87,13 @@ module Pod
               raise
             end
           end
+        end
+      end
+
+      def update_submodules
+        return unless options[:submodules]
+        Dir.chdir(target_path) do
+          git! %w(submodule update --init --recursive)
         end
       end
 
@@ -128,6 +130,7 @@ module Pod
       def checkout_commit
         Dir.chdir(target_path) do
           git! 'checkout', '--quiet', options[:commit]
+          update_submodules
         end
       end
     end
