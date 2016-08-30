@@ -1,6 +1,6 @@
 # Changelog
 
-## Master
+## 1.1.1 (2016-08-30)
 
 ##### Enhancements
 
