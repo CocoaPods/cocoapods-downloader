@@ -15,7 +15,7 @@ module Pod
       def checkout_options
         options = {}
         options[:git] = url
-        options[:commit] = `git -C #{target_path} rev-parse HEAD`.chomp
+        options[:commit] = `git -C "#{target_path}" rev-parse HEAD`.chomp
         options[:submodules] = true if self.options[:submodules]
         options
       end
