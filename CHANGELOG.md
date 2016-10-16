@@ -8,7 +8,9 @@
 
 ##### Bug Fixes
 
-* None.  
+* Use `git -C` rather than `chdir`.  
+  [Danielle Tomlinson](https://github.com/dantoml)
+  [#62](https://github.com/CocoaPods/cocoapods-downloader/pull/62)
 
 
 ## 1.1.1 (2016-08-30)

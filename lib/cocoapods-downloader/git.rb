@@ -13,13 +13,11 @@ module Pod
       end
 
       def checkout_options
-        Dir.chdir(target_path) do
-          options = {}
-          options[:git] = url
-          options[:commit] = `git rev-parse HEAD`.chomp
-          options[:submodules] = true if self.options[:submodules]
-          options
-        end
+        options = {}
+        options[:git] = url
+        options[:commit] = target_git('rev-parse', 'HEAD').chomp
+        options[:submodules] = true if self.options[:submodules]
+        options
       end
 
       def self.preprocess_options(options)
@@ -92,9 +90,7 @@ module Pod
 
       def update_submodules
         return unless options[:submodules]
-        Dir.chdir(target_path) do
-          git! %w(submodule update --init --recursive)
-        end
+        target_git %w(submodule update --init --recursive)
       end
 
       # The arguments to pass to `git` to clone the repo.
@@ -128,10 +124,12 @@ module Pod
       # Checks out a specific commit of the cloned repo.
       #
       def checkout_commit
-        Dir.chdir(target_path) do
-          git! 'checkout', '--quiet', options[:commit]
-          update_submodules
-        end
+        target_git 'checkout', '--quiet', options[:commit]
+        update_submodules
+      end
+
+      def target_git(*args)
+        git!(['-C', target_path] + args)
       end
     end
   end
