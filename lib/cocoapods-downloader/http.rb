@@ -22,10 +22,12 @@ module Pod
 
       def download!
         @filename = filename_with_type(type)
-        @download_path = (target_path + @filename)
-        download_file(@download_path)
-        verify_checksum(@download_path)
-        extract_with_type(@download_path, type)
+        if @filename
+          @download_path = (target_path + @filename)
+          download_file(@download_path)
+          verify_checksum(@download_path)
+          extract_with_type(@download_path, type)
+        end
       end
 
       def type
@@ -68,6 +70,10 @@ module Pod
         when /\.dmg$/
           :dmg
         end
+        case url
+        when /^file\:\/\//
+          :dir
+        end
       end
 
       def filename_with_type(type = :zip)
@@ -84,9 +90,12 @@ module Pod
           'file.txz'
         when :dmg
           'file.dmg'
-        else
-          raise UnsupportedFileTypeError, "Unsupported file type: #{type}"
+        when :dir
+          'file'
+        # else
+        #   raise UnsupportedFileTypeError, "Unsupported file type: #{type}"
         end
+        nil
       end
 
       def download_file(full_filename)
@@ -109,8 +118,10 @@ module Pod
           tar! 'xf', unpack_from, '-C', unpack_to
         when :dmg
           extract_dmg(unpack_from, unpack_to)
-        else
-          raise UnsupportedFileTypeError, "Unsupported file type: #{type}"
+        when :dir # is already there?
+          copy_directory(unpack_from, unpack_to)
+        #else
+          #raise UnsupportedFileTypeError, "Unsupported file type: #{type}"
         end
 
         # If the archive is a tarball and it only contained a folder, move its
@@ -126,6 +137,9 @@ module Pod
         end
       end
 
+      def copy_directory(unpack_from, unpack_to)
+          FileUtils.cp_r(unpack_from, unpack_to)
+      end
       def extract_dmg(unpack_from, unpack_to)
         require 'rexml/document'
         plist_s = hdiutil! 'attach', '-plist', '-nobrowse', unpack_from, '-mountrandom', unpack_to
