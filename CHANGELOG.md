@@ -4,7 +4,9 @@
 
 ##### Enhancements
 
-* None.  
+* Add support for servers that don't support shallow clones on git >= 2.11.x  
+  [Danielle Tomlinson](https://github.com/dantoml)
+  [#6270](https://github.com/CocoaPods/CocoaPods/issues/6270)
 
 ##### Bug Fixes
 
