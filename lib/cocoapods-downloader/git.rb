@@ -79,7 +79,7 @@ module Pod
             git! clone_arguments(force_head, shallow_clone)
             update_submodules
           rescue DownloaderError => e
-            if e.message =~ /^fatal:.*does not support --depth$/im
+            if e.message =~ /^fatal:.*does not support (--depth|shallow capabilities)$/im
               clone(force_head, false)
             else
               raise
