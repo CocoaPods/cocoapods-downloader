@@ -1,5 +1,16 @@
 # Changelog
 
+## Master
+
+##### Enhancements
+
+* None.  
+
+##### Bug Fixes
+
+* None.  
+
+
 ## 1.1.3 (2016-12-17)
 
 ##### Enhancements
