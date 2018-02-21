@@ -137,7 +137,6 @@ module Pod
           downloader.download
 
           tmp_folder('README').read.strip.should == 'v1.0'
-          ensure_only_one_ref(tmp_folder)
         end
 
         it 'clones a specific commit' do
