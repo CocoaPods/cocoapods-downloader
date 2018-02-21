@@ -44,6 +44,7 @@ module Pod
       def download!
         clone
         checkout_commit if options[:commit]
+        checkout_tag if options[:tag]
       end
 
       # @return [void] Checks out the HEAD of the git source in the destination
@@ -108,13 +109,13 @@ module Pod
       def clone_arguments(force_head, shallow_clone)
         command = ['clone', url, target_path, '--template=']
 
-        if shallow_clone && !options[:commit]
+        if shallow_clone && !options[:commit] && !options[:tag]
           command += %w(--single-branch --depth 1)
         end
 
         unless force_head
-          if tag_or_branch = options[:tag] || options[:branch]
-            command += ['--branch', tag_or_branch]
+          if branch = options[:branch]
+            command += ['--branch', branch]
           end
         end
 
@@ -125,6 +126,13 @@ module Pod
       #
       def checkout_commit
         target_git 'checkout', '--quiet', options[:commit]
+        update_submodules
+      end
+
+      # Checks out a specific tag of the cloned repo.
+      #
+      def checkout_tag
+        target_git 'checkout', '--quiet', "tags/#{options[:tag]}"
         update_submodules
       end
 

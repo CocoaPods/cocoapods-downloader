@@ -8,7 +8,9 @@
 
 ##### Bug Fixes
 
-* None.  
+* Checkout tags unambiguously when cloning git repos  
+  [Keith Smiley](https://github.com/keith)
+  [#72](https://github.com/CocoaPods/cocoapods-downloader/pull/72)
 
 
 ## 1.1.3 (2016-12-17)
