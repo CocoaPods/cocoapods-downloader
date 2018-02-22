@@ -77,6 +77,10 @@ module Pod
         ui_sub_action('Git download') do
           begin
             git! clone_arguments(force_head, shallow_clone)
+            if !force_head && !validate_tag
+              target_git 'checkout', '--quiet', "tags/#{options[:tag]}"
+            end
+
             update_submodules
           rescue DownloaderError => e
             if e.message =~ /^fatal:.*does not support (--depth|shallow capabilities)$/im
@@ -91,6 +95,16 @@ module Pod
       def update_submodules
         return unless options[:submodules]
         target_git %w(submodule update --init --recursive)
+      end
+
+      # Checks that the current sha actually points to the expected tag
+      # If this isn't the case there could be a branch with the same name
+      # and we should try to checkout the tag more directly
+      #
+      def validate_tag
+        return true unless options[:tag]
+        tags = target_git %w(tag --points-at HEAD)
+        tags.split.include? options[:tag]
       end
 
       # The arguments to pass to `git` to clone the repo.

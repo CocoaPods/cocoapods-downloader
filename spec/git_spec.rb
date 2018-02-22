@@ -200,7 +200,7 @@ module Pod
               "--depth 1\nCloning into 'directory'...\n" \
               'fatal: dumb http transport does not support --depth'
             dumb_remote_error = Pod::Downloader::DownloaderError.new(message)
-            downloader.stubs(:git!).raises(dumb_remote_error).then.returns(true)
+            downloader.stubs(:git!).raises(dumb_remote_error).then.returns('v1.0')
             should.not.raise { downloader.download }
           end
 
@@ -211,7 +211,7 @@ module Pod
               "--depth 1\nCloning into 'directory'...\n" \
               'fatal: dumb http transport does not support shallow capabilities'
             dumb_remote_error = Pod::Downloader::DownloaderError.new(message)
-            downloader.stubs(:git!).raises(dumb_remote_error).then.returns(true)
+            downloader.stubs(:git!).raises(dumb_remote_error).then.returns('v1.0')
             should.not.raise { downloader.download }
           end
         end

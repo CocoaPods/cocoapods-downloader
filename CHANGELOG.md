@@ -8,7 +8,9 @@
 
 ##### Bug Fixes
 
-* None.  
+* Validate checkouts match the expected tag.  
+  [Keith Smiley](https://github.com/keith)
+  [#73](https://github.com/CocoaPods/cocoapods-downloader/pull/73)
 
 
 ## 1.1.3 (2016-12-17)
