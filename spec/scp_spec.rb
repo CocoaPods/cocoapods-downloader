@@ -8,7 +8,19 @@ module Pod
         @fixtures_url = fixture('scp').to_s
       end
 
-      it 'download file and unzip it' do
+      it 'download file and unzip it over SCP (using mock)' do
+        options = { :scp => "scp://localhost:#{@fixtures_url}/lib.zip" }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.expects(:execute_command)
+                  .with('scp', ['-P', '22', '-q', "localhost:#{@fixtures_url}/lib.zip", tmp_folder('file.zip')], true)
+                  .returns(nil)
+        downloader.expects(:execute_command)
+                  .with('unzip', [tmp_folder('file.zip'), '-d', tmp_folder], true)
+                  .returns(nil)
+        downloader.download
+      end
+
+      xit 'download file and unzip it over SCP (using scp://localhost)' do
         options = { :scp => "scp://localhost:#{@fixtures_url}/lib.zip" }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
