@@ -4,7 +4,8 @@
 
 ##### Enhancements
 
-* None.  
+* Added support for SCP.  
+  [Ryosuke Ito](https://github.com/manicmaniac)
 
 ##### Bug Fixes
 

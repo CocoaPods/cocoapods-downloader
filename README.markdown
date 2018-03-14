@@ -33,6 +33,7 @@ The downloader class supports the following option keys:
 - svn: revision, tag, folder, externals
 - hg: revision, tag, branch
 - http: type, flatten
+- scp: port
 - bzr: revision, tag
 
 The downloader also provides hooks which allow to customize its output or the way in which the commands are executed
