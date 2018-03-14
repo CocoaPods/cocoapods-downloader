@@ -4,6 +4,7 @@ module Pod
     require 'cocoapods-downloader/api'
     require 'cocoapods-downloader/api_exposable'
     require 'cocoapods-downloader/base'
+    require 'cocoapods-downloader/remote_file'
 
     autoload :Bazaar,      'cocoapods-downloader/bazaar'
     autoload :Git,         'cocoapods-downloader/git'
