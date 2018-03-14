@@ -9,6 +9,7 @@ module Pod
     autoload :Bazaar,      'cocoapods-downloader/bazaar'
     autoload :Git,         'cocoapods-downloader/git'
     autoload :Http,        'cocoapods-downloader/http'
+    autoload :Scp,         'cocoapods-downloader/scp'
     autoload :Mercurial,   'cocoapods-downloader/mercurial'
     autoload :Subversion,  'cocoapods-downloader/subversion'
 
@@ -25,6 +26,7 @@ module Pod
         :git  => Git,
         :hg   => Mercurial,
         :http => Http,
+        :scp  => Scp,
         :svn  => Subversion,
       }
     end
