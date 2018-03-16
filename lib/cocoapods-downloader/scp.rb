@@ -2,6 +2,8 @@ require 'uri'
 
 module Pod
   module Downloader
+    require 'cocoapods-downloader/remote_file'
+
     class Scp < RemoteFile
       DEFAULT_PORT = 22
 
