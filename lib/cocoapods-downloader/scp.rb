@@ -7,25 +7,24 @@ module Pod
     class Scp < RemoteFile
       DEFAULT_PORT = 22
 
-      def self.options
-        super << :port
-      end
-
       private
 
       executable :scp
 
       def download_file(full_filename)
-        scp! '-P', port.to_s, '-q', source, full_filename
+        scp! '-P', port, '-q', source, full_filename
       end
 
       def source
-        uri = URI.parse(url)
         "#{uri.user ? uri.user + '@' : ''}#{uri.host}:'#{uri.path}'"
       end
 
       def port
-        options[:port] ? options[:port].to_i : DEFAULT_PORT
+        uri.port || DEFAULT_PORT
+      end
+
+      def uri
+        @uri ||= URI.parse(url)
       end
     end
   end
