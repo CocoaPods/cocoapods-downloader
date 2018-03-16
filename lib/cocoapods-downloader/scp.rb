@@ -16,8 +16,12 @@ module Pod
       executable :scp
 
       def download_file(full_filename)
+        scp! '-P', port.to_s, '-q', source, full_filename
+      end
+
+      def source
         uri = URI.parse(url)
-        scp! '-P', port.to_s, '-q', "#{uri.user ? uri.user + '@' : ''}#{uri.host}:'#{uri.path}'", full_filename
+        "#{uri.user ? uri.user + '@' : ''}#{uri.host}:'#{uri.path}'"
       end
 
       def port
