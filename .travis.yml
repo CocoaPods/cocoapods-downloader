@@ -8,7 +8,7 @@ addons:
    repo_token: 4d2c1cec2a5ba5fd0cd09aa76d1bcb52854e12ace21660dbf65a36a59ba7a973
 
 rvm:
-  - 2.0.0-p647
+  - 2.0.0
   - 2.3.4
   - 2.5.0
 
