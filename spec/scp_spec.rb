@@ -44,6 +44,21 @@ module Pod
         downloader.download
       end
 
+      it 'raises if it fails to download' do
+        options = { :scp => 'broken-link.zip' }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.expects(:scp!).raises(DownloaderError)
+        should.raise DownloaderError do
+          downloader.download
+        end
+      end
+
+      it 'has no preprocessing' do
+        options = { :scp => 'scp://host/file', :type => 'zip' }
+        new_options = Downloader.preprocess_options(options)
+        new_options.should == options
+      end
+
       xit 'download file and unzip it over SCP (using scp://localhost)' do
         options = { :scp => "scp://localhost#{@fixtures_path}/lib.zip" }
         downloader = Downloader.for_target(tmp_folder, options)
