@@ -1,7 +1,7 @@
+require 'cocoapods-downloader/remote_file'
+
 module Pod
   module Downloader
-    require 'cocoapods-downloader/remote_file'
-
     class Http < RemoteFile
       private
 
