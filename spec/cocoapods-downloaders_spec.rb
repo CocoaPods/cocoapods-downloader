@@ -59,6 +59,11 @@ module Pod
           concrete.class.should == @subject::Http
         end
 
+        it 'returns the Scp downloader' do
+          concrete = @subject.for_target(tmp_folder, :scp => 'Scp')
+          concrete.class.should == @subject::Scp
+        end
+
         it 'returns passes the url to the concrete instance' do
           concrete = @subject.for_target(tmp_folder, :git => 'url')
           concrete.url.should == 'url'

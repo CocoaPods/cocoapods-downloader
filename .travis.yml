@@ -9,7 +9,8 @@ addons:
 
 rvm:
   - 2.0.0
-  - 2.1.1
+  - 2.3.4
+  - 2.5.0
 
 install:
   - brew install bzr
