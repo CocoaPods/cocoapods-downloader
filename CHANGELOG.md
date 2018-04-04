@@ -1,6 +1,6 @@
 # Changelog
 
-## Master
+## 1.2.0 (2018-04-04)
 
 ##### Enhancements
 
