@@ -4,7 +4,8 @@
 
 ##### Enhancements
 
-* None.  
+* Allow `curl` to retry HTTP downloads that fail with transient errors.  
+  [Samuel Giddins](https://github.com/segiddins)
 
 ##### Bug Fixes
 

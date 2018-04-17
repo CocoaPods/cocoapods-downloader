@@ -8,7 +8,7 @@ module Pod
       executable :curl
 
       def download_file(full_filename)
-        curl! '-f', '-L', '-o', full_filename, url, '--create-dirs', '--netrc-optional'
+        curl! '-f', '-L', '-o', full_filename, url, '--create-dirs', '--netrc-optional', '--retry', '2'
       end
     end
   end
