@@ -28,6 +28,7 @@ module Pod
         downloader.download
         tmp_folder('lib/file.txt').should.exist
         tmp_folder('lib/file.txt').read.strip.should =~ /This is a fixture/
+        tmp_folder('file.dmg').should.not.exist
       end
 
       it 'should download file and unzip it when the target folder name contains quotes or spaces' do
@@ -43,6 +44,7 @@ module Pod
         downloader = MockRemoteFile.new(tmp_folder, "#{@fixtures_url}/lib.zip", options)
         downloader.download
         tmp_folder('file.txt').should.exist
+        tmp_folder('file.zip').should.not.exist
       end
 
       it 'should flatten disk images, when the spec explicitly demands it' do
@@ -50,12 +52,14 @@ module Pod
         downloader = MockRemoteFile.new(tmp_folder, "#{@fixtures_url}/lib.dmg", options)
         downloader.download
         tmp_folder('file.txt').should.exist
+        tmp_folder('file.dmg').should.not.exist
       end
 
       it 'moves unpacked contents to parent dir when archive contains only a folder (#727)' do
         downloader = MockRemoteFile.new(tmp_folder, "#{@fixtures_url}/lib.tar.gz", {})
         downloader.download
         tmp_folder('file.txt').should.exist
+        tmp_folder('file.tgz').should.not.exist
       end
 
       it 'does not move unpacked contents to parent dir when archive contains multiple children' do

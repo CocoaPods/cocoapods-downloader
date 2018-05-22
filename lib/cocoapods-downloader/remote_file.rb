@@ -123,6 +123,8 @@ module Pod
             FileUtils.move(entry.children, target_path)
           end
         end
+
+        FileUtils.rm(unpack_from) if File.exist?(unpack_from)
       end
 
       def extract_dmg(unpack_from, unpack_to)

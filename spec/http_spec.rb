@@ -14,6 +14,7 @@ module Pod
         downloader.download
         tmp_folder('lib/file.txt').should.exist
         tmp_folder('lib/file.txt').read.strip.should =~ /This is a fixture/
+        tmp_folder('file.zip').should.not.exist
       end
 
       it 'ignores any params in the url' do
