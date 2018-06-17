@@ -47,6 +47,15 @@ module Pod
         tmp_folder('file.zip').should.not.exist
       end
 
+      it 'should flatten nested zip archives, when the spec explicitly demands it' do
+        options = { :flatten => true }
+        downloader = MockRemoteFile.new(tmp_folder, "#{@fixtures_url}/nested.zip", options)
+        downloader.download
+        tmp_folder('file_a.txt').should.exist
+        tmp_folder('nested/file_b.txt').should.exist
+        tmp_folder('file.zip').should.not.exist
+      end
+
       it 'should flatten disk images, when the spec explicitly demands it' do
         options = { :flatten => true }
         downloader = MockRemoteFile.new(tmp_folder, "#{@fixtures_url}/lib.dmg", options)

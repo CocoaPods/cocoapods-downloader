@@ -1,6 +1,6 @@
-require 'zlib'
 require 'fileutils'
 require 'uri'
+require 'zlib'
 
 module Pod
   module Downloader
@@ -21,7 +21,7 @@ module Pod
 
       def download!
         @filename = filename_with_type(type)
-        @download_path = (target_path + @filename)
+        @download_path = target_path + @filename
         download_file(@download_path)
         verify_checksum(@download_path)
         extract_with_type(@download_path, type)
@@ -44,7 +44,7 @@ module Pod
       #
       def should_flatten?
         if options.key?(:flatten)
-          true
+          options[:flatten]
         elsif [:tgz, :tar, :tbz, :txz].include?(type)
           true # those archives flatten by default
         else
@@ -71,18 +71,8 @@ module Pod
 
       def filename_with_type(type = :zip)
         case type
-        when :zip
-          'file.zip'
-        when :tgz
-          'file.tgz'
-        when :tar
-          'file.tar'
-        when :tbz
-          'file.tbz'
-        when :txz
-          'file.txz'
-        when :dmg
-          'file.dmg'
+        when :zip, :tgz, :tar, :tbz, :txz, :dmg
+          "file.#{type}"
         else
           raise UnsupportedFileTypeError, "Unsupported file type: #{type}"
         end
@@ -95,6 +85,7 @@ module Pod
       def extract_with_type(full_filename, type = :zip)
         unpack_from = full_filename
         unpack_to = @target_path
+
         case type
         when :zip
           unzip! unpack_from, '-d', unpack_to
@@ -116,11 +107,17 @@ module Pod
         # contents to the target (#727)
         #
         if should_flatten?
-          contents = @target_path.children
+          contents = target_path.children
           contents.delete(target_path + @filename)
           entry = contents.first
           if contents.count == 1 && entry.directory?
-            FileUtils.move(entry.children, target_path)
+            tmp_entry = entry.sub_ext("#{entry.extname}.tmp")
+            begin
+              FileUtils.move(entry, tmp_entry)
+              FileUtils.move(tmp_entry.children, target_path)
+            ensure
+              FileUtils.remove_entry(tmp_entry)
+            end
           end
         end
 
