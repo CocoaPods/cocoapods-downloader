@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version  = Pod::Downloader::VERSION
   s.license  = "MIT"
   s.email    = ["eloy.de.enige@gmail.com", "fabiopelosin@gmail.com"]
-  s.homepage = "https://github.com/CocoaPods/Downloader"
+  s.homepage = "https://github.com/CocoaPods/cocoapods-downloader"
   s.authors  = ["Eloy Duran", "Fabio Pelosin"]
 
   s.summary  = "A small library for downloading files from remotes in a folder."
