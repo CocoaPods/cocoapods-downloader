@@ -8,7 +8,9 @@
 
 ##### Bug Fixes
 
-* None.  
+* Allow flattening nested archives where a directory has the same name as the 
+  directory to be flattened.  
+  [Samuel Giddins](https://github.com/segiddins)
 
 
 ## 1.2.1 (2018-05-25)
