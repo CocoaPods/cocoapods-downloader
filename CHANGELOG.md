@@ -1,5 +1,16 @@
 # Changelog
 
+## Master
+
+##### Enhancements
+
+* None.  
+
+##### Bug Fixes
+
+* None.  
+
+
 ## 1.2.2 (2018-10-16)
 
 ##### Enhancements
