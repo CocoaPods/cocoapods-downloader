@@ -110,7 +110,7 @@ module Pod
           contents = target_path.children
           contents.delete(target_path + @filename)
           entry = contents.first
-          if contents.count == 1 && entry.directory?
+          if contents.count == 1 && entry.directory? && !isBundle?(entry)
             tmp_entry = entry.sub_ext("#{entry.extname}.tmp")
             begin
               FileUtils.move(entry, tmp_entry)
@@ -172,6 +172,20 @@ module Pod
         elsif options[:sha1]
           verify_sha1_hash(filename, options[:sha1])
         end
+      end
+
+      # @note   The entry is a bundle if it is a directory but has a bundle structure
+      #
+      # @return [Bool] Whether the entry is a bundle
+      #
+
+      def isBundle?(entry)
+        isBundle   = File.extname(entry) == '.framework'
+        isBundle ||= File.extname(entry) == '.app'
+        isBundle ||= File.extname(entry) == '.framework'
+        isBundle ||= File.extname(entry) == '.ipa'
+        isBundle ||= File.extname(entry) == '.xcappdata'
+        isBundle
       end
     end
   end
