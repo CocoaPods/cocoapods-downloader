@@ -6,7 +6,7 @@ module Pod
   module Downloader
     class RemoteFile < Base
       def self.options
-        [:type, :flatten, :sha1, :sha256]
+        [:type, :flatten, :sha1, :sha256, :headers]
       end
 
       class UnsupportedFileTypeError < StandardError; end
@@ -33,6 +33,10 @@ module Pod
         else
           type_with_url(url)
         end
+      end
+
+      def headers
+        options[:headers]
       end
 
       # @note   The archive is flattened if it contains only one folder and its
