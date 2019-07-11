@@ -16,10 +16,15 @@ rvm:
   - 2.0.0
   - 2.3.4
   - 2.5.0
+  - 2.6.2
+
+before_install:
+  # There is a bug in travis. When using system ruby, bundler is not
+  # installed and causes the default install action to fail.
+  - if [ "$TRAVIS_RUBY_VERSION" = "system" ]; then sudo gem install "bundler:~> 1.15.0"; else gem install "bundler:~> 1.15.0"; fi
 
 install:
   - brew install bzr
   - bundle install
   - git config --global user.name  'CI'
   - git config --global user.email 'CI@example.com'
-
