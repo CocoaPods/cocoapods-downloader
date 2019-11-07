@@ -39,6 +39,7 @@
 * Remove archives after an `HTTP` download.  
   [Samuel Giddins](https://github.com/segiddins)
 
+
 ## 1.2.0 (2018-04-04)
 
 ##### Enhancements
