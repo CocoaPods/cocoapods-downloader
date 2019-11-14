@@ -4,6 +4,17 @@
 
 ##### Enhancements
 
+* None.  
+
+##### Bug Fixes
+
+* None.  
+
+
+## 1.3.0 (2019-11-14)
+
+##### Enhancements
+
 * Add `:headers` option to allow passing in custom headers to `cURL` when downloading source via the `:http` download strategy.  
   [Wilmar van Heerden](https://github.com/wilmarvh)
   [cocoapods-downloader#89](https://github.com/CocoaPods/cocoapods-downloader/issues/89)
