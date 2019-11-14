@@ -1,5 +1,16 @@
 # Changelog
 
+## Master
+
+##### Enhancements
+
+* None.  
+
+##### Bug Fixes
+
+* None.  
+
+
 ## 1.3.0 (2019-11-14)
 
 ##### Enhancements
