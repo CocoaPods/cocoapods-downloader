@@ -1,3 +1,5 @@
+dist: trusty
+
 os:
   - osx
 
@@ -24,6 +26,7 @@ before_install:
   - if [ "$TRAVIS_RUBY_VERSION" = "system" ]; then sudo gem install "bundler:~> 1.15.0"; else gem install "bundler:~> 1.15.0"; fi
 
 install:
+  - brew update
   - brew install bzr
   - bundle install
   - git config --global user.name  'CI'
