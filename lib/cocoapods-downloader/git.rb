@@ -21,20 +21,7 @@ module Pod
       end
 
       def self.preprocess_options(options)
-        return options unless options[:branch]
-
-        command = ['ls-remote',
-                   options[:git],
-                   options[:branch]]
-        output = Git.execute_command('git', command)
-        match = /^([a-z0-9]*)\t.*/.match(output)
-
-        return options if match.nil?
-
-        options[:commit] = match[1]
-        options.delete(:branch)
-
-        options
+        return options
       end
 
       private
