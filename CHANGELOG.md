@@ -4,7 +4,9 @@
 
 ##### Enhancements
 
-* None.  
+* Add User-Agent to `cURL` requests when downloading source via the `:http` download strategy, unless one was provided by the `:headers` option.  
+  [Sean Reinhardt](https://github.com/seanreinhardtapps)
+  [#9619](https://github.com/CocoaPods/CocoaPods/issues/9619)
 
 ##### Bug Fixes
 

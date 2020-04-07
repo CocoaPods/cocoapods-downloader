@@ -14,6 +14,7 @@ module Pod
       before do
         tmp_folder.rmtree if tmp_folder.exist?
         @fixtures_url = 'file://' + fixture('remote_file').to_s
+        RemoteFile.stubs(:user_agent_string).returns('mock_user_agent')
       end
 
       it 'download file and unzip it' do
