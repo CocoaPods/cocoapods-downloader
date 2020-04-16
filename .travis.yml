@@ -1,8 +1,5 @@
 dist: trusty
 
-os:
-  - osx
-
 language: ruby
 
 branches:
