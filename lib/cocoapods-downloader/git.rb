@@ -27,15 +27,36 @@ module Pod
                    options[:git],
                    options[:branch]]
         output = Git.execute_command('git', command)
-        match = /^([a-z0-9]*)\t.*/.match(output)
+        match = commit_from_ls_remote output, options[:branch]
 
         return options if match.nil?
 
-        options[:commit] = match[1]
+        options[:commit] = match
         options.delete(:branch)
 
         options
       end
+
+      # Matches a commit from the branches reported by git ls-remote.
+      #
+      # @note   When there is a branch and tag with the same name, it will match
+      #         the branch, since `refs/heads` is sorted before `refs/tags`.
+      #
+      # @param  [String] output
+      #         The output from git ls-remote.
+      #
+      # @param  [String] branch_name
+      #         The desired branch to match a commit to.
+      #
+      # @return [String] commit hash string, or nil if no match found
+      #
+      def self.commit_from_ls_remote(output, branch_name)
+        return nil if branch_name.nil?
+        match = %r{([a-z0-9]*)\trefs\/(heads|tags)\/#{Regexp.quote(branch_name)}}.match(output)
+        match[1] unless match.nil?
+      end
+
+      private_class_method :commit_from_ls_remote
 
       private
 
