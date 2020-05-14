@@ -71,6 +71,12 @@ module Pod
         tmp_folder('file.tgz').should.not.exist
       end
 
+      it 'should unpack gzip content even if file extension is bzip2' do
+        downloader = MockRemoteFile.new(tmp_folder, "#{@fixtures_url}/lib-actually-gzipped.tar.bz2", {})
+        downloader.download
+        tmp_folder('file.txt').should.exist
+      end
+
       it 'does not move unpacked contents to parent dir when archive contains multiple children' do
         downloader = MockRemoteFile.new(tmp_folder, "#{@fixtures_url}/lib_multiple.tar.gz", {})
         downloader.download
