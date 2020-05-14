@@ -93,13 +93,7 @@ module Pod
         case type
         when :zip
           unzip! unpack_from, '-d', unpack_to
-        when :tgz
-          tar! 'xfz', unpack_from, '-C', unpack_to
-        when :tar
-          tar! 'xf', unpack_from, '-C', unpack_to
-        when :tbz
-          tar! 'xfj', unpack_from, '-C', unpack_to
-        when :txz
+        when :tar, :tgz, :tbz, :txz
           tar! 'xf', unpack_from, '-C', unpack_to
         when :dmg
           extract_dmg(unpack_from, unpack_to)
