@@ -70,6 +70,29 @@ module Pod
           :txz
         when /\.dmg$/
           :dmg
+        else
+          type_with_url_query(url)
+        end
+      end
+
+      def type_with_url_query(url)
+        query = URI.parse(url).query
+        puts(query)
+        query_params = URI::decode_www_form(query).to_h
+        puts(query_params)
+        case query_params['file_path']
+        when /\.zip$/
+          :zip
+        when /\.(tgz|tar\.gz)$/
+          :tgz
+        when /\.tar$/
+          :tar
+        when /\.(tbz|tar\.bz2)$/
+          :tbz
+        when /\.(txz|tar\.xz)$/
+          :txz
+        when /\.dmg$/
+          :dmg
         end
       end
 
