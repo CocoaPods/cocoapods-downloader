@@ -43,8 +43,9 @@ module Pod
         options = { :http => "#{@fixtures_url}/download_file?file_path=lib.zip" }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
-        tmp_folder('lib/file.txt').should.exist
-        tmp_folder('lib/file.txt').read.strip.should =~ /This is a fixture/
+        unpack_to_folder = File.basename(URI.parse(options[:http]).path)
+        tmp_folder("#{unpack_to_folder}/file.txt").should.exist
+        tmp_folder("#{unpack_to_folder}/file.txt").read.strip.should =~ /This is a fixture/
       end
 
       it 'should flatten zip archives, when the spec explicitly demands it' do
