@@ -40,7 +40,7 @@ module Pod
       end
       
       it 'should download file and unzip it when the target url contains file_path query param' do
-        options = { :http => "#{@fixtures_url}/lib.zip?file_path=lib.zip" }
+        options = { :http => "#{@fixtures_url}/download_file?file_path=lib.zip" }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
         tmp_folder("lib/file.txt").should.exist
