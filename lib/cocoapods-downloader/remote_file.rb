@@ -77,7 +77,7 @@ module Pod
 
       def type_with_url_query(url)
         query = URI.parse(url).query.to_s
-        query_params = URI::decode_www_form(query).to_h
+        query_params = URI.decode_www_form(query).to_h
         case query_params['file_path']
         when /\.zip$/
           :zip
