@@ -12,21 +12,21 @@ addons:
  code_climate:
    repo_token: 4d2c1cec2a5ba5fd0cd09aa76d1bcb52854e12ace21660dbf65a36a59ba7a973
 
-rvm:
-  - 2.0.0
-  - 2.3.4
-  - 2.5.0
-  - 2.6.2
+jobs:
+  include:
+  - rvm: 2.0.0
+    osx_image: xcode7.3
+  - rvm: 2.3.4
+    osx_image: xcode7.3
+  - rvm: 2.5.0
+    osx_image: xcode11.5
+  - rvm: 2.6.2
+    osx_image: xcode11.5
 
 before_install:
   # There is a bug in travis. When using system ruby, bundler is not
   # installed and causes the default install action to fail.
   - if [ "$TRAVIS_RUBY_VERSION" = "system" ]; then sudo gem install "bundler:~> 1.15.0"; else gem install "bundler:~> 1.15.0"; fi
-  - rvm pkg install openssl
-  - rvm remove 2.0.0
-  - rvm remove 2.3.4
-  - rvm install 2.0.0 --with-openssl-dir=$HOME/.rvm/usr --binary --fuzzy
-  - rvm install 2.3.4 --with-openssl-dir=$HOME/.rvm/usr --binary --fuzzy
 
 install:
   - brew update
