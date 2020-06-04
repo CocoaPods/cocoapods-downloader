@@ -16,24 +16,24 @@ jobs:
   include:
   - rvm: 2.0.0
     osx_image: xcode9
-    env: SKIP_XCODE_SELECT=1
   - rvm: 2.3.4
     osx_image: xcode9
-    env: SKIP_XCODE_SELECT=1
   - rvm: 2.5.0
     osx_image: xcode11.5
+    env: INSTALL_SVN=1
   - rvm: 2.6.2
     osx_image: xcode11.5
+    env: INSTALL_SVN=1
 
 before_install:
   # There is a bug in travis. When using system ruby, bundler is not
   # installed and causes the default install action to fail.
   - if [ "$TRAVIS_RUBY_VERSION" = "system" ]; then sudo gem install "bundler:~> 1.15.0"; else gem install "bundler:~> 1.15.0"; fi
-  - "[ -z $SKIP_XCODE_SELECT ] && sudo rm -rf /Library/Developer/CommandLineTools && sudo xcode-select --install"
 
 install:
   - brew update
   - brew install bzr
+  - if [ "$INSTALL_SVN" = "1" ]; then brew install svn; fi
   - bundle install
   - git config --global user.name  'CI'
   - git config --global user.email 'CI@example.com'
