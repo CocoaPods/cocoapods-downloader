@@ -27,6 +27,7 @@ before_install:
   # There is a bug in travis. When using system ruby, bundler is not
   # installed and causes the default install action to fail.
   - if [ "$TRAVIS_RUBY_VERSION" = "system" ]; then sudo gem install "bundler:~> 1.15.0"; else gem install "bundler:~> 1.15.0"; fi
+  - sudo xcode-select --install
 
 install:
   - brew update
