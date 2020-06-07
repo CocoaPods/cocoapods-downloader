@@ -3,9 +3,11 @@ require File.expand_path('../spec_helper', __FILE__)
 module Pod
   module Downloader
     describe 'HTTP' do
+      mock_user_agent = 'mock_user_agent'.freeze
       before do
         tmp_folder.rmtree if tmp_folder.exist?
         @fixtures_url = 'file://' + fixture('http').to_s
+        Http.stubs(:user_agent_string).returns(mock_user_agent)
       end
 
       it 'download file and unzip it' do
@@ -74,6 +76,78 @@ module Pod
         should.raise DownloaderError do
           downloader.download
         end
+      end
+
+      it 'passes User-Agent to cURL' do
+        options = { :http => "#{@fixtures_url}/lib.zip" }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.expects(:curl!).with(
+          includes("-A \'#{mock_user_agent}\'"),
+        )
+        should.raise DownloaderError do
+          downloader.download
+        end
+      end
+
+      it 'passes default User-Agent to cURL with other request headers' do
+        options = { :http => "#{@fixtures_url}/lib.zip",
+                    :headers => ['Accept: application/json'],
+         }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.expects(:curl!).with(
+          includes("-A \'#{mock_user_agent}\'"),
+        )
+        should.raise DownloaderError do
+          downloader.download
+        end
+      end
+
+      it 'prefers User-Agent provided in headers over default User-Agent' do
+        options = {
+          :http => "#{@fixtures_url}/lib.zip",
+          :headers => ['Accept: application/json', 'User-Agent: custom_user_agent'],
+        }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.expects(:curl!).with(
+          all_of(
+            includes('-H'),
+            includes('Accept: application/json'),
+            includes('-H'),
+            includes('User-Agent: custom_user_agent'),
+          ),
+          Not(
+            includes("-A \'#{mock_user_agent}\'"),
+          ),
+        )
+        should.raise DownloaderError do
+          downloader.download
+        end
+      end
+
+      it 'prefers case insensitive User-Agent provided in headers' do
+        options = {
+          :http => "#{@fixtures_url}/lib.zip",
+          :headers => ['Accept: application/json', 'user-agent: custom_user_agent'],
+        }
+        downloader = Downloader.for_target(tmp_folder, options)
+        downloader.expects(:curl!).with(
+          all_of(
+            includes('-H'),
+            includes('Accept: application/json'),
+            includes('-H'),
+            includes('user-agent: custom_user_agent'),
+          ),
+          Not(
+            includes("-A \'#{mock_user_agent}\'"),
+          ),
+        )
+        should.raise DownloaderError do
+          downloader.download
+        end
+      end
+
+      it 'supplies User-Agent argument for cURL' do
+        Http.new('', '', {}).instance_eval { user_agent_argument }.should.match /-A '#{mock_user_agent}'/
       end
     end
   end

@@ -121,6 +121,18 @@ module Pod
         raise 'Abstract method'
       end
 
+      # Returns a User-Agent string that itentifies http network requests as
+      # originating from CocoaPods.
+      # Contains version numbers from the CocoaPods Gem and the cocoapods-downloader Gem.
+      #
+      # @param  [module] base_module The Base CocoaPods Module to retrieve the version number from.
+      # @return [String] the User-Agent string.
+      #
+      def self.user_agent_string(base_module = Pod)
+        pods_version = base_module.const_defined?('VERSION') ? "CocoaPods/#{base_module::VERSION} " : ''
+        "#{pods_version}cocoapods-downloader/#{Pod::Downloader::VERSION}"
+      end
+
       #-----------------------------------------------------------------------#
 
       # Defines two methods for an executable, based on its name. The bang
