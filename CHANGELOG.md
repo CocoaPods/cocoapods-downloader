@@ -8,7 +8,9 @@
 
 ##### Bug Fixes
 
-* None.  
+* Improves handling of multiple results from `git ls-remote` by using branch name in commit regex match.  
+  [Sean Reinhardt](https://github.com/seanreinhardtapps)
+  [#88](https://github.com/CocoaPods/cocoapods-downloader/issues/88)
 
 
 ## 1.3.0 (2019-11-14)

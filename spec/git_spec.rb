@@ -217,6 +217,53 @@ module Pod
         end
       end
 
+      describe ':commit_from_ls_remote' do
+        it 'finds commit for a branch' do
+          test_commit = 'abcde'
+          test_branch = 'stable'
+          test_output = "#{test_commit}\trefs/heads/#{test_branch}"
+          result = Git.send(:commit_from_ls_remote, test_output, test_branch)
+          result.should == test_commit
+        end
+        it 'returns nil for no match' do
+          test_commit = 'abcde'
+          test_branch = 'stable'
+          test_output = "#{test_commit}\trefs/heads/other_branch"
+          result = Git.send(:commit_from_ls_remote, test_output, test_branch)
+          result.should.nil?
+        end
+        it 'can match a commit for a tag' do
+          test_commit = '12345'
+          test_branch = 'stable'
+          test_output = "#{test_commit}\trefs/tags/#{test_branch}"
+          result = Git.send(:commit_from_ls_remote, test_output, test_branch)
+          result.should == test_commit
+        end
+        it 'finds correct commit from multiple ls-remote branches' do
+          test_commit1 = 'abcde'
+          test_branch1 = 'stable'
+          test_commit2 = '12345'
+          test_branch2 = 'release/stable'
+          test_output = "#{test_commit1}\trefs/heads/#{test_branch1}\n#{test_commit2}\trefs/heads/#{test_branch2}"
+          result1 = Git.send(:commit_from_ls_remote, test_output, test_branch1)
+          result1.should == test_commit1
+          result2 = Git.send(:commit_from_ls_remote, test_output, test_branch2)
+          result2.should == test_commit2
+        end
+        it 'returns a branch over a tag' do
+          test_commit1 = 'abcde'
+          test_branch = 'stable'
+          test_commit2 = '12345'
+          test_output = "#{test_commit1}\trefs/heads/#{test_branch}\n#{test_commit2}\trefs/tags/#{test_branch}"
+          result = Git.send(:commit_from_ls_remote, test_output, test_branch)
+          result.should == test_commit1
+        end
+        it 'handles nil inputs' do
+          Git.send(:commit_from_ls_remote, nil, 'test_branch').should.nil?
+          Git.send(:commit_from_ls_remote, "123\trefs/heads/abc", nil).should.nil?
+        end
+      end
+
       describe '::preprocess_options' do
         it 'skips non-branch requests' do
           options = { :git => fixture_url('git-repo'), :commit => 'aaaa' }
