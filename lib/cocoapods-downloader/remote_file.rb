@@ -19,6 +19,15 @@ module Pod
 
       attr_accessor :filename, :download_path
 
+      # Array.to_h support for ruby<2.1
+      unless [].respond_to? :to_h
+        class Array
+          def to_h
+            Hash[self]
+          end
+        end
+      end
+
       def download!
         @filename = filename_with_type(type)
         @download_path = target_path + @filename
