@@ -77,14 +77,9 @@ module Pod
 
       def type_with_url_query(url)
         query = URI.parse(url).query.to_s
-        query_params = URI.decode_www_form(query)
-        query_params_hash = {}
-        query_params.each do |el|
-          k, v = el[0], el[1]
-          query_params_hash[k] = v
-        end
+        query_params = Hash[URI.decode_www_form(query)]
 
-        case query_params_hash['file_path']
+        case query_params['file_path']
         when /\.zip$/
           :zip
         when /\.(tgz|tar\.gz)$/
