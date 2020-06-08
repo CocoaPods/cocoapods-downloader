@@ -19,15 +19,6 @@ module Pod
 
       attr_accessor :filename, :download_path
 
-      # Array.to_h support for ruby<2.1
-      unless [].respond_to? :to_h
-        class Array
-          def to_h
-            Hash[self]
-          end
-        end
-      end
-
       def download!
         @filename = filename_with_type(type)
         @download_path = target_path + @filename
@@ -86,8 +77,14 @@ module Pod
 
       def type_with_url_query(url)
         query = URI.parse(url).query.to_s
-        query_params = URI.decode_www_form(query).to_h
-        case query_params['file_path']
+        query_params = URI.decode_www_form(query)
+        query_params_hash = {}
+        query_params.each do |el|
+          k, v = el[0], el[1]
+          query_params_hash[k] = v
+        end
+
+        case query_params_hash['file_path']
         when /\.zip$/
           :zip
         when /\.(tgz|tar\.gz)$/
