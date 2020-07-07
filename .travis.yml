@@ -14,14 +14,15 @@ addons:
 
 jobs:
   include:
-  - rvm: 2.0.0
-    osx_image: xcode9
   - rvm: 2.3.4
     osx_image: xcode9
   - rvm: 2.5.0
     osx_image: xcode11.5
     env: INSTALL_SVN=1
   - rvm: 2.6.2
+    osx_image: xcode11.5
+    env: INSTALL_SVN=1
+  - rvm: 2.7.0
     osx_image: xcode11.5
     env: INSTALL_SVN=1
 
