@@ -1,6 +1,6 @@
 # Changelog
 
-## Master
+## 1.4.0 (2020-07-17)
 
 ##### Enhancements
 
