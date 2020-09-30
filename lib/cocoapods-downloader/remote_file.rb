@@ -57,7 +57,16 @@ module Pod
       end
 
       def type_with_url(url)
-        case URI.parse(url).path
+        url_path = URI.parse(url).path
+        if type_from_url_path(url_path).nil?
+          type_with_url_query(url)
+        else
+          type_from_url_path(url_path)
+        end
+      end
+
+      def type_from_url_path(url_path)
+        case url_path
         when /\.zip$/
           :zip
         when /\.(tgz|tar\.gz)$/
@@ -71,28 +80,14 @@ module Pod
         when /\.dmg$/
           :dmg
         else
-          type_with_url_query(url)
+          nil
         end
       end
 
       def type_with_url_query(url)
         query = URI.parse(url).query.to_s
         query_params = Hash[URI.decode_www_form(query)]
-
-        case query_params['file_path']
-        when /\.zip$/
-          :zip
-        when /\.(tgz|tar\.gz)$/
-          :tgz
-        when /\.tar$/
-          :tar
-        when /\.(tbz|tar\.bz2)$/
-          :tbz
-        when /\.(txz|tar\.xz)$/
-          :txz
-        when /\.dmg$/
-          :dmg
-        end
+        type_from_url_path(query_params['file_path'])
       end
 
       def filename_with_type(type = :zip)
