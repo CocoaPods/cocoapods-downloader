@@ -9,7 +9,8 @@ module Pod
         [:type, :flatten, :sha1, :sha256, :headers]
       end
 
-      class UnsupportedFileTypeError < StandardError; end
+      class UnsupportedFileTypeError < StandardError;
+      end
 
       private
 
@@ -79,8 +80,6 @@ module Pod
           :txz
         when /\.dmg$/
           :dmg
-        else
-          nil
         end
       end
 
