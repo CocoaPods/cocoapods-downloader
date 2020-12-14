@@ -9,7 +9,7 @@ module Pod
         [:type, :flatten, :sha1, :sha256, :headers]
       end
 
-      class UnsupportedFileTypeError < StandardError;
+      class UnsupportedFileTypeError < StandardError
       end
 
       private
