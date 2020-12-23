@@ -32,6 +32,7 @@ module Pod
         if options[:type]
           options[:type].to_sym
         else
+          puts("url: #{url}")
           type_with_url(url)
         end
       end
@@ -59,6 +60,7 @@ module Pod
 
       def type_with_url(url)
         url_path = URI.parse(url).path
+        puts(type_from_url_path(url_path))
         if type_from_url_path(url_path).nil?
           type_with_url_query(url)
         else
