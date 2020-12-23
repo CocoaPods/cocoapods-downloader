@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'uri'
 require 'zlib'
+require 'open-uri'
 
 module Pod
   module Downloader
@@ -9,8 +10,7 @@ module Pod
         [:type, :flatten, :sha1, :sha256, :headers]
       end
 
-      class UnsupportedFileTypeError < StandardError
-      end
+      class UnsupportedFileTypeError < StandardError; end
 
       private
 
@@ -31,9 +31,10 @@ module Pod
       def type
         if options[:type]
           options[:type].to_sym
-        else
-          puts("url: #{url}")
+        elsif type_with_url(url)
           type_with_url(url)
+        else
+          type_with_open_url(url)
         end
       end
 
@@ -59,17 +60,7 @@ module Pod
       end
 
       def type_with_url(url)
-        url_path = URI.parse(url).path
-        puts(type_from_url_path(url_path))
-        if type_from_url_path(url_path).nil?
-          type_with_url_query(url)
-        else
-          type_from_url_path(url_path)
-        end
-      end
-
-      def type_from_url_path(url_path)
-        case url_path
+        case URI.parse(url).path
         when /\.zip$/
           :zip
         when /\.(tgz|tar\.gz)$/
@@ -85,10 +76,10 @@ module Pod
         end
       end
 
-      def type_with_url_query(url)
-        query = URI.parse(url).query.to_s
-        query_params = Hash[URI.decode_www_form(query)]
-        type_from_url_path(query_params['file_path'])
+      def type_with_open_url(url)
+        open(url, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE}) do |f|
+          f.content_type.to_str.split("/").last.to_sym
+        end
       end
 
       def filename_with_type(type = :zip)

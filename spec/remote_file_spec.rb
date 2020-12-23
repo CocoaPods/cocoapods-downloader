@@ -40,8 +40,8 @@ module Pod
         tmp_folder_with_quotes('lib/file.txt').read.strip.should =~ /This is a fixture/
       end
 
-      it 'should download file and unzip it when the target url contains file_path query param' do
-        options = { :http => "#{@fixtures_url}/download_file?file_path=lib.zip" }
+      it 'should download file and unzip it when the target url does not contain type in url' do
+        options = { :http => "#{@fixtures_url}/download_file" }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
         tmp_folder('lib/file.txt').should.exist
