@@ -8,6 +8,7 @@ group :development do
   gem 'mocha-on-bacon'
   gem 'prettybacon'
   gem 'rake'
+  gem 'rexml', '~> 3.2.4'
   gem 'vcr'
   gem 'webmock', '< 1.9'
 
