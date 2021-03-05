@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'uri'
 require 'zlib'
+require 'open-uri'
 
 module Pod
   module Downloader
@@ -30,8 +31,10 @@ module Pod
       def type
         if options[:type]
           options[:type].to_sym
-        else
+        elsif type_with_url(url)
           type_with_url(url)
+        else
+          type_with_open_url(url)
         end
       end
 
@@ -70,6 +73,12 @@ module Pod
           :txz
         when /\.dmg$/
           :dmg
+        end
+      end
+
+      def type_with_open_url(url)
+        open(url, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE}) do |f|
+          f.content_type.to_str.split("/").last.to_sym
         end
       end
 
