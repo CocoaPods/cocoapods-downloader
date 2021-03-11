@@ -52,6 +52,7 @@ module Pod
       #
       def self.commit_from_ls_remote(output, branch_name)
         return nil if branch_name.nil?
+        branch_name = branch_name.force_encoding('ASCII-8BIT')
         match = %r{([a-z0-9]*)\trefs\/(heads|tags)\/#{Regexp.quote(branch_name)}}.match(output)
         match[1] unless match.nil?
       end
