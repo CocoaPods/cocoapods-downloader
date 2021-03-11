@@ -52,6 +52,11 @@ module Pod
       #
       def self.commit_from_ls_remote(output, branch_name)
         return nil if branch_name.nil?
+        
+        # if use chinese branch name, match is error
+        # eg. [!] Failed to download 'XXX': incompatible encoding regexp match (UTF-8 regexp with ASCII-8BIT string)
+        # output encoding type: ASCII-8BIT
+        # branch_name encoding type: UTF-8
         branch_name = branch_name.force_encoding('ASCII-8BIT')
         match = %r{([a-z0-9]*)\trefs\/(heads|tags)\/#{Regexp.quote(branch_name)}}.match(output)
         match[1] unless match.nil?
