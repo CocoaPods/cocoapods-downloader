@@ -128,7 +128,11 @@ module Pod
       def clone_arguments(force_head, shallow_clone)
         command = ['clone', url, target_path, '--template=']
 
-        if shallow_clone || options[:branch]
+        if shallow_clone && !options[:commit]
+          command += %w(--single-branch --depth 1)
+        end
+
+        if shallow_clone && options[:commit] && options[:branch]
           command += %w(--single-branch --depth 1)
         end
 
