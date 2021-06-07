@@ -139,8 +139,6 @@ module Pod
             command += ['--branch', tag_or_branch]
           end
         end
-        print command
-        puts '❌'
         command
       end
 
