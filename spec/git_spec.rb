@@ -240,7 +240,7 @@ module Pod
           end
         end
       end
-        
+
       describe ':commit_from_ls_remote' do
         it 'finds commit for a branch' do
           test_commit = 'abcde'
