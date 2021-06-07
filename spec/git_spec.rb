@@ -215,8 +215,7 @@ module Pod
             should.not.raise { downloader.download }
           end
         end
-      end
-
+        
       describe 'get remote default branch if not set branch with shallow clones' do
         it 'with git <= 2.10.x' do
           options = { :git => fixture_url('git-repo') }

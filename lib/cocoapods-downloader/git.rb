@@ -30,9 +30,7 @@ module Pod
         match = commit_from_ls_remote output, options[:branch]
 
         return options if match.nil?
-
         options[:commit] = match
-
         options
       end
 
@@ -141,7 +139,8 @@ module Pod
             command += ['--branch', tag_or_branch]
           end
         end
-
+        print command
+        puts '❌'
         command
       end
 
