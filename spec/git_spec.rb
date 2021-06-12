@@ -215,6 +215,30 @@ module Pod
             should.not.raise { downloader.download }
           end
         end
+
+        describe 'get remote default branch if not set branch with shallow clones' do
+          it 'with git <= 2.10.x' do
+            options = { :git => fixture_url('git-repo') }
+            downloader = Downloader.for_target(tmp_folder, options)
+            message = '/usr/local/bin/git clone URL directory --single-branch ' \
+              "--depth 1\nCloning into 'directory'...\n" \
+              'fatal: dumb http transport does not support --depth'
+            dumb_remote_error = Pod::Downloader::DownloaderError.new(message)
+            downloader.stubs(:git!).raises(dumb_remote_error).then.returns(true)
+            should.not.raise { downloader.download }
+          end
+
+          it 'with git >= 2.11.x' do
+            options = { :git => fixture_url('git-repo') }
+            downloader = Downloader.for_target(tmp_folder, options)
+            message = '/usr/local/bin/git clone URL directory --single-branch ' \
+              "--depth 1\nCloning into 'directory'...\n" \
+              'fatal: dumb http transport does not support shallow capabilities'
+            dumb_remote_error = Pod::Downloader::DownloaderError.new(message)
+            downloader.stubs(:git!).raises(dumb_remote_error).then.returns(true)
+            should.not.raise { downloader.download }
+          end
+        end
       end
 
       describe ':commit_from_ls_remote' do

@@ -30,9 +30,7 @@ module Pod
         match = commit_from_ls_remote output, options[:branch]
 
         return options if match.nil?
-
         options[:commit] = match
-
         options
       end
 
@@ -128,7 +126,11 @@ module Pod
       def clone_arguments(force_head, shallow_clone)
         command = ['clone', url, target_path, '--template=']
 
-        if shallow_clone || options[:branch]
+        if shallow_clone && !options[:commit]
+          command += %w(--single-branch --depth 1)
+        end
+
+        if shallow_clone && options[:commit] && options[:branch]
           command += %w(--single-branch --depth 1)
         end
 
@@ -137,7 +139,6 @@ module Pod
             command += ['--branch', tag_or_branch]
           end
         end
-
         command
       end
 
