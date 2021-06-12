@@ -30,10 +30,7 @@ module Pod
         match = commit_from_ls_remote output, options[:branch]
 
         return options if match.nil?
-
         options[:commit] = match
-        options.delete(:branch)
-
         options
       end
 
@@ -133,12 +130,15 @@ module Pod
           command += %w(--single-branch --depth 1)
         end
 
+        if shallow_clone && options[:commit] && options[:branch]
+          command += %w(--single-branch --depth 1)
+        end
+
         unless force_head
           if tag_or_branch = options[:tag] || options[:branch]
             command += ['--branch', tag_or_branch]
           end
         end
-
         command
       end
 
