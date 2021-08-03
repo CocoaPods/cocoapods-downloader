@@ -44,6 +44,7 @@ GEM
       ffi (>= 0.5.0)
     rb-kqueue (0.2.3)
       ffi (>= 0.5.0)
+    rexml (3.2.4)
     rubocop (0.38.0)
       parser (>= 2.3.0.6, < 3.0)
       powerpack (~> 0.1)
@@ -57,7 +58,7 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.8.0)
     simplecov-html (0.8.0)
-    unicode-display_width (1.0.2)
+    unicode-display_width (1.7.0)
     vcr (2.9.3)
     webmock (1.8.11)
       addressable (>= 2.2.7)
@@ -75,6 +76,7 @@ DEPENDENCIES
   mocha-on-bacon
   prettybacon
   rake
+  rexml (~> 3.2.4)
   rubocop
   simplecov
   vcr
