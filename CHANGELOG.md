@@ -8,7 +8,10 @@
 
 ##### Bug Fixes
 
-* None.  
+* Force encode branch name to properly clone it.  
+  [xdkhan](https://github.com/xdkhan)
+  [Dimitris Koutsogiorgas](https://github.com/dnkoutso)
+  [#116](https://github.com/CocoaPods/cocoapods-downloader/pull/116) 
 
 
 ## 1.4.0 (2020-07-17)
