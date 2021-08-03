@@ -44,7 +44,7 @@ GEM
       ffi (>= 0.5.0)
     rb-kqueue (0.2.3)
       ffi (>= 0.5.0)
-    rexml (3.2.4)
+    rexml (3.2.5)
     rubocop (0.38.0)
       parser (>= 2.3.0.6, < 3.0)
       powerpack (~> 0.1)
@@ -76,7 +76,7 @@ DEPENDENCIES
   mocha-on-bacon
   prettybacon
   rake
-  rexml (~> 3.2.4)
+  rexml (~> 3.2.5)
   rubocop
   simplecov
   vcr
