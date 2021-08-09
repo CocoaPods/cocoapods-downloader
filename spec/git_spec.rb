@@ -26,6 +26,13 @@ module Pod
           tmp_folder('README').read.strip.should == 'topic_branch'
         end
 
+        it 'checks out a specific branch with forced encoding' do
+          options = { :git => fixture('git-repo'), :branch => '中文分支' }
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.download
+          tmp_folder('README').read.strip.should == '中文分支'
+        end
+
         it 'checks out a specific tag' do
           options = { :git => fixture('git-repo'), :tag => 'v1.0' }
           downloader = Downloader.for_target(tmp_folder, options)
