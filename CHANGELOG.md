@@ -12,6 +12,11 @@
   [xdkhan](https://github.com/xdkhan)
   [Dimitris Koutsogiorgas](https://github.com/dnkoutso)
   [#116](https://github.com/CocoaPods/cocoapods-downloader/pull/116) 
+  
+* Fix bug of Git shallow cloning is not used when branch is set.  
+  [Dimo Hamdy](https://github.com/dimohamdy)
+  [Pavel](https://github.com/paiv)
+  [#106](https://github.com/CocoaPods/cocoapods-downloader/issues/106) 
 
 
 ## 1.4.0 (2020-07-17)
