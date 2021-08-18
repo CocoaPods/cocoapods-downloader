@@ -2,7 +2,7 @@
 
 A small library for downloading files from remotes in a folder.
 
-[![Build Status](https://github.com/CocoaPods/cocoapods-downloader/actions/workflows/Specs.yml/badge.svg)]
+![Build Status](https://github.com/CocoaPods/cocoapods-downloader/actions/workflows/Specs.yml/badge.svg)
 [![Coverage](https://img.shields.io/codeclimate/coverage/github/CocoaPods/cocoapods-downloader.svg?style=flat)](https://codeclimate.com/github/CocoaPods/cocoapods-downloader)
 [![Code Climate](https://img.shields.io/codeclimate/github/CocoaPods/cocoapods-downloader.svg?style=flat)](https://codeclimate.com/github/CocoaPods/cocoapods-downloader)
 
