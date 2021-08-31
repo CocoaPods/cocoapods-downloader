@@ -1,5 +1,16 @@
 # Changelog
 
+## Master
+
+##### Enhancements
+
+* None.  
+
+##### Bug Fixes
+
+* None.  
+
+
 ## 1.5.0 (2021-08-31)
 
 ##### Enhancements
