@@ -8,6 +8,17 @@
 
 ##### Bug Fixes
 
+* None.  
+
+
+## 1.5.0 (2021-08-31)
+
+##### Enhancements
+
+* None.  
+
+##### Bug Fixes
+
 * Force encode branch name to properly clone it.  
   [xdkhan](https://github.com/xdkhan)
   [Dimitris Koutsogiorgas](https://github.com/dnkoutso)
