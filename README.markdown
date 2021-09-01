@@ -4,8 +4,7 @@ A small library for downloading files from remotes in a folder.
 
 [![Build Status](https://img.shields.io/github/workflow/status/CocoaPods/CocoaPods-Downloader/Spec)](https://github.com/CocoaPods/cocoapods-downloader/actions)
 [![Gem Version](https://img.shields.io/gem/v/cocoapods-downloader)](https://rubygems.org/gems/cocoapods-downloader)
-[![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/CocoaPods/cocoapods-downloader/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/test_coverage)](https://codeclimate.com/github/CocoaPods/cocoapods-downloader/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/2253ffb0c2c98e4d1c71/maintainability)](https://codeclimate.com/github/CocoaPods/cocoapods-downloader/maintainability)
 
 ## Install
 
