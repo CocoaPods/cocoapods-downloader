@@ -8,8 +8,9 @@
 
 ##### Bug Fixes
 
-* None.  
-
+* Fix "can't modify frozen string" errors when pods are integrated using the `branch` option  
+  [buju77](https://github.com/Buju77)
+  [#10920](https://github.com/CocoaPods/CocoaPods/issues/10920)
 
 ## 1.5.0 (2021-08-31)
 
