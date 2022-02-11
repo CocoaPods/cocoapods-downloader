@@ -116,6 +116,18 @@ module Pod
           end
         end
 
+        def ensure_only_one_branch(folder)
+          Dir.chdir(folder) do
+            `git branch| wc -l`.strip.should == '1'
+          end
+        end
+
+        def ensure_only_one_tag(folder)
+          Dir.chdir(folder) do
+            `git tag| wc -l`.strip.should == '1'
+          end
+        end
+
         before do
           FileUtils.rm_rf('/tmp/git-submodule-repo')
           FileUtils.cp_r(fixture('git-submodule-repo'), '/tmp/')
@@ -155,6 +167,59 @@ module Pod
           Dir.chdir(tmp_folder) do
             `git rev-list HEAD`.chomp.should.include '407e385'
           end
+        end
+
+        # If 'preprocess_options' remove the options[:branch], it will fail here.
+        it 'clones a specific branch and preprocess options' do
+          options = { :git => fixture_url('git-repo'), :branch => 'topic_branch' }
+          options = Downloader.preprocess_options(options)
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.download
+
+          tmp_folder('README').read.strip.should == 'topic_branch'
+          ensure_only_one_ref(tmp_folder)
+        end
+
+        it 'clones a specific branch and pointing commit' do
+          options = { :git => fixture_url('git-repo'), :branch => 'topic_branch', :commit => '4bd5b396b46445d897fd2eab4a56e868b9eb5fc4' } # rubocop:disable Metrics/LineLength
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.download
+
+          tmp_folder('README').read.strip.should == 'topic_branch'
+          ensure_only_one_ref(tmp_folder)
+        end
+
+        it 'clones a specific tag and pointing commit' do
+          options = { :git => fixture_url('git-repo'), :tag => 'v1.0', :commit => '407e385d69d49a691eb6853f643317c61e417c83' } # rubocop:disable Metrics/LineLength
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.download
+
+          tmp_folder('README').read.strip.should == 'v1.0'
+          ensure_only_one_ref(tmp_folder)
+        end
+
+        it 'clones a specific branch and non-pointing commit' do
+          options = { :git => fixture_url('git-repo'), :branch => 'topic_branch', :commit => '7ad3a6ccca379b6bd7e4ff9477448670d799c661' } # rubocop:disable Metrics/LineLength
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.download
+          Dir.chdir(tmp_folder) do
+            `git rev-list HEAD`.chomp.should.include '7ad3a6ccca379b6bd7e4ff9477448670d799c661'
+            `git checkout topic_branch`
+          end
+          tmp_folder('README').read.strip.should == 'topic_branch'
+          ensure_only_one_branch(tmp_folder)
+        end
+
+        it 'clones a specific tag and non-pointing commit' do
+          options = { :git => fixture_url('git-repo'), :tag => 'v1.0', :commit => '7ad3a6ccca379b6bd7e4ff9477448670d799c661' } # rubocop:disable Metrics/LineLength
+          downloader = Downloader.for_target(tmp_folder, options)
+          downloader.download
+          Dir.chdir(tmp_folder) do
+            `git rev-list HEAD`.chomp.should.include '7ad3a6ccca379b6bd7e4ff9477448670d799c661'
+            `git checkout v1.0`
+          end
+          tmp_folder('README').read.strip.should == 'v1.0'
+          ensure_only_one_tag(tmp_folder)
         end
       end
 
@@ -269,6 +334,15 @@ module Pod
           Git.send(:commit_from_ls_remote, nil, 'test_branch').should.nil?
           Git.send(:commit_from_ls_remote, "123\trefs/heads/abc", nil).should.nil?
         end
+
+        # If use Encoding::ASCII, it will fail here.
+        it 'finds commit for a branch with forced encoding' do
+          test_commit = '8edcd2fc53176ccb5fa7327f33b7dd733dbd3a06'
+          test_branch = '中文分支'
+          test_output = "#{test_commit}\trefs/heads/#{test_branch}"
+          result = Git.send(:commit_from_ls_remote, test_output, test_branch)
+          result.should == test_commit
+        end
       end
 
       describe '::preprocess_options' do
@@ -288,6 +362,41 @@ module Pod
           options = { :git => fixture_url('git-repo'), :branch => 'aaaa' }
           new_options = Downloader.preprocess_options(options)
           new_options[:branch].should == 'aaaa'
+        end
+
+        # If 'preprocess_options' remove the `return options if options[:commit] || options[:tag]`, it will fail here.
+        it 'don`t override commit' do
+          options = { :git => fixture_url('git-repo'), :branch => 'master', :commit => '7ad3a6c' }
+          new_options = Downloader.preprocess_options(options)
+          new_options[:commit].should.include '7ad3a6c'
+        end
+      end
+
+      describe ':commit_from_remote_ref' do
+        it 'match a commit for a branch' do
+          commit = Git.send(:commit_from_remote_ref, fixture_url('git-repo'), 'topic_branch')
+          commit.should == '4bd5b396b46445d897fd2eab4a56e868b9eb5fc4'
+        end
+
+        it 'match a commit for a tag' do
+          commit = Git.send(:commit_from_remote_ref, fixture_url('git-repo'), 'v1.0')
+          commit.should == '407e385d69d49a691eb6853f643317c61e417c83'
+        end
+
+        it 'match a commit for invalid branch' do
+          commit = Git.send(:commit_from_remote_ref, fixture_url('git-repo'), 'abcde')
+          commit.should.nil?
+        end
+
+        it 'match a commit for invalid tag' do
+          commit = Git.send(:commit_from_remote_ref, fixture_url('git-repo'), 'v1.abcde')
+          commit.should.nil?
+        end
+
+        it 'handles nil inputs' do
+          Git.send(:commit_from_remote_ref, nil, 'test_branch').should.nil?
+          Git.send(:commit_from_remote_ref, fixture_url('git-repo'), nil).should.nil?
+          Git.send(:commit_from_remote_ref, nil, nil).should.nil?
         end
       end
     end

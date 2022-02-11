@@ -21,20 +21,33 @@ module Pod
       end
 
       def self.preprocess_options(options)
+        return options if options[:commit] || options[:tag]
         return options unless options[:branch]
 
-        command = ['ls-remote',
-                   options[:git],
-                   options[:branch]]
-        output = Git.execute_command('git', command)
-        match = commit_from_ls_remote output, options[:branch]
-
-        return options if match.nil?
-
-        options[:commit] = match
-        options.delete(:branch)
-
+        commit = commit_from_remote_ref(options[:git], options[:branch])
+        return options if commit.nil?
+        options[:commit] = commit
         options
+      end
+
+      # Matches a commit from branch or tag by git remote url.
+      #
+      # @note   When there is a branch and tag with the same name, it will match
+      #         the branch, since `refs/heads` is sorted before `refs/tags`.
+      #
+      # @param  [String] url
+      #         The remote url of the git repository.
+      #
+      # @param  [String] ref
+      #         The desired branch or tag to match a commit to.
+      #
+      # @return [String] commit hash string, or nil if no match found
+      def self.commit_from_remote_ref(url, ref)
+        return nil if url.nil? || ref.nil?
+        command = ['ls-remote', url, ref]
+        output = Git.execute_command('git', command)
+        match = commit_from_ls_remote(output, ref)
+        match
       end
 
       # Matches a commit from the branches reported by git ls-remote.
@@ -52,7 +65,7 @@ module Pod
       #
       def self.commit_from_ls_remote(output, branch_name)
         return nil if branch_name.nil?
-        encoded_branch_name = branch_name.dup.force_encoding(Encoding::ASCII_8BIT)
+        encoded_branch_name = branch_name.dup.force_encoding(Encoding::UTF_8)
         match = %r{([a-z0-9]*)\trefs\/(heads|tags)\/#{Regexp.quote(encoded_branch_name)}}.match(output)
         match[1] unless match.nil?
       end
@@ -129,17 +142,26 @@ module Pod
       #
       def clone_arguments(force_head, shallow_clone)
         command = ['clone', url, target_path, '--template=']
-
-        if shallow_clone && !options[:commit]
-          command += %w(--single-branch --depth 1)
+        if force_head
+          if shallow_clone && !options[:commit]
+            command += %w(--single-branch --depth 1)
+          end
+          return command
         end
-
-        unless force_head
-          if tag_or_branch = options[:tag] || options[:branch]
-            command += ['--branch', tag_or_branch]
+        if shallow_clone
+          if (Git.options & options.keys).empty?
+            command += %w(--single-branch --depth 1)
+          elsif ref = options[:branch] || options[:tag]
+            command += %w(--single-branch)
+            commit = Git.commit_from_remote_ref(url, ref)
+            if !options[:commit] || (commit == options[:commit])
+              command += %w(--depth 1)
+            end
           end
         end
-
+        if tag_or_branch = options[:tag] || options[:branch]
+          command += ['--branch', tag_or_branch]
+        end
         command
       end
 
