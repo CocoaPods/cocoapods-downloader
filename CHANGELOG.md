@@ -8,8 +8,9 @@
 
 ##### Bug Fixes
 
-* None.  
-
+* Adds a check for command injections in the input for hg and git.  
+  [orta](https://github.com/orta)
+  [#124](https://github.com/CocoaPods/cocoapods-downloader/pull/124)
 
 ## 1.5.1 (2021-09-07)
 
