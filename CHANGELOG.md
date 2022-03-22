@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.6.0 (2022-03-22)
+## Master
 
 ##### Enhancements
 
