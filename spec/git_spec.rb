@@ -290,6 +290,26 @@ module Pod
           new_options[:branch].should == 'aaaa'
         end
       end
+
+      describe ':bad input' do
+        it 'bails when you provide a bad input' do
+          options = { :git => '--upload-pack=touch ./HELLO1;', :branch => 'foo' }
+          e = lambda { Downloader.preprocess_options(options) }.should.raise DownloaderError
+          e.message.should.match /Provided unsafe input/
+        end
+
+        it 'bails when you provide a bad input after valid input' do
+          options = { :git => 'github.com --upload-pack=touch ./HELLO1;', :branch => 'foo' }
+          e = lambda { Downloader.preprocess_options(options) }.should.raise DownloaderError
+          e.message.should.match /Provided unsafe input/
+        end
+
+        it 'bails with other fields' do
+          options = { :branch => '--upload-pack=touch ./HELLO1;', :git => 'foo' }
+          e = lambda { Downloader.preprocess_options(options) }.should.raise DownloaderError
+          e.message.should.match /Provided unsafe input/
+        end
+      end
     end
   end
 end
