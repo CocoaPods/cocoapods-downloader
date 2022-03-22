@@ -72,6 +72,10 @@ All CocoaPods development happens on GitHub, there is a repository for [CocoaPod
 
 Follow [@CocoaPods](http://twitter.com/CocoaPods) to get up to date information about what's going on in the CocoaPods world.
 
+## Development
+
+You need to have `svn`, `bzr`, `hg` and `git` installed to run the specs. There are some specs which require `hdiutil` which will only run on macOS.
+
 ## License
 
 This gem and CocoaPods are available under the MIT license.
