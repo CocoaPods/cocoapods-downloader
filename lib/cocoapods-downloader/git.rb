@@ -59,7 +59,7 @@ module Pod
       end
 
       def self.validate_input(options)
-        input = [options[:git], options[:branch], options[:commit], options[:tag]]
+        input = [options[:git], options[:branch], options[:commit], options[:tag]].map(&:to_s)
         invalid = input.compact.any? { |value| value.start_with?('--') || value.include?(' --') }
         raise DownloaderError, "Provided unsafe input for git #{options}." if invalid
       end
