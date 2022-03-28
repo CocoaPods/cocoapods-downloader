@@ -110,7 +110,13 @@ module Pod
     describe ':bad input' do
       it 'bails when you provide a bad input' do
         options = { :hg => '--config=alias.clone=!touch ./HELLO2;' }
-        e = lambda { Downloader.preprocess_options(options) }.should.raise DownloaderError
+        e = lambda { Downloader.for_target(tmp_folder, options).download }.should.raise DownloaderError
+        e.message.should.match /Provided unsafe input/
+      end
+
+      it 'bails when you provide a bad input2' do
+        options = { :hg => 'foo/bar', :revision => '--config=alias.clone=!touch ./HELLO3;' }
+        e = lambda { Downloader.for_target(tmp_folder, options).download }.should.raise DownloaderError
         e.message.should.match /Provided unsafe input/
       end
     end
