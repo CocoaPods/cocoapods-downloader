@@ -18,19 +18,6 @@ module Pod
         end
       end
 
-      def self.preprocess_options(options)
-        validate_input options
-        options
-      end
-
-      def self.validate_input(options)
-        input = [options[:hg], options[:revision], options[:branch], options[:tag]].map(&:to_s)
-        invalid = input.compact.any? { |value| value.start_with?('--') || value.include?(' --') }
-        raise DownloaderError, "Provided unsafe input for hg #{options}." if invalid
-      end
-
-      private_class_method :validate_input
-
       private
 
       executable :hg
@@ -61,6 +48,12 @@ module Pod
 
       def download_branch!
         hg! 'clone', url, '--updaterev', options[:branch], @target_path
+      end
+
+      def validate_input
+        input = [url, options[:revision], options[:branch], options[:tag]].map(&:to_s)
+        invalid = input.compact.any? { |value| value.start_with?('--') || value.include?(' --') }
+        raise DownloaderError, "Provided unsafe input for hg #{options}." if invalid
       end
     end
   end

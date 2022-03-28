@@ -77,6 +77,7 @@ module Pod
       # @return [void]
       #
       def download
+        validate_input
         ui_action("#{name} download") do
           target_path.mkpath
           download!
@@ -119,6 +120,14 @@ module Pod
       #
       def checkout_options
         raise 'Abstract method'
+      end
+
+      # Provides a before-download check for safety of the options in the
+      # concrete downloader.
+      #
+      # @return [void]
+      #
+      def validate_input
       end
 
       # Returns a User-Agent string that itentifies http network requests as

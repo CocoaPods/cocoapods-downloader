@@ -21,7 +21,6 @@ module Pod
       end
 
       def self.preprocess_options(options)
-        validate_input options
         return options unless options[:branch]
 
         command = ['ls-remote',
@@ -58,13 +57,7 @@ module Pod
         match[1] unless match.nil?
       end
 
-      def self.validate_input(options)
-        input = [options[:git], options[:branch], options[:commit], options[:tag]].map(&:to_s)
-        invalid = input.compact.any? { |value| value.start_with?('--') || value.include?(' --') }
-        raise DownloaderError, "Provided unsafe input for git #{options}." if invalid
-      end
-
-      private_class_method :commit_from_ls_remote, :validate_input
+      private_class_method :commit_from_ls_remote
 
       private
 
@@ -159,6 +152,12 @@ module Pod
 
       def target_git(*args)
         git!(['-C', target_path] + args)
+      end
+
+      def validate_input
+        input = [url, options[:branch], options[:commit], options[:tag]].map(&:to_s)
+        invalid = input.compact.any? { |value| value.start_with?('--') || value.include?(' --') }
+        raise DownloaderError, "Provided unsafe input for git #{options}." if invalid
       end
     end
   end
