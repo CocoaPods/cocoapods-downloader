@@ -289,6 +289,12 @@ module Pod
           new_options = Downloader.preprocess_options(options)
           new_options[:branch].should == 'aaaa'
         end
+
+        it 'throws when proving an invalid input' do
+          options = { :git => '--upload-pack=touch ./HELLO1;', :branch => 'foo' }
+          e = lambda { Downloader.preprocess_options(options) }.should.raise DownloaderError
+          e.message.should.match /Provided unsafe input/
+        end
       end
 
       describe ':bad input' do
