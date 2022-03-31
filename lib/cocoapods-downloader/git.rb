@@ -23,9 +23,15 @@ module Pod
       def self.preprocess_options(options)
         return options unless options[:branch]
 
+        input = [options[:git], options[:commit]].map(&:to_s)
+        invalid = input.compact.any? { |value| value.start_with?('--') || value.include?(' --') }
+        raise DownloaderError, "Provided unsafe input for git #{options}." if invalid
+
         command = ['ls-remote',
+                   '--',
                    options[:git],
                    options[:branch]]
+
         output = Git.execute_command('git', command)
         match = commit_from_ls_remote output, options[:branch]
 
