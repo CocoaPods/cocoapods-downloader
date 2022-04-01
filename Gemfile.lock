@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cocoapods-downloader (1.6.2)
+    cocoapods-downloader (1.6.3)
 
 GEM
   remote: https://rubygems.org/
