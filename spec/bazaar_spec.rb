@@ -7,28 +7,30 @@ module Pod
         tmp_folder.rmtree if tmp_folder.exist?
       end
 
-      it 'checks out a specific revision' do
+      # Many tests disabled here due to macOS 12.3 no longer including python2.
+
+      xit 'checks out a specific revision' do
         options = { :bzr => fixture('bazaar-repo'), :revision => '1' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
         tmp_folder('README').read.strip.should == 'First Commit'
       end
 
-      it 'checks out a specific tag as a revision' do
+      xit 'checks out a specific tag as a revision' do
         options = { :bzr => fixture('bazaar-repo'), :revision => 'my_tag' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
         tmp_folder('README').read.strip.should == 'Second Commit'
       end
 
-      it 'checks out a specific tag as a tag' do
+      xit 'checks out a specific tag as a tag' do
         options = { :bzr => fixture('bazaar-repo'), :tag => 'my_other_tag' }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
         tmp_folder('README').read.strip.should == 'Third Commit'
       end
 
-      it 'checks out the head revision' do
+      xit 'checks out the head revision' do
         options = { :bzr => fixture('bazaar-repo') }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
@@ -42,14 +44,14 @@ module Pod
       end
 
       describe 'when the directory name has quotes or spaces' do
-        it 'checks out the head revision' do
+        xit 'checks out the head revision' do
           options = { :bzr => fixture('bazaar-repo') }
           downloader = Downloader.for_target(tmp_folder_with_quotes, options)
           downloader.download
           tmp_folder_with_quotes('README').read.strip.should == 'Fourth Commit'
         end
 
-        it 'checks out a specific revision into a directory with quotes' do
+        xit 'checks out a specific revision into a directory with quotes' do
           options = { :bzr => fixture('bazaar-repo'), :revision => '1' }
           downloader = Downloader.for_target(tmp_folder_with_quotes, options)
           downloader.download
@@ -57,7 +59,7 @@ module Pod
         end
       end
 
-      it 'returns the checked out revision' do
+      xit 'returns the checked out revision' do
         options = { :bzr => fixture('bazaar-repo') }
         downloader = Downloader.for_target(tmp_folder, options)
         downloader.download
