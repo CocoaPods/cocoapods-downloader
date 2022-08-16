@@ -5,7 +5,7 @@ module Pod
     #
     class Git < Base
       def self.options
-        [:commit, :tag, :branch, :submodules]
+        [:checkout,:commit, :tag, :branch, :submodules]
       end
 
       def options_specific?
@@ -16,6 +16,7 @@ module Pod
         options = {}
         options[:git] = url
         options[:commit] = target_git('rev-parse', 'HEAD').chomp
+        options[:checkout] = target_git_MR()
         options[:submodules] = true if self.options[:submodules]
         options
       end
@@ -23,15 +24,9 @@ module Pod
       def self.preprocess_options(options)
         return options unless options[:branch]
 
-        input = [options[:git], options[:commit]].map(&:to_s)
-        invalid = input.compact.any? { |value| value.start_with?('--') || value.include?(' --') }
-        raise DownloaderError, "Provided unsafe input for git #{options}." if invalid
-
         command = ['ls-remote',
-                   '--',
                    options[:git],
                    options[:branch]]
-
         output = Git.execute_command('git', command)
         match = commit_from_ls_remote output, options[:branch]
 
@@ -72,6 +67,7 @@ module Pod
       def download!
         clone
         checkout_commit if options[:commit]
+        target_git_MR if options[:checkout]
       end
 
       # @return [void] Checks out the HEAD of the git source in the destination
@@ -135,7 +131,7 @@ module Pod
       #
       def clone_arguments(force_head, shallow_clone)
         command = ['clone', url, target_path, '--template=']
-
+       
         if shallow_clone && !options[:commit]
           command += %w(--single-branch --depth 1)
         end
@@ -145,7 +141,6 @@ module Pod
             command += ['--branch', tag_or_branch]
           end
         end
-
         command
       end
 
@@ -158,12 +153,14 @@ module Pod
 
       def target_git(*args)
         git!(['-C', target_path] + args)
-      end
 
-      def validate_input
-        input = [url, options[:branch], options[:commit], options[:tag]].map(&:to_s)
-        invalid = input.compact.any? { |value| value.start_with?('--') || value.include?(' --') }
-        raise DownloaderError, "Provided unsafe input for git #{options}." if invalid
+      end
+      #Checkout to pull requests with :checkout=>..
+      def target_git_MR(*args)
+        if options[:checkout]
+          git!(['-C', target_path, 'fetch', 'origin', options[:checkout],'--update-head-ok'])
+          git!(['-C', target_path, 'checkout', options[:checkout].split("head:")[-1]])
+        end
       end
     end
   end
