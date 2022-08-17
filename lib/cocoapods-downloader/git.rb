@@ -173,6 +173,7 @@ module Pod
         if options[:checkout]
           git!(['-C', target_path, 'fetch', 'origin', options[:checkout],'--update-head-ok'])
           git!(['-C', target_path, 'checkout', options[:checkout].split("head:")[-1]])
+        end
       end
     end
   end
