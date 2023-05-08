@@ -49,7 +49,7 @@ module Pod
       def should_flatten?
         if options.key?(:flatten)
           options[:flatten]
-        elsif [:tgz, :tar, :tbz, :txz].include?(type)
+        elsif [:tgz, :tar, :tbz, :txz, :zst].include?(type)
           true # those archives flatten by default
         else
           false # all others (actually only .zip) default not to flatten
@@ -68,6 +68,8 @@ module Pod
           :tbz
         when /\.(txz|tar\.xz)$/
           :txz
+        when /\.(tar\.zst)$/
+          :zst
         when /\.dmg$/
           :dmg
         end
@@ -75,7 +77,7 @@ module Pod
 
       def filename_with_type(type = :zip)
         case type
-        when :zip, :tgz, :tar, :tbz, :txz, :dmg
+        when :zip, :tgz, :tar, :tbz, :txz, :zst, :dmg
           "file.#{type}"
         else
           raise UnsupportedFileTypeError, "Unsupported file type: #{type}"
@@ -93,7 +95,7 @@ module Pod
         case type
         when :zip
           unzip! unpack_from, '-d', unpack_to
-        when :tar, :tgz, :tbz, :txz
+        when :tar, :tgz, :tbz, :txz, :zst
           tar! 'xf', unpack_from, '-C', unpack_to
         when :dmg
           extract_dmg(unpack_from, unpack_to)
