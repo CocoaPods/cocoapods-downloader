@@ -68,7 +68,7 @@ module Pod
           :tbz
         when /\.(txz|tar\.xz)$/
           :txz
-        when /\.(tar\.zst)$/
+        when /\.(tzst|tar\.zst)$/
           :zst
         when /\.dmg$/
           :dmg
