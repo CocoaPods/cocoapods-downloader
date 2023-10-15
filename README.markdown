@@ -34,7 +34,6 @@ The downloader class supports the following option keys:
 - hg: revision, tag, branch
 - http: type, flatten
 - scp: type, flatten
-- bzr: revision, tag
 
 The downloader also provides hooks which allow to customize its output or the way in which the commands are executed
 
@@ -74,7 +73,7 @@ Follow [@CocoaPods](http://twitter.com/CocoaPods) to get up to date information 
 
 ## Development
 
-You need to have `svn`, `bzr`, `hg` and `git` installed to run the specs. There are some specs which require `hdiutil` which will only run on macOS.
+You need to have `svn`, `hg` and `git` installed to run the specs. There are some specs which require `hdiutil` which will only run on macOS.
 
 ## License
 

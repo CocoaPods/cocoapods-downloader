@@ -16,7 +16,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install bzr
           brew install hg
           brew install svn
 
