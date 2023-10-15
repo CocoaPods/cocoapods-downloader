@@ -10,6 +10,10 @@
 
 * None.  
 
+##### Other
+
+* Drop support for Bazaar (`bzr`)
+
 
 ## 1.6.3 (2022-04-01)
 

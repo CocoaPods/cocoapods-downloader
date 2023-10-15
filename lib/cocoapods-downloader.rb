@@ -5,7 +5,6 @@ module Pod
     require 'cocoapods-downloader/api_exposable'
     require 'cocoapods-downloader/base'
 
-    autoload :Bazaar,      'cocoapods-downloader/bazaar'
     autoload :Git,         'cocoapods-downloader/git'
     autoload :Http,        'cocoapods-downloader/http'
     autoload :Mercurial,   'cocoapods-downloader/mercurial'
@@ -21,7 +20,6 @@ module Pod
     #
     def self.downloader_class_by_key
       {
-        :bzr  => Bazaar,
         :git  => Git,
         :hg   => Mercurial,
         :http => Http,
