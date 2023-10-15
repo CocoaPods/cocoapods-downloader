@@ -71,6 +71,13 @@ module Pod
           FileUtils.cp_r(fixture('git-submodule-repo'), '/tmp/')
           options = { :git => fixture('git-repo'), :commit => 'd7f4104', :submodules => true }
           downloader = Downloader.for_target(tmp_folder, options)
+          downloader.instance_exec do
+            # Explicitly allow file transport as newer Git versions
+            # disable it by default
+            def target_git(*args)
+              super('-c', 'protocol.file.allow=always', *args)
+            end
+          end
           downloader.download
           tmp_folder('README').read.strip.should == 'added submodule'
           tmp_folder('submodule/README').read.strip.should == 'submodule'
