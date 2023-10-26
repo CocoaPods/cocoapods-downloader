@@ -1,5 +1,16 @@
 # Changelog
 
+## Master
+
+##### Enhancements
+
+* None.  
+
+##### Bug Fixes
+
+* None.  
+
+
 ## 2.0 (2023-10-26)
 
 ##### Enhancements
