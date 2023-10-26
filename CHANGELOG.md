@@ -10,6 +10,17 @@
 
 * None.  
 
+
+## 2.0 (2023-10-26)
+
+##### Enhancements
+
+* None.  
+
+##### Bug Fixes
+
+* None.  
+
 ##### Other
 
 * Drop support for Bazaar (`bzr`)
