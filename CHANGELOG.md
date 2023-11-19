@@ -8,7 +8,9 @@
 
 ##### Bug Fixes
 
-* None.  
+* Revert minimum required Ruby version to 2.6 to support macOS system ruby installations  
+  [Eric Amorde](https://github.com/amorde)
+  [#142](https://github.com/CocoaPods/cocoapods-downloader/pull/142)
 
 
 ## 2.0 (2023-10-26)
