@@ -1,6 +1,6 @@
 # Changelog
 
-## Master
+## 2.1 (2023-11-19)
 
 ##### Enhancements
 
