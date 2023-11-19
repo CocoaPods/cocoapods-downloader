@@ -15,6 +15,6 @@ Gem::Specification.new do |s|
   s.files = Dir["lib/**/*.rb"] + %w{ README.markdown LICENSE }
   s.require_paths = %w{ lib }
 
-  s.required_ruby_version = '>= 2.7.4'
+  s.required_ruby_version = '>= 2.6'
   s.specification_version = 3 if s.respond_to? :specification_version
 end

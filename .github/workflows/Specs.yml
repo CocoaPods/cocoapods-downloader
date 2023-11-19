@@ -6,7 +6,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-12]
-        ruby: [2.7, 3.0.0]
+        ruby: [system, 2.7, 3.0.0]
 
     name: ${{ matrix.os }} / Ruby ${{ matrix.ruby }}
     runs-on: ${{ matrix.os }}
