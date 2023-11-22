@@ -38,7 +38,6 @@ module Pod
         return options if match.nil?
 
         options[:commit] = match
-        options.delete(:branch)
 
         options
       end
@@ -137,6 +136,10 @@ module Pod
         command = ['clone', url, target_path, '--template=']
 
         if shallow_clone && !options[:commit]
+          command += %w(--single-branch --depth 1)
+        end
+
+        if shallow_clone && options[:commit] && options[:branch]
           command += %w(--single-branch --depth 1)
         end
 
