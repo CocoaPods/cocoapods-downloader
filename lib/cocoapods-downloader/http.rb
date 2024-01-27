@@ -10,7 +10,7 @@ module Pod
       executable :curl
 
       def download_file(full_filename)
-        parameters = ['-f', '-L', '-o', full_filename, url, '--create-dirs', '--netrc-optional', '--retry', '2']
+        parameters = ['--disable', '-f', '-L', '-o', full_filename, url, '--create-dirs', '--netrc-optional', '--retry', '2']
         parameters << user_agent_argument if headers.nil? ||
             headers.none? { |header| header.casecmp(USER_AGENT_HEADER).zero? }
 
