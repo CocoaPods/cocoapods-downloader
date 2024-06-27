@@ -98,6 +98,14 @@ module Pod
         downloader.head_supported?.should.be.false
       end
 
+      it 'does not move unpacked contents to parent dir when archive contains multiple children' do
+        downloader = MockRemoteFile.new(tmp_folder, "#{@fixtures_url}/lib_multiple.tar.zst", {})
+        downloader.download
+        tmp_folder('lib_1/file.txt').should.exist
+        tmp_folder('lib_2/file.txt').should.exist
+        tmp_folder('lib_multiple.tar.zst').should.not.exist
+      end
+
       describe 'concerning archive validation' do
         it 'verifies that the downloaded file matches a sha1 hash' do
           options = { :sha1 => 'be62f423e2afde57ae7d79ba7bd3443df73e0021' }
@@ -164,6 +172,11 @@ module Pod
         it 'detects txz files' do
           downloader = MockRemoteFile.new(tmp_folder, 'file:///path/to/file.txz', {})
           downloader.send(:type).should == :txz
+        end
+
+        it 'detects zst files' do
+          downloader = MockRemoteFile.new(tmp_folder, 'file:///path/to/file.tar.zst', {})
+          downloader.send(:type).should == :zst
         end
 
         it 'detects dmg files' do

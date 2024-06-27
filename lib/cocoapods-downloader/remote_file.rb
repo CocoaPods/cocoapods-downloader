@@ -1,6 +1,8 @@
 require 'fileutils'
 require 'uri'
 require 'zlib'
+require 'zstd-ruby'
+require 'pathname'
 
 module Pod
   module Downloader
@@ -49,7 +51,7 @@ module Pod
       def should_flatten?
         if options.key?(:flatten)
           options[:flatten]
-        elsif [:tgz, :tar, :tbz, :txz].include?(type)
+        elsif [:tgz, :tar, :tbz, :txz, :zst].include?(type)
           true # those archives flatten by default
         else
           false # all others (actually only .zip) default not to flatten
@@ -68,6 +70,8 @@ module Pod
           :tbz
         when /\.(txz|tar\.xz)$/
           :txz
+        when /\.(tzst|tar\.zst)$/
+          :zst
         when /\.dmg$/
           :dmg
         end
@@ -75,7 +79,7 @@ module Pod
 
       def filename_with_type(type = :zip)
         case type
-        when :zip, :tgz, :tar, :tbz, :txz, :dmg
+        when :zip, :tgz, :tar, :tbz, :txz, :zst, :dmg
           "file.#{type}"
         else
           raise UnsupportedFileTypeError, "Unsupported file type: #{type}"
@@ -95,6 +99,8 @@ module Pod
           unzip! unpack_from, '-d', unpack_to
         when :tar, :tgz, :tbz, :txz
           tar! 'xf', unpack_from, '-C', unpack_to
+        when :zst
+          extract_tar_zstd(unpack_from, unpack_to)
         when :dmg
           extract_dmg(unpack_from, unpack_to)
         else
@@ -130,6 +136,29 @@ module Pod
         mount_point = REXML::XPath.first(plist, xpath).text
         FileUtils.cp_r(Dir.glob(mount_point + '/*'), unpack_to)
         hdiutil! 'detach', mount_point
+      end
+
+      def extract_tar_zstd(unpack_from, unpack_to)
+        tmp_tar_file = unpack_from.sub_ext(".tmp.tar")
+
+        begin
+          stream = Zstd::StreamingDecompress.new
+
+          File.open(unpack_from, 'rb') do |io|
+            buffer_size = 1024 * 1024
+            File.open(tmp_tar_file, 'wb') do |output|
+              until io.eof?
+                output.write(stream.decompress(io.read(buffer_size)))
+              end
+            end
+          end
+
+          tar! 'xf', tmp_tar_file, '-C', unpack_to
+        rescue StandardError => e
+          raise "Failed to decompress file: #{e}"
+        ensure
+          FileUtils.rm(tmp_tar_file) if File.exist?(tmp_tar_file)
+        end
       end
 
       def compare_hash(filename, hasher, hash)

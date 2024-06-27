@@ -17,4 +17,6 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.6'
   s.specification_version = 3 if s.respond_to? :specification_version
+
+  s.add_runtime_dependency 'zstd-ruby', '~> 1.5'
 end
